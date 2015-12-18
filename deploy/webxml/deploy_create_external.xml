@@ -1,0 +1,62 @@
+<TO_ADD>
+
+    <servlet>
+        <servlet-name>
+            ProjectCreationAPI
+        </servlet-name>
+        <servlet-class>
+            com.idiominc.external.servlet.projectcreation.NewProjectCreationAPI
+        </servlet-class>
+        <load-on-startup>10</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>
+            ProjectCreationAPI
+        </servlet-name>
+        <url-pattern>
+            /compassion-api/v1/create_project
+        </url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>SecurityFilter</filter-name>
+        <filter-class>waffle.servlet.NegotiateSecurityFilter</filter-class>
+        <init-param>
+            <param-name>principalFormat</param-name>
+            <param-value>fqn</param-value>
+        </init-param>
+        <init-param>
+            <param-name>roleFormat</param-name>
+            <param-value>both</param-value>
+        </init-param>
+        <init-param>
+            <param-name>allowGuestLogin</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <init-param>
+            <param-name>securityFilterProviders</param-name>
+            <param-value>
+                waffle.servlet.spi.NegotiateSecurityFilterProvider
+                waffle.servlet.spi.BasicSecurityFilterProvider
+            </param-value>
+        </init-param>
+        <init-param>
+            <param-name>waffle.servlet.spi.NegotiateSecurityFilterProvider/protocols</param-name>
+            <param-value>
+                Negotiate
+                NTLM
+            </param-value>
+        </init-param>
+        <init-param>
+            <param-name>waffle.servlet.spi.BasicSecurityFilterProvider/realm</param-name>
+            <param-value>WaffleFilterDemo</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>SecurityFilter</filter-name>
+        <url-pattern>/compassion-api/*</url-pattern>
+    </filter-mapping>
+
+
+</TO_ADD>

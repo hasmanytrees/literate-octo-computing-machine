@@ -211,9 +211,8 @@ public class CompassionCustomUI extends WSUIHooksComponent {
             if(stopWordData != null && !stopWordData.equals("")) {
 
                 // create and setup stop-word table
-                WSHtmlTable table = new WSHtmlTable(context, request, null, 3);
-                table.setAttribute("border", "1");
-                table.addRow(new String[]{"Segment ID", "Text", "Stop Word"});
+                stopwordTable.setAttribute("border", "1");
+                stopwordTable.addRow(new String[]{"Segment ID", "Text", "Stop Word"});
 
                 // add stop words as it was found and captured in the custom attribute by earlier preprocessing
                 String[] rowDatas = stopWordData.split("\\|\\|");

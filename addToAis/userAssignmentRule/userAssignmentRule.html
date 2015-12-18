@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>SDL WorldServer - User Assignment Rule Editor</title>
+
+    <!-- Third party JavaScript libraries -->
+    <script src="js/jquery/jquery.js"></script>
+    <script src="compassion_inc/shared/js/jquery-ui/jquery-ui.js"></script>
+    <script src="compassion_inc/shared/select2/js/select2.min.js"></script>
+    <script src="compassion_inc/shared/js/_nsSDL_shared.js"></script>
+
+    <!-- Local JavaScript code -->
+    <script src="compassion_inc/userAssignmentRule/js/_nsSDL_user_assignment_bindings.js"></script>
+    <script src="compassion_inc/userAssignmentRule/js/_nsSDL_user_assignment_commands.js"></script>
+    <script src="compassion_inc/userAssignmentRule/js/_nsSDL_user_assignment.js"></script>
+
+
+    <!-- Third Party Stylesheets -->
+    <link rel='stylesheet' href='compassion_inc/shared/select2/css/select2.min.css' type='text/css'>
+    <link rel='stylesheet' href='compassion_inc/shared/font-awesome/css/font-awesome.css' type='text/css'>
+
+    <!-- Local Stylesheets -->
+    <link rel="stylesheet" href="compassion_inc/shared/stylesheets/styles_userAssignment.css">
+
+</head>
+
+<body>
+<header class="uarMain">
+    <div id="title">
+        <h1>User Assignment Rule Editor</h1>
+    </div>
+</header>
+
+<main>
+    <section id="selectionSection">
+        <h3>Select Workgroup</h3>
+
+        <div id="workgroupSelectWrapper">
+            <select id="workgroupSelect">
+                <!-- Filled in by javascript from list of translators in WorldServer -->
+            </select>
+        </div>
+    </section>
+
+    <section id="assignmentRules">
+        <!-- Filled in by javascript from user xml -->
+    </section>
+
+</main>
+
+<footer>
+    <button id="okButton" onclick="goBack()">OK</button>
+</footer>
+
+<!-- Popup box for language selection -->
+<div id="dialog" style="display: none;">
+    <select id="source_language">
+        <!-- Available locales added from WorldServer by Javascript -->
+    </select>
+</div>
+
+<!-- Popup box for delete confirmation -->
+<div id="deleteConfirm" style="display: none;">
+    <p>Are you sure you want to delete?</p>
+</div>
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+
+</body>
+</html>

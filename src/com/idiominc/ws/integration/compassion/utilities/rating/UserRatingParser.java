@@ -34,6 +34,9 @@ public class UserRatingParser {
     private List<LanguagePair> ratingsList = null;
     private String userName;
 
+    //constants
+    private final static String DIRECT = "-Direct";
+
     /**
      * Constructor
      * @param user - WS User Object
@@ -77,13 +80,24 @@ public class UserRatingParser {
      */
     public RATING getRating(WSContext context,
                             WSLocale sourceLocale,
-                            WSLocale targetLocale) throws RatingException {
+                            WSLocale targetLocale
+                            ) throws RatingException {
         if(null == ratingsList) {
            throw new RatingException("No valid rating data is defined for user "
                                      + userName);
         }
+        boolean sameSourceTarget = sourceLocale.getName().equals(targetLocale.getName());
+        if(sourceLocale.getName().endsWith(DIRECT)) {
+            throw new RatingException("Locale " + sourceLocale.getName() + " shall not be queried for rating");
+        }
+        if(targetLocale.getName().endsWith(DIRECT)) {
+            throw new RatingException("Locale " + targetLocale.getName() + " shall not be queried for rating");
+        }
         for(LanguagePair lp: ratingsList) {
             if(lp.isQualifiedPair(context, sourceLocale)) {
+                if(sameSourceTarget) {
+                    return RATING.EXPERT;
+                }
                 return lp.getRating(targetLocale);
             }
         }

@@ -30,6 +30,8 @@ import org.apache.log4j.Logger;
 //java
 import java.util.List;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  * Reassign the QC queue step to the list of eligible translators
@@ -37,16 +39,22 @@ import java.util.ArrayList;
 public class ReassignQCStep  extends WSCustomTaskAutomaticAction {
 
     //version
-    private String version = "1.0";
+    private String version = "1.1";
 
     //output transition
     private static final String DONE_TRANSITION = "Done";
 
+
+
     //log
     private Logger log = Logger.getLogger(ReassignQCStep.class);
 
-    //variables
-    private final static String _ORIGINAL_LANGUAGE_ATTR = "OriginalLanguage";
+    //regular expression to find user recorded in the attribute
+    private final String REGEXP = "\\[(.*?)\\]";
+    //attribute that stores the most recent translator
+    private final String MOST_RECENT_TRANSLATOR_ATTR = "MostRecentTranslator";
+    //various constants
+    private static final String _ORIGINAL_LANGUAGE_ATTR = "OriginalLanguage";
     private static final String _TWOSTEP_PREFIX = "[Second Step Project] ";
     private static final String _SDLPROCESS_REQ = "SDLProcessRequired";
     private static final String _TWO_STEP_PROCESS = "TwoStepProcess";
@@ -75,19 +83,31 @@ public class ReassignQCStep  extends WSCustomTaskAutomaticAction {
         WSWorkgroup workgroup = project.getProjectGroup().getWorkgroup();
         WSLocale sourceLocale = project.getSourceLocale();
         WSLocale targetLocale = project.getTargetLocale();
+        String origSrcLocaleStr = project.getAttribute(_ORIGINAL_LANGUAGE_ATTR);
 
         // Get the source locale from the payload/attribute if this is a manual translation process, only for first-step
         String processRequired = project.getAttribute(_SDLPROCESS_REQ);
         String twoStepProcess = project.getAttribute(_TWO_STEP_PROCESS);
+        boolean electronicContent = Boolean.parseBoolean(project.getAttribute("electronicContent"));
+
         if(twoStepProcess == null || !twoStepProcess.equals(_TWOSTEP_PREFIX)) {
-            if(processRequired != null && processRequired.equals(_TRANSLATION_PROCESS)) {
-                String origSrcLocaleStr = project.getAttribute(_ORIGINAL_LANGUAGE_ATTR);
+            if(processRequired != null && processRequired.equals(_TRANSLATION_PROCESS) && !electronicContent) {
                 sourceLocale = wsContext.getUserManager().getLocale(origSrcLocaleStr);
                 if(sourceLocale == null) {
                     return new WSActionResult(WSActionResult.ERROR, "Expected source locale was not found: " + origSrcLocaleStr);
                 }
             }
+        } else if(sourceLocale.getName().endsWith("-Direct")) {
+            // the use of Direct locale as source is only when we perform manual translation into the target
+            // Retrieve the source info from the project; this should only be the case of English to <Target> translation
+            sourceLocale = wsContext.getUserManager().getLocale(origSrcLocaleStr);
         }
+
+        if(project.getAttribute("LanguageExceptionType") != null && project.getAttribute("LanguageExceptionType").equals("Type3_S2B_NoGP")) {
+            // special case handling; must use source locale from the project
+            sourceLocale = project.getSourceLocale();
+        }
+
 
         String translatorRoleStr, supervisorRoleStr;
 
@@ -129,19 +149,22 @@ public class ReassignQCStep  extends WSCustomTaskAutomaticAction {
 
         try {
             String qcQualifiedAttributeName;
-            WSUser realTranslator = task.getTaskHistory().getLastHumanStepUser();
+            WSUser realTranslator = findTranslator(wsContext,
+                                                   task.getProject());
             WBAssignmentRuleIdentifier rid = new WBAssignmentRuleIdentifier(wsContext, workgroup);
             List<RATING> acceptableRatings = rid.getListOfRatingsPerComplexity(RATING_APPLICABILITY.QC,
                                             complexityStr);
             try {
                //obtain the names of the attributes
                qcQualifiedAttributeName = Config.getQCQualifiedAttributeName(wsContext);
-               AttributeValidator.validateAttribute(wsContext,
+               if(null != realTranslator) {
+                       AttributeValidator.validateAttribute(wsContext,
                                                  qcQualifiedAttributeName,
                                                  ATTRIBUTE_OBJECT.USER,
                                                  ATTRIBUTE_TYPE.BOOLEAN,
                                                  realTranslator,
                                                  null);
+               }
             } catch (Exception e) {
                 log.error(e.getLocalizedMessage());
                 return new WSActionResult(WSActionResult.ERROR,
@@ -158,7 +181,7 @@ public class ReassignQCStep  extends WSCustomTaskAutomaticAction {
                 &&
                 realTranslator.getId() == candidate.getId()) {
                  //do not assign QC step to a translator who did original translaiton
-                 log.info("User " + candidate.getUserName() + " is disqualified for QC. Same as translator");
+                 log.info("User " + candidate.getUserName() + " is disqualified for QC. Did translation");
                  continue;
              }
              if(ReassignStep.belongs(candidate.getId(), targetLocale)
@@ -170,7 +193,7 @@ public class ReassignQCStep  extends WSCustomTaskAutomaticAction {
                 ReassignStep.belongs(candidate.getId(), workgroup)) {
 
                  try {
-                     UserRatingParser parser = new UserRatingParser(candidate);
+                    UserRatingParser parser = new UserRatingParser(candidate);
                     RATING userRating = parser.getRating(wsContext, sourceLocale, targetLocale);
                     if(acceptableRatings.contains(userRating)) {
                       resultingList.add(candidate);
@@ -188,14 +211,15 @@ public class ReassignQCStep  extends WSCustomTaskAutomaticAction {
 
         if(0 == resultingList.size()) {
             log.info("Opting out to supervisor's role users");
-            assignedToSupervisors.append("Assigned QC Queue step to Supervisors - no qualified Translator found.");
-            WSUser realTranslator = task.getTaskHistory().getLastHumanStepUser();
+            assignedToSupervisors.append("Assigned QC Queue step to Supervisors - no qualified Translator has been found.");
+            WSUser realTranslator = findTranslator(wsContext,
+                                                   task.getProject());
             for(WSUser candidate: supervisorRole.getUsers()) {
                 if(realTranslator != null
                    &&
                    realTranslator.getId() == candidate.getId()) {
                     //do not assign the step to supervisor if one did the translation
-                    log.info("User " + candidate.getUserName() + " is disqualified for QC. Same as translator");
+                    log.info("User " + candidate.getUserName() + " is disqualified for QC. Did translation");
                     continue;
                 }
                if(ReassignStep.belongs(candidate.getId(), targetLocale)
@@ -219,6 +243,47 @@ public class ReassignQCStep  extends WSCustomTaskAutomaticAction {
         return new WSActionResult(getReturns()[0], "Reassigned step " +
                                                    hts.getWorkflowStep().getName() +
                                                    " to " + resultingList.size() + " qualified users. " + assignedToSupervisors.toString());
+    }
+
+    /**
+     * Locate the most recent translator on the project
+     * @param context - WS Context
+     * @param project - current project
+     * @return  the most recent translator or NULL if not found
+     */
+    private WSUser findTranslator(WSContext context,
+                                  WSProject project)  {
+        try {
+            AttributeValidator.validateAttribute(context,
+                                                 MOST_RECENT_TRANSLATOR_ATTR,
+                                                 ATTRIBUTE_OBJECT.PROJECT,
+                                                 ATTRIBUTE_TYPE.TEXT,
+                                                 project,
+                                                 "");
+        } catch (Exception e) {
+            log.error(e.getLocalizedMessage());
+            return null;
+        }
+
+        Pattern p = Pattern.compile(REGEXP);
+        String attributeValue =  project.getAttribute(MOST_RECENT_TRANSLATOR_ATTR);
+        if(null == attributeValue || 0 == attributeValue.length()) {
+            log.error("Translator was not recorded in " + MOST_RECENT_TRANSLATOR_ATTR + " attribute");
+            return null;
+        }
+        WSUser translator;
+        Matcher m = p.matcher(attributeValue);
+        if(m.find()) {
+            String userName = m.group(1);
+            translator = context.getUserManager().getUser(userName);
+            if(null == translator) {
+                log.error("Can not locate user whose userName is " + userName);
+            }
+            return translator;
+        } else {
+            log.error("Can not parse user info from " + attributeValue);
+        }
+        return null;
     }
 
     /**

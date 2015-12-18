@@ -18,7 +18,8 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 /**
- * Created by dkoo on 10/29/2015.
+ * Automatic action to copy and merge original text sent for ISL/electronic source content into English translated text field
+ * in preparation for the first-step project creation.
  */
 public class MergeISLContent extends WSCustomTaskAutomaticAction {
 

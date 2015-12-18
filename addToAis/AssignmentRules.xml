@@ -1,0 +1,26 @@
+<assignment_rules>
+    <assignment_rule workgroup="default">
+        <translate_rule>
+            <complexity level="1">Trainee,Beginner,Intermediate,Advanced,Expert</complexity>
+            <complexity level="2">Intermediate,Advanced,Expert</complexity>
+            <complexity level="3">Advanced,Expert</complexity>
+        </translate_rule>
+        <QC_rule>
+            <complexity level="1">Advanced,Expert</complexity>
+            <complexity level="2">Advanced,Expert</complexity>
+            <complexity level="3">Expert</complexity>
+        </QC_rule>
+    </assignment_rule>
+    <assignment_rule workgroup="some_workgroup_name">
+        <translate_rule>
+            <complexity level="1">Trainee,Beginner,Intermediate,Advanced,Expert</complexity>
+            <complexity level="2">Intermediate,Advanced,Expert</complexity>
+            <complexity level="3">Advanced,Expert</complexity>
+        </translate_rule>
+        <QC_rule>
+            <complexity level="1">Advanced,Expert</complexity>
+            <complexity level="2">Advanced,Expert</complexity>
+            <complexity level="3">Expert</complexity>
+        </QC_rule>
+    </assignment_rule>
+</assignment_rules>

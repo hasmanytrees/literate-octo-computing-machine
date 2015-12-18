@@ -1,0 +1,111 @@
+<html>
+
+    <script src="js/jquery/jquery.js"></script>
+    <script src="compassion_inc/shared/js/jquery-ui/jquery-ui.js"></script>
+	<script src="compassion_inc/shared/js/underscore/underscore-min.js"></script>
+	<script src="compassion_inc/shared/js/mousetrap/mousetrap.min.js"></script>
+
+	<script src="compassion_inc/shared/js/_nsSDL_shared.js"></script>
+	<script src="compassion_inc/transcription/js/_nsSDL_image.js"></script>
+	<script src="compassion_inc/transcription/js/_nsSDL_transcription_io.js"></script>
+	<script src="compassion_inc/transcription/js/_nsSDL_transcription.js"></script>
+	<script src="compassion_inc/transcription/js/_nsSDL_transcription_help.js"></script>
+
+
+    <link rel="stylesheet" href="compassion_inc/transcription/jquery-ui.css">
+	<link rel="stylesheet" href="compassion_inc/transcription/style.css"/>
+    <link rel="stylesheet" href="compassion_inc/shared/font-awesome/css/font-awesome.min.css">
+
+	<body>
+
+            <div id="help">
+				    <span style="color: black" class="appButton" id="helpClose"><i class="fa fa-times-circle"></i></span>
+					<div style="float: left; clear: left; padding-right: 20px;">
+						Perform manual translation in this interface. Translate to the intermediary language when relevant.
+						Saving when all translations are complete will close the interface and prompt the user to complete the current step.
+						<p>Example short-cuts are outlined below:
+					</div>
+					<table style="float:left;">
+						<tr><th>Shortcut</th><th>Event</th></tr>
+						<tr><td>Ctrl-Down</td><td>Next Transcription on Page</td></tr>
+						<tr><td>Ctrl-Up</td><td>Previous Transcription on Page</td></tr>
+						<tr><td>Ctrl-Left</td><td>Previous Page</td></tr>
+						<tr><td>Ctrl-Right</td><td>Next Page</td></tr>
+						<tr><td>Ctrl-Enter</td><td>Confirm; move to next transcription</td></tr>
+					</table>
+					<table style="float:left;">
+						<tr><th>Shortcut</th><th>Event</th></tr>
+						<tr><td>Ctrl-E</td><td>Enhance Image</td></tr>
+						<tr><td>Ctrl-Z</td><td>Zoom Image</td></tr>
+						<tr><td>Ctrl-X</td><td>Expand Image View</td></tr>
+						<tr><td>Alt-Up</td><td>Scroll Up Image</td></tr>
+						<tr><td>Alt-Down</td><td>Scroll Down Image</td></tr>
+					</table >
+					<table style="float:left;">
+						<tr><th>Shortcut</th><th>Event</th></tr>
+						<tr><td>Click Image, Center</td><td>Zoom Image</td></tr>
+						<tr><td>Double Click Image</td><td>Enhance Image</td></tr>
+						<tr><td>Click Image, Left</td><td>Previus Page</td></tr>
+						<tr><td>Click Image, Right</td><td>Next Page</td></tr>
+					</table>
+			</div>
+
+			<div id="left">
+				<div class="container" id="header">
+					<div id="description">
+					</div>
+					<div id="appMenu">
+						<span style="color: blue" class="appButton" id="btn_help"><i class="fa fa-info-circle"></i></span>
+						<span style="color: black" class="appButton" id="btn_save"><i class="fa fa-floppy-o"></i></span>
+						<span style="color: red" class="appButton" id="btn_close"><i class="fa fa-times-circle"></i></span>
+					</div>
+				</div>
+				<div class="container" id="imageViewer">
+					<div id="menu" class="menu">
+						<span class="button" id="btn_expand"><i class="fa fa-expand"></i></span>
+						<span class="button" id="btn_enhance"><i class="fa fa-magic"></i></span>
+						<span class="button" id="btn_zoom"><i class="fa fa-search"></i></span>
+						<span class="button" id="btn_pageBack"><i class="fa fa-arrow-circle-o-left"></i></span>
+						<span class="button" id="btn_pageNext"><i class="fa fa-arrow-circle-o-right"></i></span>
+						<span class="button" id="btn_pageAll"><i class="fa fa-file-text"></i></span>
+					</div>
+					<div id="info">
+						<span id="page_info"></span>
+						
+					</div>
+					<div id="statusInfo">							
+								<i id="imageLoading" style="font-size:1em !important" class="status fa fa-refresh fa-spin"></i>
+								<div id="statusEntry" class="status"></div>																
+							</div>
+					<div id="imagePane">
+						<span id="imageScroller">
+							
+							
+							
+							<canvas style="z-index:-2" id="viewCanvas"></canvas>
+						</span>
+					</div>
+				</div>
+				<div class="container" id="transcriptionInput">
+					<div class="tabs">
+						<ul>
+						<!-- API builds tabs -->
+						</ul>
+						<span id="transcriptionEntry">
+						<!-- API builds entry fields --> 
+						</span>
+					</div>
+					<div id="transcriptionInfo">
+						<span id="transcriptionProgress"></span>
+					</div>
+			
+
+				</div>
+
+			</div>
+			<div id="right">
+				<div id="metadata"></div>
+			</div>
+	</body>
+
+</html>

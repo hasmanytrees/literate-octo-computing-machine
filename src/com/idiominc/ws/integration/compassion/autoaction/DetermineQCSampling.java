@@ -89,6 +89,14 @@ public class DetermineQCSampling extends WSCustomTaskAutomaticActionWithParamete
         WSLocale targetLocale = project.getTargetLocale();
         WSUser translator = task.getTaskHistory().getLastHumanStepUser();
 
+        // check the QC check override flag first
+        String qcNotRequiredOverride = task.getProject().getAttribute("qcNotRequiredOverride");
+        if(qcNotRequiredOverride != null && qcNotRequiredOverride.equals("true")) {
+            task.getProject().setAttribute("qcNotRequiredOverride", "false");
+            // qc not required was overriden; take this value and return this one time
+            return new WSActionResult(SKIP_QC, "QC is not required.");
+        }
+
         // Get the source locale from the payload/attribute if this is a manual translation process, only for first-step
         String processRequired = project.getAttribute(_SDLPROCESS_REQ);
         String twoStepProcess = project.getAttribute(_TWO_STEP_PROCESS);

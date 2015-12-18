@@ -15,13 +15,22 @@ import com.idiominc.ws.integration.profserv.commons.wssdk.WSAisUtils;
 //apache
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.apache.log4j.Logger;
+import org.apache.log4j.Level;
 
 public class TargetNodeCreator implements WSRunnable {
+
+    //log
+    private static Logger log = Logger.getLogger(TargetNodeCreator.class);
+    static {
+        log.setLevel(Level.INFO);
+    }
 
     private String            _oldTargetFolderNodePath;
     private String            _newTargetFolderNodePath;
     private String            _newTargetLocaleFolderNodePath;
     private int               _newTargetLocaleID;
+    private boolean           _sameSourceTarget;
     private String            _filterGroup;
     private String            _message;
 
@@ -49,6 +58,7 @@ public class TargetNodeCreator implements WSRunnable {
      * @param workgroup - workgroup name
      * @param oldTargetFolderNodePath - full path to folder that has the translated document (stage 1)
      * @param oldTargetBaseLocaleNodePath  - full path to locale folder for transled document (stage 1)
+     * @param sameSourceTarget - if same source and target locale
      * @param newLocale  - abbreviation of the locale folder for stage 2 target node
      * @param newTargetLocaleID - locale ID for stage 2 target
      * @param filterGroup  - filter group
@@ -58,6 +68,7 @@ public class TargetNodeCreator implements WSRunnable {
                              String workgroup,
                              String oldTargetFolderNodePath,
                              String oldTargetBaseLocaleNodePath,
+                             boolean sameSourceTarget,
                              String newLocale,
                              int newTargetLocaleID,
                              String filterGroup,
@@ -75,12 +86,13 @@ public class TargetNodeCreator implements WSRunnable {
           _newTargetLocaleFolderNodePath = root + workgroup + "/" + newLocale;
           _newTargetFolderNodePath = _newTargetLocaleFolderNodePath + tail;
         } else {
-            _newTargetLocaleFolderNodePath = root + newLocale;
-            _newTargetFolderNodePath = _newTargetLocaleFolderNodePath + tail;
+          _newTargetLocaleFolderNodePath = root + newLocale;
+          _newTargetFolderNodePath = _newTargetLocaleFolderNodePath + tail;
         }
         _newTargetLocaleID = newTargetLocaleID;
         _filterGroup    =  filterGroup;
         _message = null;
+        _sameSourceTarget = sameSourceTarget;
     }
 
 
@@ -101,7 +113,7 @@ public class TargetNodeCreator implements WSRunnable {
                 _message = "Invalid object state";
                 return true;
             }
-
+            log.info("_newTargetFolderNodePath ==> " + _newTargetFolderNodePath);
             WSNode newTargetFolderNode = wsContext.getAisManager().getNode(_newTargetFolderNodePath);
             if(null == newTargetFolderNode) {
                if(_newTargetFolderNodePath.endsWith("/")) {
@@ -123,10 +135,12 @@ public class TargetNodeCreator implements WSRunnable {
                localeNode.setProperty(WSSystemPropertyKey.LOCALE, newTargetLocale);
                newTargetFolderNode.setProperty(WSSystemPropertyKey.FILTER_GROUP, fg);
                ProjectCreationUtilities.copyAISProperties(oldTargetFolderNode,newTargetFolderNode);
-               if(null == wsContext.getLinkManager().getLink(oldTargetFolderNode.getPath(), newTargetFolderNode.getPath())) {
-                 wsContext.getLinkManager().createLink(oldTargetFolderNode.getPath(),
+               if(!_sameSourceTarget) {
+                 if(null == wsContext.getLinkManager().getLink(oldTargetFolderNode.getPath(), newTargetFolderNode.getPath())) {
+                   wsContext.getLinkManager().createLink(oldTargetFolderNode.getPath(),
                                                      newTargetFolderNode.getPath(),
                                                      true);
+                 }
                }
             }
 
@@ -143,7 +157,7 @@ public class TargetNodeCreator implements WSRunnable {
     }
 
     /**
-     * Runs translation in a new context
+     * Runs transaction in a new context
      * @param wsContext - WS context
      * @return true
      */

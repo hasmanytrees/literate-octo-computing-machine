@@ -1,0 +1,51 @@
+
+
+h1 {
+display: initial;
+}
+
+
+.default-row {
+  p {
+    font-style: italic;
+    color: #bbb;
+  }
+
+  input[type="radio"] + label {
+    color: #bbb;
+    font-style: italic;
+  }
+
+  input[type="radio"] + label span {
+    color: #bbb;
+  }
+
+  .linediv {
+    border-top-color: #bbb;
+  }
+
+  input[type="radio"] + label span {
+    border-color: #bbb;
+  }
+}
+
+.default-label {
+  font-size: 15px;
+  position: absolute;
+  top: 30px;
+  padding-left: 4px;
+}
+
+.appear-checked {
+  background-color: tint($highlight-color, 50) !important;
+}
+
+.instructions {
+  font-size: 15px;
+  padding-left: 22px;
+  font-style: italic;
+}
+
+header.uarMain {
+  height: 33px;
+}

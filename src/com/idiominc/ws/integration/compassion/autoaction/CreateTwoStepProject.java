@@ -10,21 +10,22 @@ import com.idiominc.ws.integration.compassion.utilities.metadata.MetadataExcepti
 import com.idiominc.ws.integration.profserv.commons.wssdk.autoaction.WSCustomProjectAutomaticActionWithParameters;
 import com.idiominc.ws.integration.profserv.commons.wssdk.exceptions.WSInvalidParameterException;
 import com.idiominc.ws.integration.profserv.commons.wssdk.WSAisUtils;
-import com.idiominc.ws.integration.profserv.commons.wssdk.XML;
-import com.idiominc.ws.integration.profserv.commons.FileUtils;
 
 //sdk
 import com.idiominc.wssdk.WSContext;
 import com.idiominc.wssdk.WSContextManager;
 import com.idiominc.wssdk.ais.WSNode;
 import com.idiominc.wssdk.ais.WSAisException;
+import com.idiominc.wssdk.review.WSQualityModel;
 import com.idiominc.wssdk.user.WSLocale;
 import com.idiominc.wssdk.user.WSWorkgroup;
+import com.idiominc.wssdk.user.WSUser;
 import com.idiominc.wssdk.asset.WSAssetTask;
 import com.idiominc.wssdk.component.WSParameter;
 import com.idiominc.wssdk.component.WSParameterFactory;
 import com.idiominc.wssdk.component.autoaction.WSActionResult;
 import com.idiominc.wssdk.workflow.*;
+import com.idiominc.external.config.Config;
 
 //log4j
 import org.apache.log4j.Level;
@@ -39,8 +40,6 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import java.util.*;
 import java.io.IOException;
-import java.io.Writer;
-import java.io.OutputStreamWriter;
 
 /**
  * An automatic action to identify and create two-step project
@@ -49,9 +48,9 @@ public class CreateTwoStepProject extends WSCustomProjectAutomaticActionWithPara
 
     //log
     private static Logger log = Logger.getLogger(CreateTwoStepProject.class);
-    static {
-        log.setLevel(Level.INFO);
-    }
+//    static {
+//        log.setLevel(Level.INFO);
+//    }
 
     //transition
     private static final String _TRANSITION_CREATED = "Created";
@@ -61,10 +60,11 @@ public class CreateTwoStepProject extends WSCustomProjectAutomaticActionWithPara
     private final static String _PARAMFILTERGROUP = "PARAMFILTERGROUP";
     private final static String _ROOT = "ROOT";
     private final static String _WORKFLOW = "WORKFLOW";
+    private final static String _RENAMETARGET = "RENAMETARGET";
     private String workflowName;
     private String filterGroup;
     private String root;
-
+    private boolean renameTarget;
 
     //constants
     private final static String _BENEFICIARY_TO_SUPPORTER = "Beneficiary To Supporter";
@@ -74,7 +74,10 @@ public class CreateTwoStepProject extends WSCustomProjectAutomaticActionWithPara
     private final static String _TARGETNODENAME = "TranslatedText";
     private final static String _TWOSTEPPROCESS_ATTR = "TwoStepProcess";
 
-     /**
+    private static final String _mostRecentQCAttr = "MostRecentQCer";
+    private static final String _mostRecentTranslatorAttr = "MostRecentTranslator";
+
+    /**
      * Load AA parameters into the variables
      * @param parameters - map of the parameters
      * @throws WSInvalidParameterException - exepction
@@ -83,6 +86,7 @@ public class CreateTwoStepProject extends WSCustomProjectAutomaticActionWithPara
         filterGroup = preLoadParameter(parameters, _PARAMFILTERGROUP, true);
         root = preLoadParameter(parameters, _ROOT, true);
         workflowName = preLoadParameter(parameters, _WORKFLOW, true);
+        renameTarget = WSParameterFactory.BOOLEAN_TRUE_VALUE.equalsIgnoreCase(preLoadParameter(parameters, _RENAMETARGET, true));
     }
 
     /**
@@ -98,7 +102,7 @@ public class CreateTwoStepProject extends WSCustomProjectAutomaticActionWithPara
      * @return version number
      */
     public String getVersion() {
-        return "1.01";
+        return "1.1";
     }
 
     /**
@@ -125,7 +129,8 @@ public class CreateTwoStepProject extends WSCustomProjectAutomaticActionWithPara
         return new WSParameter[]{
                 WSParameterFactory.createStringParameter(_PARAMFILTERGROUP, "Filter Group", ""),
                 WSParameterFactory.createStringParameter(_ROOT, "Root position for new target", ""),
-                WSParameterFactory.createStringParameter(_WORKFLOW, "Workflow", "")
+                WSParameterFactory.createStringParameter(_WORKFLOW, "Workflow", ""),
+                WSParameterFactory.createBooleanParameter(_RENAMETARGET, "Rename target if same source/target?", true)
         };
     }
 
@@ -149,13 +154,27 @@ public class CreateTwoStepProject extends WSCustomProjectAutomaticActionWithPara
             return new WSActionResult(WSActionResult.ERROR, "Not configured filter group "
                                       + filterGroup);
         }
-        WSWorkflow workflow = context.getWorkflowManager().getWorkflow(workflowName);
+        String workflowOverrideName = p.getAttribute("workflowOverride");
+        WSWorkflow workflow;
+        if(workflowOverrideName == null || workflowOverrideName.equals("")) {
+            workflow = context.getWorkflowManager().getWorkflow(workflowName);
+        } else {
+            // use the workflow override name
+            workflow = context.getWorkflowManager().getWorkflow(workflowOverrideName);
+        }
         if(null == workflow) {
             return new WSActionResult(WSActionResult.ERROR, "Not configured workflow "
                                       + workflowName);
         }
         WSWorkgroup workgroup;
 
+
+        // check the override flag first
+        String secondStepProjectRequiredStr = tasks[0].getProject().getAttribute("secondStepProjectRequired");
+        if(secondStepProjectRequiredStr != null && secondStepProjectRequiredStr.equals("false")) {
+            // no need to check the rest due to override
+            return new WSActionResult(_TRANSITION_SKIPPED, "No second step projects were created");
+        }
 
         try
         {
@@ -182,15 +201,47 @@ public class CreateTwoStepProject extends WSCustomProjectAutomaticActionWithPara
               }
 
               Document targetAsset = AttributeValueIdentifier.init(targetAssetNode.getFile());
-              String desiredTranslationLocale = AttributeValueIdentifier.getValue(targetAsset, Enumeration_Attributes.TranslationLanguage.getXPath());
-              WSLocale desiredLocale = context.getUserManager().getLocale(desiredTranslationLocale);
+
+              //source
+              String sourceLocaleStr = AttributeValueIdentifier.getValue(targetAsset, Enumeration_Attributes.OriginalLanguage.getXPath());
+              log.info("sourceLocaleStr => " + sourceLocaleStr);
+              WSLocale sourceLocale = context.getUserManager().getLocale(sourceLocaleStr);
+
+              //target
+              String desiredTranslationLocaleStr = AttributeValueIdentifier.getValue(targetAsset, Enumeration_Attributes.TranslationLanguage.getXPath());
+              log.info("desiredTranslationLocaleStr => " + desiredTranslationLocaleStr);
+
+              String targetDirectLocaleStr = desiredTranslationLocaleStr + "-Direct";
+              log.info("targetDirectLocaleStr => " + targetDirectLocaleStr);
+
+              WSLocale desiredLocale = context.getUserManager().getLocale(desiredTranslationLocaleStr);
+              WSLocale targetDirectLocale = context.getUserManager().getLocale(targetDirectLocaleStr);
+
+              WSLocale intermediaryLocale;
+              try {
+                intermediaryLocale = context.getUserManager().getLocale(Config.getIntermediaryLocale(context));
+                if(null != intermediaryLocale) {
+                 log.info("intermediaryLocale => " + intermediaryLocale.getName());
+                } else {
+                    throw new TwoStepProjectException("Intermediaary locale is not known or configured: " + Config.getIntermediaryLocale(context));
+                }
+
+              } catch (IOException e) {
+                   throw new TwoStepProjectException(e.getLocalizedMessage());
+              }
 
               if(null == desiredLocale) {
-                  throw new TwoStepProjectException("Translation locale is not configured: " + desiredTranslationLocale);
+                  throw new TwoStepProjectException("Translation locale is not configured: " + desiredTranslationLocaleStr);
               }
 
               String optInForLanguageTranslation = AttributeValueIdentifier.getValue(targetAsset, Enumeration_Attributes.GlobalPartnerSetup.getXPath());
               String direction = AttributeValueIdentifier.getValue(targetAsset, Enumeration_Attributes.Direction.getXPath());
+
+              boolean isType1 = !(sourceLocale.getName().equals(desiredLocale.getName()));
+              if(isType1) {
+                 isType1 = sourceLocale.getName().equals(intermediaryLocale.getName());
+              }
+              log.info("This is " + ((isType1)? "":"not ") + "type 1 project");
 
               //figure out desired workgroup name
               String foName = AttributeValueIdentifier.getValue(targetAsset, Enumeration_Attributes.FieldOfficeName.getXPath());
@@ -209,11 +260,22 @@ public class CreateTwoStepProject extends WSCustomProjectAutomaticActionWithPara
                   throw new TwoStepProjectException("Can't find workgroup " + desiredWorkgroupName);
               }
 
-              if(targetLocale.getName().equalsIgnoreCase(desiredTranslationLocale)) {
-                  log.info("Task for asset " + t.getSourcePath() + " is not qualified for 2-step project: " +
-                           "target locale for the project matches the ultimate desired locale " + desiredTranslationLocale);
-                  continue;
+              if(targetLocale.getName().equalsIgnoreCase(desiredTranslationLocaleStr)) {
+                  if(renameTarget) {
+                    desiredTranslationLocaleStr = desiredTranslationLocaleStr + "-Direct";
+                    desiredLocale = context.getUserManager().getLocale(desiredTranslationLocaleStr);
+                    log.info("Type 0 project: The new desired locale is " + desiredTranslationLocaleStr);
+                    if(null == desiredLocale) {
+                        throw new TwoStepProjectException("Translation locale is not configured: " + desiredTranslationLocaleStr);
+                    }
+                  } else {
+                      log.info("Type 0 project. No change to the desired locale => " + desiredTranslationLocaleStr);
+                  }
+//                log.info("Task for asset " + t.getSourcePath() + " is not qualified for 2-step project: " +
+//                           "target locale for the project matches the ultimate desired locale " + desiredTranslationLocale);
+//                continue;
               }
+
               if(_BENEFICIARY_TO_SUPPORTER.equalsIgnoreCase(direction)) {
                   if("FALSE".equalsIgnoreCase(optInForLanguageTranslation)) {
                       log.info("Task direction is " + direction + " and the Opt-In flag is FALSE; task for asset " +
@@ -222,28 +284,56 @@ public class CreateTwoStepProject extends WSCustomProjectAutomaticActionWithPara
                   }
               }
 
-              if(!affectedTasks.containsKey(desiredTranslationLocale)) {
-                  affectedTasks.put(desiredTranslationLocale, new ArrayList<String>());
+              if(!affectedTasks.containsKey(desiredTranslationLocaleStr)) {
+                  affectedTasks.put(desiredTranslationLocaleStr, new ArrayList<String>());
               }
-              affectedTasks.get(desiredTranslationLocale).add(t.getTargetPath());
 
-              if(!wgs.containsKey(desiredTranslationLocale)) {
-                  wgs.put(desiredTranslationLocale, workgroup.getId());
+              
+              String path = (isType1) ?
+                            makeNewSourceNodeFromTargetNode(context,
+                                                            p.getCreator(),
+                                                            targetDirectLocaleStr,
+                                                            targetAssetNode.getParent().getPath(),
+                                                            WSAisUtils.getBaseLocaleNode(context,
+                                                                                         targetAssetNode,
+                                                                                         p.getTargetLocale()),
+                                                            targetAssetNode.getPath())
+                            :
+                            t.getTargetPath();
+
+              log.info("Path to the source node in the 2-nd step project: " + path);
+
+              WSNode newSourceNode = context.getAisManager().getNode(path);
+              if(null == newSourceNode) {
+                  throw new TwoStepProjectException("The new source node " + path + " is not accessible or has not been created!");
+              }
+
+              affectedTasks.get(desiredTranslationLocaleStr).add(path);
+
+              if(!wgs.containsKey(desiredTranslationLocaleStr)) {
+                  wgs.put(desiredTranslationLocaleStr, workgroup.getId());
               }
 
               //create new target node!
-              WSNode baseLocaleNode =  WSAisUtils.getBaseLocaleNode(context,
-                                                                    t.getTargetAisNode(),
+              WSNode baseLocaleNode =  (isType1) ? WSAisUtils.getBaseLocaleNode(context,
+                                                                                 newSourceNode,
+                                                                                 targetDirectLocale)
+                                                   :
+                                                   WSAisUtils.getBaseLocaleNode(context,
+                                                                    newSourceNode,
                                                                     p.getTargetLocale());
+
               if(null == baseLocaleNode) {
                   throw new TwoStepProjectException("No base locale node for the target is found!");
+              } else {
+                log.info("baseLocaleNode ==> " + baseLocaleNode.getPath());
               }
 
               TargetNodeCreator tnc = new TargetNodeCreator(root,
                                                             desiredWorkgroupName,
-                                                            t.getTargetAisNode().getParent().getPath(),
+                                                            newSourceNode.getParent().getPath(),
                                                             baseLocaleNode.getPath(),
-                                                            //ProjectCreationUtilities.getLanguageCode(desiredLocale.getLanguage()),
+                                                            targetLocale.getName().equalsIgnoreCase(desiredTranslationLocaleStr),
                                                             desiredLocale.getName(),
                                                             desiredLocale.getId(),
                                                             filterGroup,
@@ -253,16 +343,16 @@ public class CreateTwoStepProject extends WSCustomProjectAutomaticActionWithPara
               //throw exception if we failed!
               tnc.checkStatus();
 
-              //copy english-translated text to translated text
-              copyNodesContent(targetAsset);
-              Writer writer = new OutputStreamWriter(targetAssetNode.getOutputStream(), "UTF-8");
-              try {
-                XML.serialize(targetAsset, writer);
-              } catch (Exception e) {
-                  log.error(e);
-                  return new WSActionResult(WSActionResult.ERROR, e.getLocalizedMessage());
-              }
-              FileUtils.close(writer);
+//              //copy english-translated text to translated text
+//              copyNodesContent(targetAsset);
+//              Writer writer = new OutputStreamWriter(targetAssetNode.getOutputStream(), "UTF-8");
+//              try {
+//                XML.serialize(targetAsset, writer);
+//              } catch (Exception e) {
+//                  log.error(e);
+//                  return new WSActionResult(WSActionResult.ERROR, e.getLocalizedMessage());
+//              }
+//              FileUtils.close(writer);
 
           }
 
@@ -278,22 +368,35 @@ public class CreateTwoStepProject extends WSCustomProjectAutomaticActionWithPara
                                                                   context.getUserManager().getLocale(locale).getId(),
                                                                   wgs.get(locale),
                                                                   workflow.getId());
-              for(String path:affectedTasks.get(locale) ) {
+              for(String path : affectedTasks.get(locale) ) {
                   cpc.add(path);
               }
 
               WSContextManager.runAsUser(context, p.getCreator(), cpc);
               int projectGroupID = cpc.getProjectGroupId();
               WSProjectGroup pgCreated = context.getWorkflowManager().getProjectGroup(projectGroupID);
-              if(null == pgCreated) {
+              if(null == pgCreated || pgCreated.getProjects().length < 1) {
                   throw new TwoStepProjectException("Can't retrieve project group by ID " + projectGroupID);
               }
               WSProject createdProject = pgCreated.getProjects()[0];
-              createdProject.setAttributes(p.getAttributes());
+
+              setupNewProjectAttributes(createdProject, p);
+              //createdProject.setAttributes(p.getAttributes());
 
               //Add the two-step process project status for added clarification
               createdProject.setAttribute(_TWOSTEPPROCESS_ATTR, _PREFIX);
-           }
+              createdProject.setAttribute("secondStepProjectRequired", "false");
+
+              //Reset the most recent translator/QCer attribute
+              //createdProject.setAttribute(_mostRecentQCAttr, null);
+              //createdProject.setAttribute(_mostRecentTranslatorAttr, null);
+
+              //set the default quality model
+              WSQualityModel qModel = context.getReviewManager().getQualityModel("Default QC Model");
+              if(qModel != null) {
+                  createdProject.setQualityModel(qModel);
+              }
+          }
 
        } catch(TwoStepProjectException e) {
             log.error(e.getLocalizedMessage());
@@ -304,9 +407,9 @@ public class CreateTwoStepProject extends WSCustomProjectAutomaticActionWithPara
         } catch(WSAisException e) {
             log.error(e.getLocalizedMessage());
             return new WSActionResult(WSActionResult.ERROR, e.getLocalizedMessage());
-        } catch (IOException e) {
-            log.error(e.getLocalizedMessage());
-            return new WSActionResult(WSActionResult.ERROR, e.getLocalizedMessage());
+//      } catch (IOException e) {
+//            log.error(e.getLocalizedMessage());
+//            return new WSActionResult(WSActionResult.ERROR, e.getLocalizedMessage());
         }
 
         if(affectedTasks.keySet().size() > 0) {
@@ -317,6 +420,19 @@ public class CreateTwoStepProject extends WSCustomProjectAutomaticActionWithPara
             return new WSActionResult(_TRANSITION_SKIPPED, "No second step projects were created");
         }
 
+    }
+
+    private void setupNewProjectAttributes(WSProject createdProject, WSProject p) {
+        for(Iterator keysIt = p.getAttributes().keySet().iterator(); keysIt.hasNext(); ) {
+            String keyName = (String)keysIt.next();
+            String value = p.getAttribute(keyName);
+
+            if(keyName.equals(_mostRecentQCAttr) || keyName.equals(_mostRecentTranslatorAttr)) {
+                // no need to set
+            } else {
+                createdProject.setAttribute(keyName, value);
+            }
+        }
     }
 
     /**
@@ -361,6 +477,32 @@ public class CreateTwoStepProject extends WSCustomProjectAutomaticActionWithPara
         throw new TwoStepProjectException(e.getLocalizedMessage());
       }
 
+    }
+
+    private String makeNewSourceNodeFromTargetNode(WSContext context,
+                                                   WSUser creator,
+                                                   String directLocaleName,
+                                                   String frmFolderNodePath,
+                                                   WSNode frmBaseLocaleNode,
+                                                   String fullPathToSource) throws WSAisException,
+                                                                                   TwoStepProjectException {
+
+        String toBaseLocaleNodePath = frmBaseLocaleNode.getParent().getPath();
+        if(toBaseLocaleNodePath.endsWith("/")) {
+          toBaseLocaleNodePath += directLocaleName;
+        } else {
+            toBaseLocaleNodePath = toBaseLocaleNodePath + "/" + directLocaleName;
+        }
+        log.info("An attempt to copy " + fullPathToSource + " to " + toBaseLocaleNodePath);
+        SourceNodeCreator snc = new SourceNodeCreator(frmFolderNodePath,
+                                                      frmBaseLocaleNode.getPath(),
+                                                      toBaseLocaleNodePath,
+                                                      fullPathToSource
+                                                      );
+        WSContextManager.runAsUser(context, creator, snc);
+        //throw exception if we failed!
+        snc.checkStatus();
+        return snc.getPath();
     }
 
 }

@@ -1,0 +1,378 @@
+/* line 1, ../sass/common/_shared_styles.scss */
+html {
+  box-sizing: border-box;
+  font-family: Verdana, Arial;
+  color: #444;
+  width: 95%;
+  margin: 0 auto;
+  max-width: 1200px;
+  min-width: 980px;
+}
+
+/* line 12, ../sass/common/_shared_styles.scss */
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+/*** basic styles ***/
+/* line 19, ../sass/common/_shared_styles.scss */
+body {
+  margin: 30px;
+}
+
+/* line 20, ../sass/common/_shared_styles.scss */
+h1 {
+  font-size: 1.5em;
+}
+
+/* line 21, ../sass/common/_shared_styles.scss */
+label {
+  font-size: 24px;
+}
+
+/* line 24, ../sass/common/_shared_styles.scss */
+button {
+  outline: none;
+}
+
+/* line 28, ../sass/common/_shared_styles.scss */
+a {
+  text-decoration: none;
+  outline: none;
+  color: #007FFF;
+}
+/* line 33, ../sass/common/_shared_styles.scss */
+a:visited, a:focus, a:active {
+  color: #007FFF !important;
+}
+/* line 39, ../sass/common/_shared_styles.scss */
+a:hover {
+  color: #004c99;
+}
+
+/* line 44, ../sass/common/_shared_styles.scss */
+header {
+  display: block;
+  height: 75px;
+}
+/* line 48, ../sass/common/_shared_styles.scss */
+header #title {
+  float: left;
+  width: 50%;
+}
+/* line 53, ../sass/common/_shared_styles.scss */
+header #add_new_source {
+  float: left;
+  width: 50%;
+  text-align: right;
+}
+
+/* line 62, ../sass/common/_shared_styles.scss */
+.radiogroup {
+  display: inline-block;
+  text-align: center;
+  width: 100px;
+  margin-top: -7px;
+}
+/* line 68, ../sass/common/_shared_styles.scss */
+.radiogroup label {
+  display: block;
+  font-size: 14px;
+  z-index: 100 !important;
+}
+
+/* line 76, ../sass/common/_shared_styles.scss */
+input[type="radio"] {
+  display: none;
+}
+/* line 80, ../sass/common/_shared_styles.scss */
+input[type="radio"] + label {
+  color: #007FFF;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 30px;
+}
+/* line 86, ../sass/common/_shared_styles.scss */
+input[type="radio"] + label span {
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  -moz-box-shadow: inset 0px 0px 0px 2px #eee;
+  -webkit-box-shadow: inset 0px 0px 0px 2px #eee;
+  box-shadow: inset 0px 0px 0px 2px #eee;
+  display: inline-block;
+  width: 19px;
+  height: 19px;
+  margin: -1px 4px 0 0;
+  vertical-align: middle;
+  cursor: pointer;
+  position: relative;
+  background-color: #eee;
+  border: 2px solid #444;
+  z-index: 100;
+}
+/* line 103, ../sass/common/_shared_styles.scss */
+input[type="radio"]:checked + label span {
+  background-color: #007FFF !important;
+}
+/* line 107, ../sass/common/_shared_styles.scss */
+input[type="radio"] + label span, input[type="radio"]:checked + label span {
+  -moz-transition-property: background-color;
+  -o-transition-property: background-color;
+  -webkit-transition-property: background-color;
+  transition-property: background-color;
+  -moz-transition-duration: 0.4s;
+  -o-transition-duration: 0.4s;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  -moz-transition-timing-function: linear;
+  -o-transition-timing-function: linear;
+  -webkit-transition-timing-function: linear;
+  transition-timing-function: linear;
+}
+
+/* line 118, ../sass/common/_shared_styles.scss */
+ul.languagePairList li,
+ul.complexityLevelList li {
+  position: relative;
+  list-style: none;
+  clear: both;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+/* line 125, ../sass/common/_shared_styles.scss */
+ul.languagePairList li:last-child,
+ul.complexityLevelList li:last-child {
+  padding-bottom: 60px;
+}
+
+/* line 131, ../sass/common/_shared_styles.scss */
+.leftcol, .rightcol {
+  float: left;
+}
+
+/* line 135, ../sass/common/_shared_styles.scss */
+.leftcol {
+  padding-right: 75px;
+  margin-top: -12px;
+  width: 25%;
+}
+
+/* line 141, ../sass/common/_shared_styles.scss */
+.linediv {
+  position: relative;
+  top: 10px;
+  left: 56px;
+  width: 390px;
+  border-top: 2px solid #888;
+}
+
+/* line 149, ../sass/common/_shared_styles.scss */
+aside {
+  float: right;
+  line-height: 30px;
+  vertical-align: middle;
+  width: 25%;
+  color: #007FFF;
+  margin-top: -8px;
+}
+/* line 157, ../sass/common/_shared_styles.scss */
+aside a {
+  float: right;
+  line-height: 30px;
+  vertical-align: middle;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  line-height: 24px;
+}
+
+/* line 167, ../sass/common/_shared_styles.scss */
+.source-delete-button:after,
+.target-delete-button:after,
+.complexity-delete-button:after {
+  font-family: fontawesome;
+  content: "\f1f8";
+  font-size: 1.4em;
+  color: #444;
+}
+
+/* line 176, ../sass/common/_shared_styles.scss */
+.source-delete-button:after {
+  position: relative;
+  top: 18px;
+  left: 12px;
+}
+
+/* line 182, ../sass/common/_shared_styles.scss */
+.addLanguageButton:after {
+  position: relative;
+  top: 4px;
+  font-family: fontawesome;
+  content: "\f055";
+  padding-left: 10px;
+  font-size: 30px;
+  color: #007FFF;
+}
+
+/* line 194, ../sass/common/_shared_styles.scss */
+.assignmentRule,
+.source_language {
+  background: #eee;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  min-height: 100px;
+}
+/* line 203, ../sass/common/_shared_styles.scss */
+.assignmentRule header,
+.source_language header {
+  float: left;
+}
+/* line 206, ../sass/common/_shared_styles.scss */
+.assignmentRule header h2,
+.source_language header h2 {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+/* line 213, ../sass/common/_shared_styles.scss */
+#okButton,
+.ui-button {
+  cursor: pointer;
+  background: #007FFF;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  color: white;
+  font-family: Verdana;
+  font-weight: bold;
+  margin: 0 20px;
+}
+
+/* line 226, ../sass/common/_shared_styles.scss */
+.ui-dialog-buttonset {
+  margin-top: 30px;
+  text-align: center;
+}
+
+/* line 231, ../sass/common/_shared_styles.scss */
+.ui-dialog-title {
+  font-family: Verdana, Arial, Helvetica, Sans-Serif;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+/* line 237, ../sass/common/_shared_styles.scss */
+.ui-dialog-titlebar {
+  margin-bottom: 30px;
+}
+
+/* line 241, ../sass/common/_shared_styles.scss */
+.ui-dialog {
+  background: white;
+  border: 2px solid #444;
+  padding: 50px;
+  width: 60% !important;
+  z-index: 1000;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* line 250, ../sass/common/_shared_styles.scss */
+.no-close .ui-dialog-titlebar-close {
+  display: none;
+}
+
+/* line 254, ../sass/common/_shared_styles.scss */
+#deleteConfirm,
+#dialog {
+  display: none;
+}
+
+/* line 259, ../sass/common/_shared_styles.scss */
+#selectionSection {
+  min-height: 75px;
+}
+
+/* line 264, ../sass/common/_shared_styles.scss */
+#translatorSelectWrapper,
+#translatorSelect,
+#select2-translatorSelect-container {
+  float: left;
+}
+
+/* line 271, ../sass/common/_shared_styles.scss */
+#limitTranslators {
+  float: left;
+  padding-left: 20px;
+  padding-top: 2px;
+}
+/* line 276, ../sass/common/_shared_styles.scss */
+#limitTranslators label {
+  font-size: 14px;
+}
+
+/* line 281, ../sass/common/_shared_styles.scss */
+footer {
+  padding-top: 20px;
+  text-align: right;
+}
+/* line 285, ../sass/common/_shared_styles.scss */
+footer #okButton {
+  margin-right: 0;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* line 3, ../sass/userAssignment/_styles.scss */
+h1 {
+  display: initial;
+}
+
+/* line 9, ../sass/userAssignment/_styles.scss */
+.default-row p {
+  font-style: italic;
+  color: #bbb;
+}
+/* line 14, ../sass/userAssignment/_styles.scss */
+.default-row input[type="radio"] + label {
+  color: #bbb;
+  font-style: italic;
+}
+/* line 19, ../sass/userAssignment/_styles.scss */
+.default-row input[type="radio"] + label span {
+  color: #bbb;
+}
+/* line 23, ../sass/userAssignment/_styles.scss */
+.default-row .linediv {
+  border-top-color: #bbb;
+}
+/* line 27, ../sass/userAssignment/_styles.scss */
+.default-row input[type="radio"] + label span {
+  border-color: #bbb;
+}
+
+/* line 32, ../sass/userAssignment/_styles.scss */
+.default-label {
+  font-size: 15px;
+  position: absolute;
+  top: 30px;
+  padding-left: 4px;
+}
+
+/* line 39, ../sass/userAssignment/_styles.scss */
+.appear-checked {
+  background-color: #80bfff !important;
+}
+
+/* line 43, ../sass/userAssignment/_styles.scss */
+.instructions {
+  font-size: 15px;
+  padding-left: 22px;
+  font-style: italic;
+}
+
+/* line 49, ../sass/userAssignment/_styles.scss */
+header.uarMain {
+  height: 33px;
+}

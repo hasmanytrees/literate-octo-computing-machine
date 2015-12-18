@@ -31,6 +31,9 @@ public class IncrementTranslationCount extends WSCustomTaskAutomaticAction{
     //log
     private Logger log = Logger.getLogger(IncrementTranslationCount.class);
 
+    //variable
+    private static final String _mostRecentTranslatorAttr = "MostRecentTranslator";
+
     /**
      * Increment count of letters the translator has been working on
      * @param wsContext - WorldServer Context
@@ -46,6 +49,13 @@ public class IncrementTranslationCount extends WSCustomTaskAutomaticAction{
         }
         log.info("Translator is " + translator.getFullName());
 
+
+        //set the translator attribute for later use, for FO only
+//        String wkgroupName = task.getProject().getProjectGroup().getWorkgroup().getName();
+//        if(wkgroupName.startsWith("FO_")) {
+            task.getProject().setAttribute(_mostRecentTranslatorAttr, translator.getFirstName() + " " + translator.getLastName()
+                    + " [" + translator.getUserName() + "]");
+//        }
 
         //obtain count attribute
         String attrTCount = null;
