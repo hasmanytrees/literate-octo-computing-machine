@@ -2,6 +2,8 @@ package com.idiominc.ws.integration.compassion.utilities.metadata;
 
 /**
  * Special exception class for Attribute assignment
+ *
+ * @author SDL Professional Services
  */
 
 public class MetadataException extends Exception {

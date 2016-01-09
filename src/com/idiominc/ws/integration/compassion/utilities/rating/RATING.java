@@ -1,5 +1,6 @@
 package com.idiominc.ws.integration.compassion.utilities.rating;
 
+// Enumeration for Trnaslator Rating info
 public enum RATING {
 
     TRAINEE("Trainee"),

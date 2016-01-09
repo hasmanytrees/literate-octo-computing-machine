@@ -87,13 +87,11 @@ public class NewProjectCreationAPI extends HttpServlet {
             }
 
             try {
-                StringWriter errors = new StringWriter();
-                e.printStackTrace(new PrintWriter(errors));
-
-                e.printStackTrace();
+//                StringWriter errors = new StringWriter();
+//                e.printStackTrace(new PrintWriter(errors));
                 JSONObject msg = new JSONObject();
-                msg.put("Error", e.toString());
-                msg.put("Stack", errors.toString());
+//                msg.put("Error", e.toString());
+//                msg.put("Stack", errors.toString());
                 msg.put("Reason", e.getMessage());
                 msg.writeJSONString(httpServletResponse.getWriter());
 

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>SDL WorldServer - Translator Rating Editor</title>
+
+        <!-- Third party JavaScript libraries -->
+        <script src="js/jquery/jquery.js"></script>
+        <script src="compassion_inc/shared/js/jquery-ui/jquery-ui.js"></script>
+        <script src="compassion_inc/shared/select2/js/select2.min.js"></script>
+        <script src="compassion_inc/shared/js/_nsSDL_shared.js"></script>
+
+        <!-- Local JavaScript code -->
+        <script src="compassion_inc/translatorRating/js/_nsSDL_translator_rating.js"></script>
+        <script src="compassion_inc/translatorRating/js/_nsSDL_translator_rating_bindings.js"></script>
+        <script src="compassion_inc/translatorRating/js/_nsSDL_translator_rating_commands.js"></script>
+
+
+
+        <!-- Third Party Stylesheets -->
+        <link rel='stylesheet' href='compassion_inc/shared/select2/css/select2.min.css' type='text/css'>
+        <link rel='stylesheet' href='compassion_inc/shared/font-awesome/css/font-awesome.css' type='text/css'>
+
+        <!-- Local Stylesheets -->
+        <link rel="stylesheet" href="compassion_inc/translatorRating/stylesheets/styles.css">
+
+    </head>
+
+    <body>
+        <header>
+            <div id="title">
+                <h1>Translator Rating Editor</h1>
+            </div>
+
+            <div id="add_new_source">
+                <a id="addSourceButton" class="addLanguageButton" href="#">Add New Source Language</a>
+            </div>
+
+        </header>
+
+        <main>
+            <section id="selectionSection">
+                <h3>Select Translator</h3>
+
+                <div id="translatorSelectWrapper">
+                    <select id="translatorSelect">
+                        <!-- Filled in by javascript from list of translators in WorldServer -->
+                    </select>
+                </div>
+
+                <div id="limitTranslators">
+                    <input type="checkbox" id="limitToWorkgroup" name="limitToWorkgroup">
+                    <label for="limitToWorkgroup">My Workgroups Only</label>
+                </div>
+            </section>
+
+            <div id="ratings">
+                <!-- Filled in by javascript from user xml -->
+            </div>
+        </main>
+
+        <footer>
+            <button id="okButton" onclick="goBack()">OK</button>
+        </footer>
+
+        <!-- Popup box for language selection -->
+        <div id="dialog">
+            <select id="source_language">
+                <!-- Available locales added from WorldServer by Javascript -->
+            </select>
+        </div>
+
+        <!-- Popup box for delete confirmation -->
+        <div id="deleteConfirm">
+            <p>Are you sure you want to delete?</p>
+        </div>
+
+        <script>
+            function goBack() {
+                window.history.back();
+            }
+        </script>
+
+    </body>
+</html>

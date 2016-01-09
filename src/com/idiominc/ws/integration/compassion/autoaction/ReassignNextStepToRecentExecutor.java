@@ -16,6 +16,11 @@ import com.idiominc.wssdk.component.autoaction.WSActionResult;
 //log4j
 import org.apache.log4j.Logger;
 
+/**
+ * Reassign next human step to user who completed last step.
+ *
+ * @author SDL Professional Services
+ */
 public class ReassignNextStepToRecentExecutor extends WSCustomTaskAutomaticAction {
 
     //version
@@ -29,7 +34,7 @@ public class ReassignNextStepToRecentExecutor extends WSCustomTaskAutomaticActio
 
 
     /**
-     * Assign translation metadatra to projects and tasks
+     * Assign user who completed last human step to the immediate next human step
      * @param wsContext - WorldServer Context
      * @param task - project's task
      */

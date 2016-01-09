@@ -12,7 +12,10 @@ import com.idiominc.wssdk.component.autoaction.WSActionResult;
 import org.apache.log4j.Logger;
 
 /**
- * Increments count of translation update iterations a given comm-kit has completed
+ * Increments count of translation update iterations a given comm-kit has completed.
+ * This is used to count and track how many times a given translation is sent to the translator by the QCer for update.
+ *
+ * @author SDL Professional Services
  */
 public class IncrementTranslationUpdateCount extends WSCustomTaskAutomaticAction {
     //version

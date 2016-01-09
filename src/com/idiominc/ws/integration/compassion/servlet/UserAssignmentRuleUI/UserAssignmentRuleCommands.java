@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * This class process XML data associated with the User Assignment Rule GUI
  *
- * Created by cslack on 10/20/2015.
+ * @author SDL Professional Services
  */
 public class UserAssignmentRuleCommands extends WSHttpServlet {
 

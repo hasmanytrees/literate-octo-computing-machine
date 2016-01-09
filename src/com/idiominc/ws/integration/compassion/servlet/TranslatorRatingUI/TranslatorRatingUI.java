@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * UI class for the Translator Rating Editor
  *
- * Created by cslack on 10/1/2015.
+ * @author SDL Professional Services
  */
 public class TranslatorRatingUI extends WSHttpServlet {
 

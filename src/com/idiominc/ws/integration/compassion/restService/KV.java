@@ -1,13 +1,13 @@
 package com.idiominc.ws.integration.compassion.restService;
 
-import com.idiominc.wssdk.component.autoaction.WSActionResult;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by bslack on 10/6/15.
+ * Generic Key/Value framework clsss, used by ESBHelper class to maintain and generate XML payload files.
+ *
+ * @author SDL Professional Services
  */
 public class KV {
 

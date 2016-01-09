@@ -1,0 +1,14 @@
+<?xml version='1.0'?>
+<translator_rating>
+    <language_pair source="en-US">
+        <target rating="Expert">es-ES</target>
+        <target rating="Expert">fr-FR</target>
+        <target rating="Trainee">de-DE</target>
+    </language_pair>
+    <language_pair source="es-ES">
+        <target rating="Expert">en-US</target>
+    </language_pair>
+    <language_pair source="fr-FR">
+        <target rating="Intermediate">en-US</target>
+    </language_pair>
+</translator_rating>

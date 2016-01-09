@@ -10,6 +10,8 @@ import java.util.HashMap;
 
 /**
  * The "protected" class to store rating per language pair for any user
+ *
+ * @author SDL Professional Services
  */
 public class LanguagePair {
 

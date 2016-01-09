@@ -15,6 +15,11 @@ import java.util.Locale;
 import java.util.Date;
 import java.text.MessageFormat;
 
+/**
+ * Helper class created to assist in parsing task history details. Not being used currently.
+ *
+ * @author SDL Professional Services
+ */
 public class StepCompletionInformation {
 
     //1 minute

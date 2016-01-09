@@ -6,17 +6,15 @@ import com.idiominc.ws.integration.profserv.commons.FileUtils;
 import com.idiominc.ws.integration.profserv.commons.wssdk.WSAttributeUtils;
 import com.idiominc.ws.integration.profserv.commons.wssdk.XML;
 import com.idiominc.wssdk.WSContext;
+import com.idiominc.wssdk.ais.WSAisException;
+import com.idiominc.wssdk.ais.WSNode;
 import com.idiominc.wssdk.asset.WSAssetTask;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.io.*;
 
 /**
  * Created by bslack on 9/23/15.
@@ -25,27 +23,29 @@ public class TranscriptionDataService {
 
     public static InputStream getImage(WSContext context, WSAssetTask task, int page, int dpi) throws IOException, RESTException {
 
-        return RESTService.getInstance(context).getImage(
-                context,
-                getLetterURL(task),
-                page,
-                dpi
-        );
-
-          /*
-        try {
-
-           // if (true) throw new RESTException("test",403,"foo",100);
-            WSNode testNode = context.getAisManager().getNode("/Customization/page" + page + ".jpg");
-            if (testNode == null) testNode = context.getAisManager().getNode("/Customization/page.jpg");
-            if (testNode != null) {
-                return new FileInputStream(testNode.getFile()); // new File("c:/projects/compassion/transcription/page1.jpg"));
+        // Training environment update
+        String letterURL = getLetterURL(task);
+        if(letterURL != null && letterURL.startsWith("https://")) {
+            // Standard server image; retrieve via ESB REST call
+            return RESTService.getInstance(context).getImage(
+                    context,
+                    getLetterURL(task),
+                    page,
+                    dpi
+            );
+        } else {
+            // Otherwise this should be a local test image path found in WorldServer AIS mount (/Customization/.../image)
+            try {
+                WSNode testNode = context.getAisManager().getNode(letterURL + page + ".jpg");
+                if(testNode != null) {
+                    return new FileInputStream(testNode.getFile());
+                } else {
+                    return null;
+                }
+            } catch (WSAisException e) {
+                throw new IOException(e);
             }
-        } catch (WSAisException e) {
-            throw new IOException(e);
         }
-        */
-
 
     }
 

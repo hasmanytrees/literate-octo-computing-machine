@@ -1,12 +1,12 @@
 package com.idiominc.ws.integration.compassion.restService;
 
-import org.json.simple.JSONObject;
-
 import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Created by bslack on 9/23/15.
+ * Class representing OAuth Token for REST API authentication
+ *
+ * @author SDL Professional Services
  */
 public class OAuthToken {
 

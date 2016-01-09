@@ -1,10 +1,5 @@
 package com.idiominc.ws.integration.compassion.autoaction;
 
-import com.idiominc.external.config.Config;
-import com.idiominc.ws.integration.compassion.utilities.metadata.ATTRIBUTE_OBJECT;
-import com.idiominc.ws.integration.compassion.utilities.metadata.ATTRIBUTE_TYPE;
-import com.idiominc.ws.integration.compassion.utilities.metadata.AttributeValidator;
-import com.idiominc.ws.integration.profserv.commons.wssdk.WSAttributeUtils;
 import com.idiominc.ws.integration.profserv.commons.wssdk.autoaction.WSCustomTaskAutomaticAction;
 import com.idiominc.wssdk.WSContext;
 import com.idiominc.wssdk.asset.WSAssetTask;
@@ -13,7 +8,9 @@ import com.idiominc.wssdk.user.WSUser;
 import org.apache.log4j.Logger;
 
 /**
- * Increments count of letters the QCer has been working on
+ * Identify and store the QCer who worked on given translation task as project attribute
+ *
+ * @author SDL Professional Services
  */
 public class AccountForQCer extends WSCustomTaskAutomaticAction {
 

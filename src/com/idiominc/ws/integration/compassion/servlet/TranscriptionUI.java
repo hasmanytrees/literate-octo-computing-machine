@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Created by bslack on 9/23/15.
+ * Interface to launch the transcription/scanned letter editor HTML UI (and included JS files)
+ *
+ * @author SDL Professional Services
  */
 public class TranscriptionUI extends WSHttpServlet {
 

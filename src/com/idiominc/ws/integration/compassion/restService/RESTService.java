@@ -3,8 +3,6 @@ package com.idiominc.ws.integration.compassion.restService;
 import com.idiominc.external.config.Config;
 import com.idiominc.ws.integration.profserv.commons.FileUtils;
 import com.idiominc.wssdk.WSContext;
-import com.idiominc.wssdk.WSContextManager;
-import com.idiominc.wssdk.WSRunnable;
 import com.idiominc.wssdk.asset.WSAssetTask;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethodBase;
@@ -35,12 +33,11 @@ import java.util.Set;
 
 
 /**
- * Created by bslack on 9/23/15.
+ * Class to support REST API invocation.
+ *
+ * @author SDL Professional Services
  */
 public class RESTService {
-
-    //private static final String _GET_TOKEN_URL = "pcore/connect/token";
-    //private static final String _ESB_STATUS = "communications";
 
     private HttpClient httpClient;
     private static OAuthToken _token = null;
@@ -68,25 +65,10 @@ public class RESTService {
         }
     }
 
-
     private HttpClient getClient() throws IOException {
 
-
-        //todo: this was setup for working around SSL issues
-        //todo: but is currently disabled
         if (httpClient == null) {
             httpClient = new HttpClient();
-            /*
-            try {
-                Protocol easyhttps = new Protocol("https", (ProtocolSocketFactory) new EasySSLProtocolSocketFactory(), 443);
-                Protocol.registerProtocol("https", easyhttps);
-                System.out.println(Protocol.getProtocol("https"));
-
-                httpClient = new HttpClient();
-            } catch (GeneralSecurityException e) {
-                throw new IOException(e);
-            }
-            */
         }
 
         return httpClient;
@@ -137,38 +119,6 @@ public class RESTService {
                 new KV("pg", page + 1), // page 0 is ALL pages
                 new KV("dpi", dpi)
         );
-
-    }
-
-    public static void main(String[] args) throws Exception {
-
-        WSContextManager.runAsUser("admin", "wsisgreat", new WSRunnable() {
-            @Override
-            public boolean run(WSContext context) {
-                try {
-
-                    System.out.println(Config.getRESTApiBaseURL(context));
-                    System.out.println(Config.getRESTApiClient(context));
-                    System.out.println(Config.restRESTApiSecret(context));
-                    System.out.println(Config.getRESTApiKey(context));
-
-                    System.out.println("token=" + RESTService.getInstance(context).getToken(context));
-                } catch (RESTException e) {
-                    System.out.println(e.getResponseText());
-                    System.out.println(e.getHttpCode());
-                    System.out.println(e.getResponseLength());
-                    e.printStackTrace();
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return false;
-                }
-
-                return true;
-
-            }
-        });
-
 
     }
 

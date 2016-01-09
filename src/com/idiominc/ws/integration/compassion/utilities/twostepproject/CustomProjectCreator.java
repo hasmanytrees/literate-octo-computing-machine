@@ -23,7 +23,9 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
- * Helper class to instantiate spawn-off project
+ * Helper class to instantiate spawn-off project to create second-step projects.
+ *
+ * @author SDL Professional Services
  */
 public class CustomProjectCreator  implements WSRunnable {
 
@@ -108,7 +110,7 @@ public class CustomProjectCreator  implements WSRunnable {
         }
         /*
          NOTE: *every* WS object you use in inner transaction has to be reloaded before calling createProjectGroup; clients, project-type, locale, etc.
-         Don’t pass any objects between transactions.
+         Don't pass any objects between transactions.
         */
         WSWorkgroup workgroup = wsContext.getUserManager().getWorkgroup(_workgroupID);
         WSWorkflow workflow   = wsContext.getWorkflowManager().getWorkflow(_workflowID);

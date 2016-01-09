@@ -20,28 +20,13 @@ import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
 
 /**
- * Created by bslack on 10/6/15.
+ * Helper class utilized by the SetESBStatus automatic action.
+ *
+ * @author SDL Professional Services
  */
 public class ESBHelper {
 
-    public static void main(String[] args) {
-        WSContextManager.runWithToken("2", new WSRunnable() {
-            @Override
-            public boolean run(WSContext context) {
-                try {
-                    String result = ESBHelper.buildStatusXML(
-                            (WSAssetTask) context.getWorkflowManager().getTask(24201),
-                            new KV("Status", "Me gustó "));
-                    System.out.println(result);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return false;
-
-            }
-        });
-    }
-
+    // Get Communication kit global ID
     public static String getId(WSAssetTask task) throws IOException {
 
         try {
@@ -53,6 +38,7 @@ public class ESBHelper {
 
     }
 
+    // build status update XML payload
     public static String buildStatusXML(WSAssetTask task, KV... kvs) throws IOException {
 
         try {
@@ -79,6 +65,7 @@ public class ESBHelper {
 
     }
 
+    // build return XML payload
     public static String buildReturnKitXML(WSAssetTask task) throws IOException {
 
         try {
@@ -110,6 +97,7 @@ public class ESBHelper {
 
 
     // Clean up the return kit text fields based on field requirements as it was captured during project creation
+    // This method handles removing unnecessary fields based on language-exception business requirements.
     private static void returnKitTextFieldSetup(WSProject project, Document d) throws XPathExpressionException, TransformerException {
 
         Logger log = Logger.getLogger(ESBHelper.class);
@@ -165,6 +153,7 @@ public class ESBHelper {
 
     }
 
+    // Add given field/value to existing XML document
     private static void addTo(Document existingDoc, String field, String value) throws Exception {
         Node targetNode = XML.getNode(existingDoc, "//" + field);
         if(targetNode != null) {
@@ -182,10 +171,11 @@ public class ESBHelper {
         addTo(existingDoc, newDoc, field, null);
     }
 
+    // Add given field/value to new XML document
     private static void addTo(Document existingDoc, Element newDoc, String field, String newValue) throws Exception {
 
         Node n = XML.getNode(existingDoc, "//" + field);
-        if (n == null) n = existingDoc.createTextNode(newValue);
+        if (n == null) n = existingDoc.createElement(field);
         if (newValue != null) {
             n.setTextContent(newValue);
         }

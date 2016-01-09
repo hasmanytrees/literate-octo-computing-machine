@@ -30,7 +30,10 @@ import java.util.Date;
 import org.w3c.dom.Document;
 
 /**
- * Store translation metadata to task' and project's attribute
+ * Store translation metadata to task' and project's attribute.
+ * The metadata values are based on XML payload attributes passed to WorldServer from SFDC via ESB.
+ *
+ * @author SDL Professional Services
  */
 public class ProcessTranslationMetadata extends WSCustomProjectAutomaticActionWithParameters {
 

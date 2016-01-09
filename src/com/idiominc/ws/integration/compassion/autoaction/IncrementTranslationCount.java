@@ -18,7 +18,9 @@ import com.idiominc.wssdk.component.autoaction.WSActionResult;
 import org.apache.log4j.Logger;
 
 /**
- * Increments count of letters the translator has been working on
+ * Increments count of letters the translator has worked on, and record the translator as project attribute.
+ *
+ * @author SDL Professional Services
  */
 public class IncrementTranslationCount extends WSCustomTaskAutomaticAction{
 
@@ -50,7 +52,7 @@ public class IncrementTranslationCount extends WSCustomTaskAutomaticAction{
         log.info("Translator is " + translator.getFullName());
 
 
-        //set the translator attribute for later use, for FO only
+        //set the translator attribute for later use, for FO only; This may be used in future enhancement; for now set all translators
 //        String wkgroupName = task.getProject().getProjectGroup().getWorkgroup().getName();
 //        if(wkgroupName.startsWith("FO_")) {
             task.getProject().setAttribute(_mostRecentTranslatorAttr, translator.getFirstName() + " " + translator.getLastName()

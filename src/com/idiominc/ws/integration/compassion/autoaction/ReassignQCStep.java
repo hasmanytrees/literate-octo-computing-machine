@@ -34,7 +34,11 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 /**
- * Reassign the QC queue step to the list of eligible translators
+ * Reassign the QC queue step to the list of eligible translators.
+ * QC eligibility follows similar requirements as the translation step assignment based on the complexity of the communication kit,
+ * translator rating of given user, and who last completed the translation.
+ *
+ * @author SDL Professional Services
  */
 public class ReassignQCStep  extends WSCustomTaskAutomaticAction {
 
@@ -43,8 +47,6 @@ public class ReassignQCStep  extends WSCustomTaskAutomaticAction {
 
     //output transition
     private static final String DONE_TRANSITION = "Done";
-
-
 
     //log
     private Logger log = Logger.getLogger(ReassignQCStep.class);

@@ -3,6 +3,8 @@ package com.idiominc.ws.integration.compassion.utilities.twostepproject;
 /**
  * Exception to be thrown should two-step
  * project creation fails
+ *
+ * @author SDL Professional Services
  */
 public class TwoStepProjectException extends Exception {
     /**

@@ -10,9 +10,6 @@ import com.idiominc.wssdk.asset.WSTextSegmentTranslation;
 import com.idiominc.wssdk.component.WSParameter;
 import com.idiominc.wssdk.component.WSParameterFactory;
 import com.idiominc.wssdk.component.autoaction.WSActionResult;
-import com.idiominc.wssdk.linguistic.WSLanguage;
-import com.idiominc.wssdk.user.WSLocale;
-import com.idiominc.wssdk.workflow.WSProject;
 import org.apache.log4j.Logger;
 
 import java.io.File;
@@ -21,7 +18,10 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
- * Created by dkoo on 12/9/2015.
+ * Iterate through target translated text (and source, if no target text is found) and pull questions as denoted by the punctuation mark.
+ * Key assumption is that all questions identified by the automation must end with the question mark punctuation character.
+ *
+ *  @author SDL Professional Services
  */
 public class CheckForQuestions extends WSCustomTaskAutomaticActionWithParameters {
 
@@ -50,13 +50,6 @@ public class CheckForQuestions extends WSCustomTaskAutomaticActionWithParameters
      * @param task - project's task
      */
     public WSActionResult execute(WSContext wsContext, WSAssetTask task) {
-
-        //various metadata
-        WSProject project = task.getProject();
-        WSLocale sourceLocale = project.getSourceLocale();
-        WSLanguage sourceLang = sourceLocale.getLanguage();
-        WSLocale targetLocale = project.getTargetLocale();
-        WSLanguage targetLang = targetLocale.getLanguage();
 
         //configuration files
         try {

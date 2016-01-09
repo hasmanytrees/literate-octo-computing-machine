@@ -72,6 +72,8 @@ public class Config {
     private static String _restApiESBStatusCommand = null;
     private static String _restApiOAuthToken = null;
 
+    private static String _ssoURL = null;
+
 
     private static String _apiNtlmUser = null;
     private static String _apiIntermediaryLocale = null;
@@ -161,6 +163,9 @@ public class Config {
         _apiWorkflowNameTranslation = safeGetString("api.workflowNameTranslation", "Compassion Translation and Review Workflow-TwoStep - Step 1");
         _apiWorkflowNameTranscription = safeGetString("api.workflowNameTranscription", "Compassion Transcription, Translation and Review Workflow-TwoStep - Step 1");
 
+        _ssoURL = safeGetString("sso.url", "");
+
+
     }
 
     public static String getNTLMUser(WSContext context) throws IOException {
@@ -218,6 +223,15 @@ public class Config {
             refresh(context);
         }
         return _restApiClient;
+    }
+
+    public static String getSSOURL(WSContext context) throws IOException {
+        if (!_initiated) {
+            init(context);
+        } else {
+            refresh(context);
+        }
+        return _ssoURL;
     }
 
     public static String restRESTApiSecret(WSContext context) throws IOException {

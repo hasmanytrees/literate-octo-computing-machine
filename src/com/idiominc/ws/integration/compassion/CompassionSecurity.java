@@ -8,7 +8,9 @@ import com.idiominc.wssdk.workflow.WSHumanTaskStep;
 import com.idiominc.wssdk.workflow.WSTask;
 
 /**
- * Created by bslack on 9/18/15.
+ * Class used by the transcription/scanned letter editor to validate the user who is opening the UI who must belong to the list of assignees.
+ *
+ * @author SDL Professional Services
  */
 public class CompassionSecurity {
 

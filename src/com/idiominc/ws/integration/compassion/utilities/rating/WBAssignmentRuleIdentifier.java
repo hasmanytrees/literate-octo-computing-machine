@@ -27,6 +27,8 @@ import java.io.StringReader;
 /**
  * This class is responsible for
  * parsing eorkgroup-based complexity rule configuration data
+ *
+ * @author SDL Professional Services
  */
 
 public class WBAssignmentRuleIdentifier {

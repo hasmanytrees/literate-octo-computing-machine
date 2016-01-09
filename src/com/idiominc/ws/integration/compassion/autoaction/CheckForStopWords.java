@@ -13,6 +13,9 @@ import org.apache.log4j.Logger;
 
 /**
  * Check and confirm if stop-words are found or not.
+ * If found, complete the action with "Found"; if not found, then complete with "Not Found" transition.
+ *
+ * @author SDL Professional Services
  */
 public class CheckForStopWords extends WSCustomTaskAutomaticAction {
     //version

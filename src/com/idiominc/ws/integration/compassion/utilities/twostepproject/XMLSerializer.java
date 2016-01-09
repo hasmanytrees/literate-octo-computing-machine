@@ -11,6 +11,8 @@ import java.io.IOException;
 
 /**
  * Helper class to serailize xml file
+ *
+ * @author SDL Professional Services
  */
 public class XMLSerializer {
 

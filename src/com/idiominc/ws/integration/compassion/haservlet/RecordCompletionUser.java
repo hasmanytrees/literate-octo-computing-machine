@@ -14,7 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Created by bslack on 9/21/15.
+ * Record user who is completing the current step. Currently not being used.
+ *
+ * @author SDL Professional Services
  */
 public class RecordCompletionUser extends WSCustomHumanActionServletWithUI {
 

@@ -24,6 +24,7 @@ import java.util.Map;
 /**
  * Identify stop-words and questions from parsing source text.
  *
+ * @author SDL Professional Services
  */
 public class ContentPreprocessing extends WSCustomTaskAutomaticActionWithParameters {
 

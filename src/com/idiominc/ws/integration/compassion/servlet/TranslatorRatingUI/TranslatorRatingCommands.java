@@ -32,7 +32,7 @@ import java.util.*;
 /**
  * Creates a class for processing the Translator Rating UI
  *
- * Created by cslack on 10/5/2015.
+ *  @author SDL Professional Services
  */
 public class TranslatorRatingCommands extends WSHttpServlet{
 

@@ -20,6 +20,11 @@ import org.apache.log4j.Level;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+/**
+ * Used by the projeoct creation classes to help create source files in WorldServer
+ *
+ * @author SDL Professional Services
+ */
 public class SourceNodeCreator implements WSRunnable {
 
     //log

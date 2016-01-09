@@ -16,6 +16,8 @@ import java.util.Set;
 
 /**
  * Helper class for two-step project creation
+ *
+ * @author SDL Professional Services
  */
 public class ProjectCreationUtilities {
 

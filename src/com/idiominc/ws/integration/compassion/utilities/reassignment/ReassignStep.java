@@ -9,6 +9,8 @@ import com.idiominc.wssdk.user.WSWorkgroup;
 
 /**
  * Helper class to check user availability and reassign steps
+ *
+ * @author SDL Professional Services
  */
 public class ReassignStep {
 
@@ -126,23 +128,6 @@ public class ReassignStep {
      * @return User, or nulkl if not found
      */
     public static WSUser getPrevousTaskStepExecutor(WSTask task) {
-     /*
-        WSTaskStep current = task.getCurrentTaskStep();
-        WSTaskStep previous = current.getPreviousTaskStep();
-        while(previous != null && !(previous instanceof WSHumanTaskStep)) {
-            previous = previous.getPreviousTaskStep();
-        }
-        if(null == previous) {
-            return null;
-        }
-        WSHumanTaskStep htStep = (WSHumanTaskStep) previous;
-        //step.getCurrentClaimant() - likely will not work!!
-        WSTaskStepHistory history = StepCompletionInformation.getStepHistoryFromTaskStep(task, htStep);
-        if(null == history) {
-            return null;
-        }
-        return history.getUser();
-      */
       WSTaskHistory history = task.getTaskHistory();
       if(null == history) {
           return null;

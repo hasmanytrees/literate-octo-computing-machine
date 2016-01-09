@@ -1,7 +1,9 @@
 package com.idiominc.ws.integration.compassion.restService;
 
 /**
- * Created by bslack on 9/30/15.
+ * Generic internal REST exception
+ *
+ * @author SDL Professional Services
  */
 public class RESTException extends Exception {
 

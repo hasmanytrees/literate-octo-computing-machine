@@ -40,7 +40,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by bslack on 10/6/15.
+ * Generic shared utility class
+ *
+ * @author SDL Professional Services
  */
 public class Utils {
 

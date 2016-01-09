@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Human action servlet to allow Supervisors to select rework reason and comment
+ * Human action servlet to allow Supervisors to select rework reason and comment when completing escalation step.
+ *
+ * @author SDL Professional Services
  */
 public class EscalationHAServlet extends BaseSetAttributesNT {
 
@@ -17,14 +19,9 @@ public class EscalationHAServlet extends BaseSetAttributesNT {
 
     private final static String _B2S = "Beneficiary To Supporter";
 
-//    static {
-//        attributes.add("reworkReason");
-//        attributes.add("reworkComment");
-//    }
-
     protected void customInit(WSContext context, WSAssetTask[] tasks) {
         if(tasks[0] == null) {
-            //Unexpected! Return!
+            // Unexpected; there should be at least 1 task selected; otherwise reset UI and return.
             if(attributes.isEmpty()) {
                 attributes.add("reworkReason");
                 attributes.add("reworkComment");

@@ -43,14 +43,13 @@ import java.io.IOException;
 
 /**
  * An automatic action to identify and create two-step project
+ *
+ * @author SDL Professional Services
  */
 public class CreateTwoStepProject extends WSCustomProjectAutomaticActionWithParameters {
 
     //log
     private static Logger log = Logger.getLogger(CreateTwoStepProject.class);
-//    static {
-//        log.setLevel(Level.INFO);
-//    }
 
     //transition
     private static final String _TRANSITION_CREATED = "Created";
@@ -271,9 +270,6 @@ public class CreateTwoStepProject extends WSCustomProjectAutomaticActionWithPara
                   } else {
                       log.info("Type 0 project. No change to the desired locale => " + desiredTranslationLocaleStr);
                   }
-//                log.info("Task for asset " + t.getSourcePath() + " is not qualified for 2-step project: " +
-//                           "target locale for the project matches the ultimate desired locale " + desiredTranslationLocale);
-//                continue;
               }
 
               if(_BENEFICIARY_TO_SUPPORTER.equalsIgnoreCase(direction)) {
@@ -343,17 +339,6 @@ public class CreateTwoStepProject extends WSCustomProjectAutomaticActionWithPara
               //throw exception if we failed!
               tnc.checkStatus();
 
-//              //copy english-translated text to translated text
-//              copyNodesContent(targetAsset);
-//              Writer writer = new OutputStreamWriter(targetAssetNode.getOutputStream(), "UTF-8");
-//              try {
-//                XML.serialize(targetAsset, writer);
-//              } catch (Exception e) {
-//                  log.error(e);
-//                  return new WSActionResult(WSActionResult.ERROR, e.getLocalizedMessage());
-//              }
-//              FileUtils.close(writer);
-
           }
 
           //create new projects
@@ -381,15 +366,10 @@ public class CreateTwoStepProject extends WSCustomProjectAutomaticActionWithPara
               WSProject createdProject = pgCreated.getProjects()[0];
 
               setupNewProjectAttributes(createdProject, p);
-              //createdProject.setAttributes(p.getAttributes());
 
               //Add the two-step process project status for added clarification
               createdProject.setAttribute(_TWOSTEPPROCESS_ATTR, _PREFIX);
               createdProject.setAttribute("secondStepProjectRequired", "false");
-
-              //Reset the most recent translator/QCer attribute
-              //createdProject.setAttribute(_mostRecentQCAttr, null);
-              //createdProject.setAttribute(_mostRecentTranslatorAttr, null);
 
               //set the default quality model
               WSQualityModel qModel = context.getReviewManager().getQualityModel("Default QC Model");
@@ -407,9 +387,6 @@ public class CreateTwoStepProject extends WSCustomProjectAutomaticActionWithPara
         } catch(WSAisException e) {
             log.error(e.getLocalizedMessage());
             return new WSActionResult(WSActionResult.ERROR, e.getLocalizedMessage());
-//      } catch (IOException e) {
-//            log.error(e.getLocalizedMessage());
-//            return new WSActionResult(WSActionResult.ERROR, e.getLocalizedMessage());
         }
 
         if(affectedTasks.keySet().size() > 0) {

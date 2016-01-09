@@ -2,6 +2,8 @@ package com.idiominc.ws.integration.compassion.utilities.rating;
 
 /**
  * Rating can be applied to TRANSLATE and QA steps
+ *
+ * @author SDL Professional Services
  */
 public enum RATING_APPLICABILITY {
     TRANSLATE ("Translate"),

@@ -13,12 +13,19 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 /**
- * Created by dkoo on 11/12/2015.
+ * Merge and copy over English translated text from Target asset into Translated text field for delivery prep.
+ *
+ * @author SDL Professional Services
  */
 public class MergeFinalTranslatedTextContentTarget extends WSCustomTaskAutomaticAction {
 
     private static final String _TRANSITION_DONE = "Done";
 
+    /**
+     * Update target Translated text field with English translated field and prepare for second step translation
+     * @param context - WorldServer Context
+     * @param task - project's task
+     */
     public WSActionResult execute(WSContext context, WSAssetTask task) {
 
         try {
@@ -44,7 +51,7 @@ public class MergeFinalTranslatedTextContentTarget extends WSCustomTaskAutomatic
         } catch (Exception e) {
             throw new com.idiominc.wssdk.WSRuntimeException(e);
         }
-        return new WSActionResult(_TRANSITION_DONE, "Updated Translated text with English translated content");
+        return new WSActionResult(_TRANSITION_DONE, "Updated target Translated text with English translated content");
     }
 
     public String[] getReturns() {
@@ -55,7 +62,5 @@ public class MergeFinalTranslatedTextContentTarget extends WSCustomTaskAutomatic
         return "Merge Translated Text-Target";
     }
 
-    public String getDescription() {
-        return "Merges any Translated text content with the English translated content";
-    }
+    public String getDescription() { return "Merges target Translated text content with the English translated content"; }
 }

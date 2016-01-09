@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  * Creates a WorldServer HTTP Servlet to provide an interface for assigning rules to workgroups to determine
  * what level of translator is needed for various complexity levels of documents
  *
- * Created by cslack on 10/20/2015.
+ * @author SDL Professional Services
  */
 
 public class UserAssignmentRuleUI extends WSHttpServlet {

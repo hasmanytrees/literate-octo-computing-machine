@@ -14,7 +14,11 @@ package com.idiominc.wssdk.samples.component.autoaction.notification;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import com.idiominc.ws.sdkcore.asset.WSTextSegmentTranslationHistoryImp;
 import com.idiominc.wssdk.WSContext;
+import com.idiominc.wssdk.asset.WSTextSegmentTranslation;
+import com.idiominc.wssdk.asset.WSTextSegmentTranslationHistory;
 import com.idiominc.wssdk.workflow.WSTask;
 import com.idiominc.wssdk.component.WSParameter;
 import com.idiominc.wssdk.component.WSParameterFactory;
@@ -712,7 +716,10 @@ public class ProjectEmailNotificationTemplateAutomaticAction
 class FileUtils
 {
 	public static void writeLinesToFile(File aFile, List<String> lines) throws IOException {
-		
+
+        WSTextSegmentTranslationHistoryImp hist;
+
+
 		BufferedWriter _bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(aFile), Charset.forName("UTF-8")));
 		
 		for(String _line : lines) {

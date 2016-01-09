@@ -25,6 +25,8 @@ import java.util.ArrayList;
  * This class is responsible for
  * parsing global complexity rule configuration file
  * @depricated
+ *
+ * @author SDL Professional Services
  */
 public class AssignmentRuleIdentifier {
 

@@ -19,6 +19,11 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * Generic shared Utility class for WorldServer AIS framework
+ *
+ * @author SDL Professional Services
+ */
 public class AISUtils {
 
     private static final String _AIS_ROOT = "/Remote Content/";

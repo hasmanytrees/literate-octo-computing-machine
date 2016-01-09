@@ -1,6 +1,7 @@
 package com.idiominc.ws.integration.compassion.authenticator.saml;
 
 
+import com.idiominc.external.config.Config;
 import com.idiominc.ws.integration.profserv.commons.sso.saml.SAMLAttribute;
 import com.idiominc.ws.integration.profserv.commons.sso.saml.SAMLAuthorization;
 import com.idiominc.wssdk.WSContext;
@@ -59,9 +60,17 @@ public class CISAMLAuthorization extends SAMLAuthorization {
         }
     }
 
-    /** todo: this needs to be replaced with Compassion's info */
     /** This is the link location the the "CI Login" button on the login screen goes to */
-    public String getRedirectTo() {
-        return _CI_REDIRECT;
+    public String getRedirectTo(WSContext context) {
+
+        String url = _CI_REDIRECT;
+
+        try {
+            url = Config.getSSOURL(context);
+        } catch(IOException e) {
+            log.error("No sso.url found in custom.properties file.");
+        }
+
+        return url;
     }
 }

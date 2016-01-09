@@ -7,9 +7,6 @@ import com.idiominc.ws.integration.compassion.restService.RESTService;
 import com.idiominc.ws.integration.profserv.commons.wssdk.autoaction.WSCustomTaskAutomaticActionWithParameters;
 import com.idiominc.ws.integration.profserv.commons.wssdk.exceptions.WSInvalidParameterException;
 import com.idiominc.wssdk.WSContext;
-import com.idiominc.wssdk.WSContextManager;
-import com.idiominc.wssdk.WSRunnable;
-import com.idiominc.wssdk.WSRuntimeException;
 import com.idiominc.wssdk.asset.WSAssetTask;
 import com.idiominc.wssdk.component.WSParameter;
 import com.idiominc.wssdk.component.WSParameterFactory;
@@ -18,15 +15,16 @@ import com.idiominc.wssdk.workflow.WSProject;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by bslack on 10/2/15.
+ * Set ESB status.
+ * This includes normal status updates, and completion updates which include fully translated content as payload.
+ *
+ * @author SDL Professional Services
  */
 public class SetESBStatus extends WSCustomTaskAutomaticActionWithParameters {
 
@@ -50,44 +48,24 @@ public class SetESBStatus extends WSCustomTaskAutomaticActionWithParameters {
 
     private final static String _B2S = "Beneficiary To Supporter";
 
-    public static void main(String[] args) {
-
-        WSContextManager.runAsUser("admin", "wsisgreat", new WSRunnable() {
-
-            public boolean run(WSContext context) {
-
-                try {
-
-                    RESTService.getInstance(context).setESBStatus(
-                            context,
-                            (WSAssetTask) context.getWorkflowManager().getTask(24201),
-                            new SetESBStatus().generateKVs(
-                                    (WSAssetTask) context.getWorkflowManager().getTask(24201),
-                                    KV.parse("Status".split(";"), "Test".split(";")),
-                                    false
-                            ));
-
-                } catch (RESTException e) {
-                    System.out.println(e.getHttpCode());
-                    System.out.println(e.getResponseText());
-                } catch (Exception e) {
-                    throw new WSRuntimeException(e);
-                }
-                return true;
-            }
-        });
-    }
-
+    /**
+     * Prepare status message and invoke the REST API to deliver the update message
+     * @param context - WorldServer Context
+     * @param task - project's task
+     */
     public WSActionResult execute(WSContext context, WSAssetTask task) {
         try {
 
+            // This is unsupported transition
             if (returnError && returnKit) {
                 throw new IOException("Illegal configuration. Cannot return Error and Kit!");
             }
 
+            // normal project completion without error; return translated payload via REST
             if (returnKit) {
                 RESTService.getInstance(context).sendReturnKit(context,task);
             } else {
+                // otherwise return status update message with appropriate status fields
                 RESTService.getInstance(context).setESBStatus(
                         context,
                         task,
@@ -110,17 +88,19 @@ public class SetESBStatus extends WSCustomTaskAutomaticActionWithParameters {
         }
     }
 
+    // Generate key/value pair containing name/fields that will be included in status update XML payload
     private KV[] generateKVs(WSAssetTask task, KV[] kvs, boolean isError) {
 
         Set<KV> ret = new HashSet<KV>();
         if (kvs != null) ret.addAll(Arrays.asList(kvs));
 
+        // When content error is found, return with appropriate rework reasons and comments.
         if (isError) {
             WSProject proj = task.getProject();
             String direction = proj.getAttribute("Direction");
 
             // this will over-ride any passed status
-            ret.add(new KV("IsMarkedForRework", "true"));
+            ret.add(new KV("MarkedForRework", "true"));
             ret.add(new KV("ReworkComments", task.getAttribute("reworkComment")));
             if(direction != null && direction.equals(_B2S)) {
                 ret.add(new KV("ReasonForRework", task.getAttribute("reworkReason")));
@@ -129,9 +109,7 @@ public class SetESBStatus extends WSCustomTaskAutomaticActionWithParameters {
             }
         } else {
 
-            //TODO:Need to override the translation process/queue status to append "Field Office" or "Global Partner"
-            //TODO: Move this to the payload helper class!
-            //in front of translation queue / translation process status messages.
+            //otherwise return with status update xml payload
             String statusVal = "UNDEFINED";
             KV statusKV = null;
             for (KV kv : kvs) {

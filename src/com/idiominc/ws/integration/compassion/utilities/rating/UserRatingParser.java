@@ -27,6 +27,8 @@ import com.idiominc.wssdk.WSContext;
 
 /**
  * The class to parse individual User's rating per language pairs
+ *
+ * @author SDL Professional Services
  */
 public class UserRatingParser {
 

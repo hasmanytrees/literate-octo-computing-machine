@@ -30,6 +30,9 @@ import java.util.ArrayList;
 
 /**
  * Reassign the translate queue step to the list of eligible translators
+ * Eligibility is based on the complexity of the communication kit and the translator rating of given user.
+ *
+ * @author SDL Professional Services
  */
 public class ReassignQueueStep extends WSCustomTaskAutomaticAction {
 
@@ -50,12 +53,11 @@ public class ReassignQueueStep extends WSCustomTaskAutomaticAction {
     private static final String _TRANSLATION_PROCESS = "Translation";
 
     /**
-     * Assign translation metadatra to projects and tasks
+     * Reassign Translation Queue Step
      * @param wsContext - WorldServer Context
      * @param task - project's task
      */
     public WSActionResult execute(WSContext wsContext, WSAssetTask task) {
-//        log.setLevel(Level.INFO);
 
         //data
         List<WSUser> resultingList = new ArrayList<WSUser>();
@@ -146,8 +148,6 @@ public class ReassignQueueStep extends WSCustomTaskAutomaticAction {
           for(WSUser candidate: wsContext.getUserManager().getUsers()) {
               if(ReassignStep.belongs(candidate.getId(), targetLocale)
                       &&
-//                      ReassignStep.belongs(candidate.getId(), sourceLocale) // Necessary to check source locale membership?
-//                      &&
                       ReassignStep.belongs(candidate.getId(), translatorRole)
                       &&
                       ReassignStep.belongs(candidate.getId(), workgroup)) {

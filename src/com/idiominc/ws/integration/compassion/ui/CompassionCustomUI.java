@@ -2,6 +2,7 @@ package com.idiominc.ws.integration.compassion.ui;
 
 import com.idiominc.external.config.Config;
 import com.idiominc.ws.integration.compassion.authenticator.saml.CISAMLAuthorization;
+import com.idiominc.ws.integration.compassion.servlet.Deployment;
 import com.idiominc.ws.integration.compassion.servlet.Embed;
 import com.idiominc.ws.integration.profserv.commons.sso.SSOAuthorization;
 import com.idiominc.ws.integration.profserv.commons.sso.SSOHook;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
  * WorldServer Custom UI Hook built for Compassion WorldServer instance.
  * This is a singleton-class; there will be only one custom UI Hook class.
  *
+ * @author SDL Professional Services
  */
 public class CompassionCustomUI extends WSUIHooksComponent {
 
@@ -47,13 +49,15 @@ public class CompassionCustomUI extends WSUIHooksComponent {
     }
 
     /**
-     * Generate custom task page snippet to include the button to launch the transcription UI
+     * Generate custom task page snippet to include the button to launch the transcription/scanned letter editor UI
      * @param context WorldServer context
      * @param request HTTP request
      * @return custom HTML snippet
      */
     public String generateTaskListPageSnippet(WSContext context, HttpServletRequest request) {
         try {
+
+            Deployment.getInstance(context).update();
 
             System.out.println("task-list");
             WSHtmlUIHook hook = new WSHtmlUIHook(context, request);

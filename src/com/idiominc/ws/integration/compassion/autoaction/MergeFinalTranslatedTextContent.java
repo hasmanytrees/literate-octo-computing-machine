@@ -13,12 +13,19 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 /**
- * Created by dkoo on 11/6/2015.
+ * Copy over English translated text into Translated text fields in source document for further translation (second-step).
+ *
+ * @author SDL Professional Services
  */
 public class MergeFinalTranslatedTextContent extends WSCustomTaskAutomaticAction {
 
     private static final String _TRANSITION_DONE = "Done";
 
+    /**
+     * Update source Translated text field with English translated field and prepare for second step translation
+     * @param context - WorldServer Context
+     * @param task - project's task
+     */
     public WSActionResult execute(WSContext context, WSAssetTask task) {
 
         try {

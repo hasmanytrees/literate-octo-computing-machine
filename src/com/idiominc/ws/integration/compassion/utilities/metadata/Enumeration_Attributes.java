@@ -2,6 +2,8 @@ package com.idiominc.ws.integration.compassion.utilities.metadata;
 
 /**
  * The explicit list of attributes that need to be assigned to the task or project
+ *
+ * @author SDL Professional Services
  */
 
 public enum Enumeration_Attributes {

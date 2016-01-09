@@ -2,6 +2,8 @@ package com.idiominc.ws.integration.compassion.utilities.rating;
 
 /**
  * Special exception class for Rating operations and reassignments
+ *
+ * @author SDL Professional Services
  */
 public class RatingException extends Exception {
 

@@ -7,12 +7,19 @@ import com.idiominc.wssdk.asset.WSAssetTask;
 import com.idiominc.wssdk.component.autoaction.WSActionResult;
 
 /**
- * Created by bslack on 9/23/15.
+ * Copy over transcribed/manually translated content to the asset
+ *
+ * @author SDL Professional Services
  */
 public class MergeTranscribedContent extends WSCustomTaskAutomaticAction {
 
     private static final String _TRANSITION_DONE = "Done";
 
+    /**
+     * Update source Original text field with transcribed/manually translated content
+     * @param context - WorldServer Context
+     * @param task - project's task
+     */
     public WSActionResult execute(WSContext context, WSAssetTask task) {
         TranscriptionDataService.mergeTranscription(task, true);
         return new WSActionResult(_TRANSITION_DONE, "Updated source content with transcribed text");

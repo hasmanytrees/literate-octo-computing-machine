@@ -14,6 +14,8 @@ import java.util.*;
 
 /**
  * The static class to validate attribute assignments
+ *
+ * @author SDL Professional Services
  */
 
 public class AttributeValidator {

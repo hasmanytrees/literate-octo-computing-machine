@@ -25,7 +25,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by bslack on 9/18/15.
+ * Supporting class to handle scanned letter editor AJAX requests
+ *
+ * @author SDL Professional Services
  */
 public class TranscriptionAJAXHandler extends WSHttpServlet {
 

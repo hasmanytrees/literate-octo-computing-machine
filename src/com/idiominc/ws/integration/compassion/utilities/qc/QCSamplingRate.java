@@ -18,6 +18,8 @@ import com.idiominc.wssdk.ais.WSAisException;
 /**
  * Externaliztion of QC Sampling Rate into the simple properties file
  * <Rating>=<sample rate>
+ *
+ * @author SDL Professional Services
  */
 public class QCSamplingRate {
 

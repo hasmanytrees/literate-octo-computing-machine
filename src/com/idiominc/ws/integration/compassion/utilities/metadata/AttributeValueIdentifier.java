@@ -18,6 +18,8 @@ import java.io.IOException;
 
 /**
  * Parse source asset to identify attributes and their values
+ *
+ * @author SDL Professional Services
  */
 public class AttributeValueIdentifier {
 

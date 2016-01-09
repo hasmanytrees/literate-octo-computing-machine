@@ -1,30 +1,32 @@
 package com.idiominc.ws.integration.compassion.autoaction;
 
-import com.idiominc.ws.integration.compassion.TranscriptionDataService;
 import com.idiominc.ws.integration.profserv.commons.FileUtils;
-import com.idiominc.ws.integration.profserv.commons.wssdk.WSAttributeUtils;
 import com.idiominc.ws.integration.profserv.commons.wssdk.XML;
 import com.idiominc.ws.integration.profserv.commons.wssdk.autoaction.WSCustomTaskAutomaticAction;
 import com.idiominc.wssdk.WSContext;
 import com.idiominc.wssdk.asset.WSAssetTask;
 import com.idiominc.wssdk.component.autoaction.WSActionResult;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONValue;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
-import java.io.File;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 /**
  * Automatic action to copy and merge original text sent for ISL/electronic source content into English translated text field
  * in preparation for the first-step project creation.
+ *
+ * @author SDL Professional Services
  */
 public class MergeISLContent extends WSCustomTaskAutomaticAction {
 
     private static final String _TRANSITION_DONE = "Done";
 
+    /**
+     * Update source English translated text field with Original text field received from ISL and prepare for ISL translation
+     * @param context - WorldServer Context
+     * @param task - project's task
+     */
     public WSActionResult execute(WSContext context, WSAssetTask task) {
 
         try {

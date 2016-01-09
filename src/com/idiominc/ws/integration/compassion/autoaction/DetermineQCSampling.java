@@ -30,7 +30,10 @@ import org.apache.log4j.Logger;
 import java.util.Map;
 
 /**
- * Make determination if QC stage is required for a task.
+ * Make determination if QC stage is required for a task via QC sampling requirements.
+ * QC Sampling is based on translator rating, sample rate, and XML payload attribute.
+ *
+ * @author SDL Professional Services
  */
 public class DetermineQCSampling extends WSCustomTaskAutomaticActionWithParameters {
 
