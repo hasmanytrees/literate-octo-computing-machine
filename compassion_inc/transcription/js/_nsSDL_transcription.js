@@ -360,7 +360,7 @@ SDL.transcription = (function() {
 
 			if (nlToTranscribe.length == 0) {
 				htmlPageTab.append('none');
-				$('#transcriptionInput').append('<div class="tabs" style="text-align: center;">No transcription</div>');
+				$('#transcriptionInput').append('<div class="tabs" style="text-align: center;">No translation</div>');
 				return true;
 			}
 
