@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<worldServerExport version="10.4.4" xmlns="http://www.idiominc.com/tml/1.0">
+  <link
+    id="/Remote Content/Karen-Direct|/Remote Content/SecondStep/Karen" exported="true">
+    <sourcePath>/Remote Content/Karen-Direct</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Karen</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Karen|/Remote Content/English" exported="true">
+    <sourcePath>/Remote Content/Karen</sourcePath>
+    <targetPath>/Remote Content/English</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English|/Remote Content/SecondStep/Karen" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Karen</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English-Direct|/Remote Content/Karen" exported="true">
+    <sourcePath>/Remote Content/English-Direct</sourcePath>
+    <targetPath>/Remote Content/Karen</targetPath>
+    <enabled>true</enabled>
+  </link>
+</worldServerExport>

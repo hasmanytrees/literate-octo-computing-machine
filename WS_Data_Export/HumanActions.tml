@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<worldServerExport version="10.4.4" xmlns="http://www.idiominc.com/tml/1.0">
+  <humanAction id="Scope Review" exported="true">
+    <name>Scope Review</name>
+    <type>0</type>
+    <defaultInstructions>Project Manager reviews scoping report.</defaultInstructions>
+    <deleted>false</deleted>
+  </humanAction>
+  <humanAction id="Translate" exported="true">
+    <name>Translate</name>
+    <type>1</type>
+    <defaultInstructions>To translate the asset, select the task check box and click the "Edit/Translate" button and choose to translate the asset in the Browser Workbench, the Desktop Workbench, or a Third Party tool. You can also click the "Export" button to translate the task offline.</defaultInstructions>
+    <deleted>false</deleted>
+  </humanAction>
+  <humanAction id="Review" exported="true">
+    <name>Review</name>
+    <type>3</type>
+    <defaultInstructions>To review the asset, click the asset link to launch the Viewer. Log associated issues.</defaultInstructions>
+    <deleted>false</deleted>
+  </humanAction>
+  <humanAction id="Edit" exported="true">
+    <name>Edit</name>
+    <type>4</type>
+    <defaultInstructions>To edit the asset, select the task check box and click the "Edit/Translate" button to launch the Browser Workbench. Click the "Export" button to edit the asset offline. Make the necessary changes within the translation tool.</defaultInstructions>
+    <deleted>false</deleted>
+  </humanAction>
+  <humanAction id="QC Queue" exported="true">
+    <name>QC Queue</name>
+    <type>0</type>
+    <defaultInstructions>QC Queue</defaultInstructions>
+    <deleted>false</deleted>
+  </humanAction>
+  <humanAction id="Error" exported="true">
+    <name>Error</name>
+    <type>7</type>
+    <defaultInstructions>An error has occurred on a previous step. Click the task number link to view the task details.</defaultInstructions>
+    <deleted>false</deleted>
+  </humanAction>
+  <humanAction id="Supervisor Review" exported="true">
+    <name>Supervisor Review</name>
+    <type>0</type>
+    <defaultInstructions>Perform Supervisor Review</defaultInstructions>
+    <deleted>false</deleted>
+  </humanAction>
+  <humanAction id="Test" exported="true">
+    <name>Test</name>
+    <type>5</type>
+    <defaultInstructions>Test the asset. Select the task check box and click the "Edit/Translate" button to launch the Browser Workbench. From within the Browser Workbench, you can launch the Viewer to preview the target asset in context.</defaultInstructions>
+    <deleted>false</deleted>
+  </humanAction>
+  <humanAction id="Resolve Stop-Words" exported="true">
+    <name>Resolve Stop-Words</name>
+    <type>0</type>
+    <defaultInstructions>Translator to review the stop-words found in the translated content</defaultInstructions>
+    <deleted>false</deleted>
+  </humanAction>
+  <humanAction id="Translation Queue" exported="true">
+    <name>Translation Queue</name>
+    <type>0</type>
+    <defaultInstructions>Translation Queue</defaultInstructions>
+    <deleted>false</deleted>
+  </humanAction>
+  <humanAction id="Update Translation Queue" exported="true">
+    <name>Update Translation Queue</name>
+    <type>0</type>
+    <defaultInstructions>Update Translation Queue</defaultInstructions>
+    <deleted>false</deleted>
+  </humanAction>
+  <humanAction id="Resolve QC Escalation" exported="true">
+    <name>Resolve QC Escalation</name>
+    <type>0</type>
+    <defaultInstructions>Escalation to Supervisor for review, raised at QC step</defaultInstructions>
+    <deleted>false</deleted>
+  </humanAction>
+  <humanAction id="Align" exported="true">
+    <name>Align</name>
+    <type>6</type>
+    <defaultInstructions>Align the translated asset to its source. Select the task check box and click the "Edit/Translate" button to launch the Browser Workbench.</defaultInstructions>
+    <deleted>false</deleted>
+  </humanAction>
+  <humanAction id="Adapt" exported="true">
+    <name>Adapt</name>
+    <type>2</type>
+    <defaultInstructions>To adapt the asset, select the task check box and click the "Edit/Translate" button to launch the Freeform Editor. You can also launch the Freeform Editor from within the Translation Workbench to adapt the asset as needed.</defaultInstructions>
+    <deleted>false</deleted>
+  </humanAction>
+  <humanAction id="Transcribe" exported="true">
+    <name>Transcribe</name>
+    <type>0</type>
+    <defaultInstructions>Transcribe</defaultInstructions>
+    <deleted>false</deleted>
+  </humanAction>
+  <humanAction id="Perform QC" exported="true">
+    <name>Perform QC</name>
+    <type>3</type>
+    <defaultInstructions>To review the asset, click the asset link to launch the Viewer. Log associated issues.</defaultInstructions>
+    <deleted>false</deleted>
+  </humanAction>
+  <humanAction id="Resolve Translation Escalation" exported="true">
+    <name>Resolve Translation Escalation</name>
+    <type>0</type>
+    <defaultInstructions>Escalation to Supervisor for review, raised at Translate step</defaultInstructions>
+    <deleted>false</deleted>
+  </humanAction>
+  <humanAction id="Resolve Update Translation Escalation" exported="true">
+    <name>Resolve Update Translation Escalation</name>
+    <type>0</type>
+    <defaultInstructions>Escalation to Supervisor for review, raised at Update Translation step</defaultInstructions>
+    <deleted>false</deleted>
+  </humanAction>
+  <humanAction id="Auto Error" exported="true">
+    <name>Auto Error</name>
+    <type>8</type>
+    <defaultInstructions>An error has occurred during the execution of an automatic action. You can look at the Task history to determine which step failed and why it failed. If you can fix the problem, you can resume the workflow and re-execute the failed automatic action by clicking "Complete" and then choosing the "Redo step" option. Or, you can cancel the task by choosing the "Cancel task" option from the Task Complete window.</defaultInstructions>
+    <deleted>false</deleted>
+  </humanAction>
+  <humanAction id="Update Translation" exported="true">
+    <name>Update Translation</name>
+    <type>0</type>
+    <defaultInstructions>Update Translation</defaultInstructions>
+    <deleted>false</deleted>
+  </humanAction>
+</worldServerExport>

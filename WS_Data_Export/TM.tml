@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<worldServerExport version="10.4.4" xmlns="http://www.idiominc.com/tml/1.0">
+  <tm id="Default" exported="true">
+    <name>Default</name>
+    <description>Default TM database</description>
+    <shinglingOption>0</shinglingOption>
+    <maskType>0</maskType>
+    <accessType>0</accessType>
+    <configXMLData>
+      <tm_configuration>
+        <allow_bi_directional_leverage>false</allow_bi_directional_leverage>
+      </tm_configuration>
+
+    </configXMLData>
+    <acl>
+      <groupEntry>
+        <groupType></groupType>
+        <groupRef>everyone</groupRef>
+        <level>2</level>
+      </groupEntry>
+    </acl>
+  </tm>
+  <tm id="Compassion Global TM" exported="true">
+    <name>Compassion Global TM</name>
+    <description></description>
+    <shinglingOption>0</shinglingOption>
+    <maskType>0</maskType>
+    <accessType>0</accessType>
+    <configXMLData>
+      <tm_configuration>
+        <allow_bi_directional_leverage>true</allow_bi_directional_leverage>
+      </tm_configuration>
+
+    </configXMLData>
+    <acl>
+      <groupEntry>
+        <groupType></groupType>
+        <groupRef>everyone</groupRef>
+        <level>2</level>
+      </groupEntry>
+    </acl>
+  </tm>
+</worldServerExport>

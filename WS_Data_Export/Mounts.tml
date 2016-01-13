@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<worldServerExport version="10.4.4" xmlns="http://www.idiominc.com/tml/1.0">
+  <otherMount id="Remote Content" exported="true">
+    <name>Remote Content</name>
+    <connectorClass>com.idiominc.ws.ais.connectors.filesystem.sdk.FSConnector</connectorClass>
+    <classHash>0</classHash>
+    <configDate>1446074638077</configDate>
+    <config>rO0ABXNyAEZjb20uaWRpb21pbmMud3MuYWlzLmNvbm5lY3RvcnMuZmlsZXN5c3RlbS5zZGsuRlND&#xd;
+b25uZWN0b3JDb25maWd1cmF0aW9u3B9HzurvWxsCAAVaABJzdXBwb3J0c1ZlcnNpb25pbmdaABd1&#xd;
+c2VDaGVja3N1bUZpbmdlcnByaW50c1oADXVzZUVuY3J5cHRpb25MAA1lbmNyeXB0aW9uS2V5dAAS&#xd;
+TGphdmEvbGFuZy9TdHJpbmc7TAAEcGF0aHEAfgABeHIAP2NvbS5pZGlvbWluYy53c3Nkay5jb21w&#xd;
+b25lbnQuY29ubmVjdG9yLldTQ29ubmVjdG9yQ29uZmlndXJhdGlvboCfwfSuz4vbAgAAeHAAAABw&#xd;
+dAA1XFwxMC44MC43MC4xNDVcQzE1MTUxNF9IMjI0NzcxX25hczJcU0RMX1N0YWdlXENvbnRlbnQ=&#xd;
+</config>
+  </otherMount>
+  <otherMount id="Content" exported="true">
+    <name>Content</name>
+    <connectorClass>com.idiominc.ws.ais.connectors.filesystem.sdk.FSConnector</connectorClass>
+    <classHash>0</classHash>
+    <configDate>1446069213100</configDate>
+    <config>rO0ABXNyAEZjb20uaWRpb21pbmMud3MuYWlzLmNvbm5lY3RvcnMuZmlsZXN5c3RlbS5zZGsuRlND&#xd;
+b25uZWN0b3JDb25maWd1cmF0aW9u3B9HzurvWxsCAAVaABJzdXBwb3J0c1ZlcnNpb25pbmdaABd1&#xd;
+c2VDaGVja3N1bUZpbmdlcnByaW50c1oADXVzZUVuY3J5cHRpb25MAA1lbmNyeXB0aW9uS2V5dAAS&#xd;
+TGphdmEvbGFuZy9TdHJpbmc7TAAEcGF0aHEAfgABeHIAP2NvbS5pZGlvbWluYy53c3Nkay5jb21w&#xd;
+b25lbnQuY29ubmVjdG9yLldTQ29ubmVjdG9yQ29uZmlndXJhdGlvboCfwfSuz4vbAgAAeHAAAABw&#xd;
+dAA1XFwxMC44MC43MC4xNDVcQzE1MTUxNF9IMjI0NzcxX25hczJcU0RMX1N0YWdlXENvbnRlbnQ=&#xd;
+</config>
+  </otherMount>
+  <otherMount id="Customization" exported="true">
+    <name>Customization</name>
+    <connectorClass>com.idiominc.ws.ais.connectors.filesystem.sdk.FSConnector</connectorClass>
+    <classHash>0</classHash>
+    <configDate>1446069225340</configDate>
+    <config>rO0ABXNyAEZjb20uaWRpb21pbmMud3MuYWlzLmNvbm5lY3RvcnMuZmlsZXN5c3RlbS5zZGsuRlND&#xd;
+b25uZWN0b3JDb25maWd1cmF0aW9u3B9HzurvWxsCAAVaABJzdXBwb3J0c1ZlcnNpb25pbmdaABd1&#xd;
+c2VDaGVja3N1bUZpbmdlcnByaW50c1oADXVzZUVuY3J5cHRpb25MAA1lbmNyeXB0aW9uS2V5dAAS&#xd;
+TGphdmEvbGFuZy9TdHJpbmc7TAAEcGF0aHEAfgABeHIAP2NvbS5pZGlvbWluYy53c3Nkay5jb21w&#xd;
+b25lbnQuY29ubmVjdG9yLldTQ29ubmVjdG9yQ29uZmlndXJhdGlvboCfwfSuz4vbAgAAeHAAAABw&#xd;
+dAA7XFwxMC44MC43MC4xNDVcQzE1MTUxNF9IMjI0NzcxX25hczJcU0RMX1N0YWdlXEN1c3RvbWl6&#xd;
+YXRpb24=&#xd;
+</config>
+  </otherMount>
+</worldServerExport>

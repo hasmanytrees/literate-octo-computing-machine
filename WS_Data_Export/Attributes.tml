@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<worldServerExport version="10.4.4" xmlns="http://www.idiominc.com/tml/1.0">
+  <attribute id="reworkComment" type="3" exported="true">
+    <objectType>3</objectType>
+    <name>reworkComment</name>
+    <uiName>Rework Comment</uiName>
+    <type>14</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="userAssignmentRule" type="9" exported="true">
+    <objectType>9</objectType>
+    <name>userAssignmentRule</name>
+    <uiName>User Assignment Rule</uiName>
+    <type>14</type>
+    <flags>1</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue>&lt;assignment_rule&gt;&#xd;
+  &lt;rule type="Translate"&gt;&#xd;
+    &lt;complexity level="1"&gt;&#xd;
+       Trainee,Beginner,Intermediate,Advanced,Expert&#xd;
+    &lt;/complexity&gt;&#xd;
+    &lt;complexity level="2"&gt;&#xd;
+       Intermediate,Advanced,Expert&#xd;
+    &lt;/complexity&gt;&#xd;
+    &lt;complexity level="3"&gt;&#xd;
+       Advanced,Expert&#xd;
+    &lt;/complexity&gt;&#xd;
+  &lt;/rule&gt;&#xd;
+  &lt;rule type="QC"&gt;&#xd;
+    &lt;complexity level="1"&gt;&#xd;
+       Advanced,Expert&#xd;
+    &lt;/complexity&gt;&#xd;
+    &lt;complexity level="2"&gt;&#xd;
+       Advanced,Expert&#xd;
+    &lt;/complexity&gt;&#xd;
+    &lt;complexity level="3"&gt;&#xd;
+       Expert&#xd;
+    &lt;/complexity&gt;&#xd;
+  &lt;/rule&gt;&#xd;
+&lt;/assignment_rule&gt;</defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="electronicContent" type="2" exported="true">
+    <objectType>2</objectType>
+    <name>electronicContent</name>
+    <uiName>Is this Electronic Content?</uiName>
+    <type>6</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="workflowOverride" type="2" exported="true">
+    <objectType>2</objectType>
+    <name>workflowOverride</name>
+    <uiName>2nd Step Workflow Name Override</uiName>
+    <type>1</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="processingStatus" type="7" exported="true">
+    <objectType>7</objectType>
+    <name>processingStatus</name>
+    <uiName>processingStatus</uiName>
+    <type>1</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="TranslationLanguage" type="2" exported="true">
+    <objectType>2</objectType>
+    <name>TranslationLanguage</name>
+    <uiName>Translation Language</uiName>
+    <type>1</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="CompassionSBCId" type="2" exported="true">
+    <objectType>2</objectType>
+    <name>CompassionSBCId</name>
+    <uiName>Compassion SBC Id</uiName>
+    <type>1</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="questionFileAttachment" type="2" exported="true">
+    <objectType>2</objectType>
+    <name>questionFileAttachment</name>
+    <uiName>Questions File Attachment</uiName>
+    <type>8</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="OriginalLanguage" type="2" exported="true">
+    <objectType>2</objectType>
+    <name>OriginalLanguage</name>
+    <uiName>Original Language</uiName>
+    <type>1</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="GlobalPartnerId" type="2" exported="true">
+    <objectType>2</objectType>
+    <name>GlobalPartnerId</name>
+    <uiName>Global Partner ID</uiName>
+    <type>1</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="TranslationComplexity" type="2" exported="true">
+    <objectType>2</objectType>
+    <name>TranslationComplexity</name>
+    <uiName>Translation Complexity</uiName>
+    <type>4</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="rating" type="4" exported="true">
+    <objectType>4</objectType>
+    <name>rating</name>
+    <uiName>Translator Rating</uiName>
+    <type>14</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&#xd;
+&lt;translator_rating&gt;&#xd;
+    &lt;language_pair source="English"&gt;&#xd;
+        &lt;target rating="Expert"&gt;Spanish&lt;/target&gt;&#xd;
+        &lt;target rating="Expert"&gt;French&lt;/target&gt;&#xd;
+        &lt;target rating="Beginner"&gt;German&lt;/target&gt;&#xd;
+        &lt;target rating="Expert"&gt;Korean&lt;/target&gt;&#xd;
+        &lt;target rating="Expert"&gt;Dutch&lt;/target&gt;&#xd;
+    &lt;target rating="Expert"&gt;English-Direct&lt;/target&gt;&lt;/language_pair&gt;&#xd;
+    &lt;language_pair source="Spanish"&gt;&#xd;
+        &lt;target rating="Expert"&gt;English&lt;/target&gt;&#xd;
+        &lt;target rating="Expert"&gt;Spanish&lt;/target&gt;&#xd;
+    &lt;/language_pair&gt;&#xd;
+    &lt;language_pair source="Korean"&gt;&#xd;
+        &lt;target rating="Intermediate"&gt;English&lt;/target&gt;&#xd;
+    &lt;/language_pair&gt;&#xd;
+    &lt;language_pair source="French"&gt;&#xd;
+        &lt;target rating="Intermediate"&gt;English&lt;/target&gt;&#xd;
+    &lt;/language_pair&gt;&#xd;
+    &lt;language_pair source="Dutch"&gt;&#xd;
+        &lt;target rating="Intermediate"&gt;English&lt;/target&gt;&#xd;
+    &lt;/language_pair&gt;&#xd;
+&lt;/translator_rating&gt;</defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="qcNotRequiredOverride" type="2" exported="true">
+    <objectType>2</objectType>
+    <name>qcNotRequiredOverride</name>
+    <uiName>QC Not Required Override</uiName>
+    <type>1</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="stopwordAttr" type="3" exported="true">
+    <objectType>3</objectType>
+    <name>stopwordAttr</name>
+    <uiName>Stop Words</uiName>
+    <type>14</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="SDLProcessRequired" type="2" exported="true">
+    <objectType>2</objectType>
+    <name>SDLProcessRequired</name>
+    <uiName>SDL Process Required</uiName>
+    <type>1</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="BeneficiaryAge" type="2" exported="true">
+    <objectType>2</objectType>
+    <name>BeneficiaryAge</name>
+    <uiName>Beneficiary Age</uiName>
+    <type>1</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="qcResult" type="3" exported="true">
+    <objectType>3</objectType>
+    <name>qcResult</name>
+    <uiName>QC Audit Result</uiName>
+    <type>2</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+    <selValues>
+      <value>Fail</value>
+      <value>Pass</value>
+    </selValues>
+  </attribute>
+  <attribute id="reworkReason" type="3" exported="true">
+    <objectType>3</objectType>
+    <name>reworkReason</name>
+    <uiName>Rework Reason</uiName>
+    <type>2</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+    <selValues>
+      <value>References to political issues</value>
+      <value>Requests for money or special favors</value>
+      <value>Any personal identifications</value>
+      <value>Illegible handwriting</value>
+      <value>No date written</value>
+      <value>Supporter not addressed by name</value>
+      <value>No personal info on Beneficiary life</value>
+      <value>Does not contain new skill information</value>
+      <value>No thank you for gift</value>
+      <value>No photo for large gift</value>
+      <value>No question for Sponsor/Correspondent</value>
+      <value>No prayer request</value>
+      <value>No drawing from beneficiary (8 or below)</value>
+      <value>3rd party not identified (if not child)</value>
+      <value>Contains personal contact information</value>
+      <value>Inappropriate content</value>
+      <value>Inappropriate photo</value>
+      <value>Other</value>
+    </selValues>
+  </attribute>
+  <attribute id="GlobalPartner" type="2" exported="true">
+    <objectType>2</objectType>
+    <name>GlobalPartner</name>
+    <uiName>Global Partner OptIn for WorldServer?</uiName>
+    <type>6</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="secondStepProjectRequired" type="2" exported="true">
+    <objectType>2</objectType>
+    <name>secondStepProjectRequired</name>
+    <uiName>Second Step Project Required Override</uiName>
+    <type>1</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="ssoId" type="4" exported="true">
+    <objectType>4</objectType>
+    <name>ssoId</name>
+    <uiName>SSO-ID</uiName>
+    <type>1</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="workingTranscription" type="3" exported="true">
+    <objectType>3</objectType>
+    <name>workingTranscription</name>
+    <uiName>workingTranscription</uiName>
+    <type>8</type>
+    <flags>2</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="MostRecentTranslator" type="2" exported="true">
+    <objectType>2</objectType>
+    <name>MostRecentTranslator</name>
+    <uiName>Most Recent Translator</uiName>
+    <type>1</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="isSSO" type="4" exported="true">
+    <objectType>4</objectType>
+    <name>isSSO</name>
+    <uiName>SSO?</uiName>
+    <type>6</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="projectPriority" type="2" exported="true">
+    <objectType>2</objectType>
+    <name>projectPriority</name>
+    <uiName>Project Priority</uiName>
+    <type>2</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+    <selValues>
+      <value>Normal</value>
+      <value>Rework</value>
+      <value>Urgent</value>
+    </selValues>
+  </attribute>
+  <attribute id="questionAttr" type="3" exported="true">
+    <objectType>3</objectType>
+    <name>questionAttr</name>
+    <uiName>Questions</uiName>
+    <type>1</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="trCount" type="4" exported="true">
+    <objectType>4</objectType>
+    <name>trCount</name>
+    <uiName>Translation Count</uiName>
+    <type>4</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="trIterationCount" type="3" exported="true">
+    <objectType>3</objectType>
+    <name>trIterationCount</name>
+    <uiName>Translation Iteration Count</uiName>
+    <type>4</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="BeneficiaryName" type="2" exported="true">
+    <objectType>2</objectType>
+    <name>BeneficiaryName</name>
+    <uiName>Beneficiary Name</uiName>
+    <type>1</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="qcQualified" type="4" exported="true">
+    <objectType>4</objectType>
+    <name>qcQualified</name>
+    <uiName>QC Qualified?</uiName>
+    <type>6</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue>true</defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="MandatoryReview" type="2" exported="true">
+    <objectType>2</objectType>
+    <name>MandatoryReview</name>
+    <uiName>Supporter Flagged for Mandatory Review?</uiName>
+    <type>6</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="reworkReasonS2B" type="3" exported="true">
+    <objectType>3</objectType>
+    <name>reworkReasonS2B</name>
+    <uiName>Rework Reason</uiName>
+    <type>2</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+    <selValues>
+      <value>Contains personal contact information</value>
+      <value>Inappropriate content</value>
+      <value>Inappropriate photo</value>
+      <value>Other</value>
+    </selValues>
+  </attribute>
+  <attribute id="BeneficiaryGender" type="2" exported="true">
+    <objectType>2</objectType>
+    <name>BeneficiaryGender</name>
+    <uiName>Beneficiary Gender</uiName>
+    <type>1</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="TwoStepProcess" type="2" exported="true">
+    <objectType>2</objectType>
+    <name>TwoStepProcess</name>
+    <uiName>Two Step Process Status</uiName>
+    <type>1</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="sso_hash" type="4" exported="true">
+    <objectType>4</objectType>
+    <name>sso_hash</name>
+    <uiName>sso_hash</uiName>
+    <type>1</type>
+    <flags>3</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="FOName" type="2" exported="true">
+    <objectType>2</objectType>
+    <name>FOName</name>
+    <uiName>Field Office Name</uiName>
+    <type>1</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+  </attribute>
+  <attribute id="Direction" type="2" exported="true">
+    <objectType>2</objectType>
+    <name>Direction</name>
+    <uiName>Translation Direction</uiName>
+    <type>1</type>
+    <flags>0</flags>
+    <displayOrder>1</displayOrder>
+    <defaultValue></defaultValue>
+    <description></description>
+  </attribute>
+</worldServerExport>

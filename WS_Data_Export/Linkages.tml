@@ -1,0 +1,659 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<worldServerExport version="10.4.4" xmlns="http://www.idiominc.com/tml/1.0">
+  <link id="/Remote Content/English|/Remote Content/SecondStep/Creole" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Creole</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/Spanish-Direct|/Remote Content/SecondStep/Spanish" exported="true">
+    <sourcePath>/Remote Content/Spanish-Direct</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Spanish</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English|/Remote Content/Spanish" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/Spanish</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English|/Remote Content/SecondStep/Korean" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Korean</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Spanish|/Remote Content/Korean" exported="true">
+    <sourcePath>/Remote Content/Spanish</sourcePath>
+    <targetPath>/Remote Content/Korean</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Finnish|/Remote Content/English" exported="true">
+    <sourcePath>/Remote Content/Finnish</sourcePath>
+    <targetPath>/Remote Content/English</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Creole|/Remote Content/English" exported="true">
+    <sourcePath>/Remote Content/Creole</sourcePath>
+    <targetPath>/Remote Content/English</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English-Direct|/Remote Content/Korean" exported="true">
+    <sourcePath>/Remote Content/English-Direct</sourcePath>
+    <targetPath>/Remote Content/Korean</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/Bengali-Direct|/Remote Content/SecondStep/Bengali" exported="true">
+    <sourcePath>/Remote Content/Bengali-Direct</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Bengali</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Spanish|/Remote Content/English-Direct" exported="true">
+    <sourcePath>/Remote Content/Spanish</sourcePath>
+    <targetPath>/Remote Content/English-Direct</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English|/Remote Content/SecondStep/Danish" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Danish</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/Norwegian-Direct|/Remote Content/SecondStep/Norwegian" exported="true">
+    <sourcePath>/Remote Content/Norwegian-Direct</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Norwegian</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English-Direct|/Remote Content/Dutch" exported="true">
+    <sourcePath>/Remote Content/English-Direct</sourcePath>
+    <targetPath>/Remote Content/Dutch</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/English/GP_KR|/Remote Content/SecondStep/Korean/GP_KR" exported="true">
+    <sourcePath>/Remote Content/English/GP_KR</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Korean/GP_KR</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/French|/Remote Content/Spanish" exported="true">
+    <sourcePath>/Remote Content/French</sourcePath>
+    <targetPath>/Remote Content/Spanish</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English|/Remote Content/SecondStep/Italian" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Italian</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English|/Remote Content/SecondStep/French" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/SecondStep/French</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/English/GP_KR|/Remote Content/SecondStep/Spanish/GP_KR" exported="true">
+    <sourcePath>/Remote Content/English/GP_KR</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Spanish/GP_KR</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English|/Remote Content/SecondStep/Spanish" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Spanish</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/English/FO_Ethiopia|/Remote Content/SecondStep/English-Direct/FO_Ethiopia" exported="true">
+    <sourcePath>/Remote Content/English/FO_Ethiopia</sourcePath>
+    <targetPath>/Remote Content/SecondStep/English-Direct/FO_Ethiopia</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Amharic|/Remote Content/English" exported="true">
+    <sourcePath>/Remote Content/Amharic</sourcePath>
+    <targetPath>/Remote Content/English</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Bengali|/Remote Content/English" exported="true">
+    <sourcePath>/Remote Content/Bengali</sourcePath>
+    <targetPath>/Remote Content/English</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/French-Direct|/Remote Content/SecondStep/French" exported="true">
+    <sourcePath>/Remote Content/French-Direct</sourcePath>
+    <targetPath>/Remote Content/SecondStep/French</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Kinyarwanda|/Remote Content/English" exported="true">
+    <sourcePath>/Remote Content/Kinyarwanda</sourcePath>
+    <targetPath>/Remote Content/English</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English-Direct|/Remote Content/Telugu" exported="true">
+    <sourcePath>/Remote Content/English-Direct</sourcePath>
+    <targetPath>/Remote Content/Telugu</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English-Direct|/Remote Content/German" exported="true">
+    <sourcePath>/Remote Content/English-Direct</sourcePath>
+    <targetPath>/Remote Content/German</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/English|/Remote Content/SecondStep/Portuguese" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Portuguese</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English-Direct|/Remote Content/Hindi" exported="true">
+    <sourcePath>/Remote Content/English-Direct</sourcePath>
+    <targetPath>/Remote Content/Hindi</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English|/Remote Content/SecondStep/Dutch" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Dutch</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Tamil|/Remote Content/English" exported="true">
+    <sourcePath>/Remote Content/Tamil</sourcePath>
+    <targetPath>/Remote Content/English</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Norwegian|/Remote Content/English" exported="true">
+    <sourcePath>/Remote Content/Norwegian</sourcePath>
+    <targetPath>/Remote Content/English</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English|/Remote Content/SecondStep/Telugu" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Telugu</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/Korean-Direct|/Remote Content/SecondStep/Korean" exported="true">
+    <sourcePath>/Remote Content/Korean-Direct</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Korean</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English-Direct|/Remote Content/Bengali" exported="true">
+    <sourcePath>/Remote Content/English-Direct</sourcePath>
+    <targetPath>/Remote Content/Bengali</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Dutch|/Remote Content/English" exported="true">
+    <sourcePath>/Remote Content/Dutch</sourcePath>
+    <targetPath>/Remote Content/English</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Hindi|/Remote Content/English" exported="true">
+    <sourcePath>/Remote Content/Hindi</sourcePath>
+    <targetPath>/Remote Content/English</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/French|/Remote Content/English" exported="true">
+    <sourcePath>/Remote Content/French</sourcePath>
+    <targetPath>/Remote Content/English</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/Malayalam-Direct|/Remote Content/SecondStep/Malayalam" exported="true">
+    <sourcePath>/Remote Content/Malayalam-Direct</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Malayalam</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English-Direct|/Remote Content/Sinhala" exported="true">
+    <sourcePath>/Remote Content/English-Direct</sourcePath>
+    <targetPath>/Remote Content/Sinhala</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Swahili|/Remote Content/English" exported="true">
+    <sourcePath>/Remote Content/Swahili</sourcePath>
+    <targetPath>/Remote Content/English</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/English/GP_US|/Remote Content/SecondStep/Spanish/GP_US" exported="true">
+    <sourcePath>/Remote Content/English/GP_US</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Spanish/GP_US</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English|/Remote Content/Amharic" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/Amharic</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Thai-Direct|/Remote Content/SecondStep/Thai" exported="true">
+    <sourcePath>/Remote Content/Thai-Direct</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Thai</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English|/Remote Content/SecondStep/Finnish" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Finnish</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Thai|/Remote Content/English" exported="true">
+    <sourcePath>/Remote Content/Thai</sourcePath>
+    <targetPath>/Remote Content/English</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/English/FO_Bolivia|/Remote Content/SecondStep/Korean/FO_Bolivia" exported="true">
+    <sourcePath>/Remote Content/English/FO_Bolivia</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Korean/FO_Bolivia</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/English|/Remote Content/SecondStep/Malayalam" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Malayalam</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/English|/Remote Content/SecondStep/Indonesian" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Indonesian</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Kannada|/Remote Content/English" exported="true">
+    <sourcePath>/Remote Content/Kannada</sourcePath>
+    <targetPath>/Remote Content/English</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/English/FO_Ecuador|/Remote Content/SecondStep/Korean/FO_Ecuador" exported="true">
+    <sourcePath>/Remote Content/English/FO_Ecuador</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Korean/FO_Ecuador</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/Danish-Direct|/Remote Content/SecondStep/Danish" exported="true">
+    <sourcePath>/Remote Content/Danish-Direct</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Danish</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Korean|/Remote Content/Thai" exported="true">
+    <sourcePath>/Remote Content/Korean</sourcePath>
+    <targetPath>/Remote Content/Thai</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Icelandic|/Remote Content/English" exported="true">
+    <sourcePath>/Remote Content/Icelandic</sourcePath>
+    <targetPath>/Remote Content/English</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English|/Remote Content/SecondStep/Amharic" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Amharic</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English|/Remote Content/SecondStep/Kannada" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Kannada</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/English/GP_NL|/Remote Content/SecondStep/Korean/GP_NL" exported="true">
+    <sourcePath>/Remote Content/English/GP_NL</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Korean/GP_NL</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/English/FO_El Salvador|/Remote Content/SecondStep/Spanish/FO_El Salvador" exported="true">
+    <sourcePath>/Remote Content/English/FO_El Salvador</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Spanish/FO_El Salvador</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Oromo-Direct|/Remote Content/Oromo" exported="true">
+    <sourcePath>/Remote Content/Oromo-Direct</sourcePath>
+    <targetPath>/Remote Content/Oromo</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/Amharic-Direct|/Remote Content/SecondStep/Amharic" exported="true">
+    <sourcePath>/Remote Content/Amharic-Direct</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Amharic</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Sinhala|/Remote Content/English" exported="true">
+    <sourcePath>/Remote Content/Sinhala</sourcePath>
+    <targetPath>/Remote Content/English</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/English/FO_Ethiopia|/Remote Content/SecondStep/Spanish/FO_Ethiopia" exported="true">
+    <sourcePath>/Remote Content/English/FO_Ethiopia</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Spanish/FO_Ethiopia</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/English|/Remote Content/SecondStep/Kinyarwanda" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Kinyarwanda</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Oromo|/Remote Content/English" exported="true">
+    <sourcePath>/Remote Content/Oromo</sourcePath>
+    <targetPath>/Remote Content/English</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/Dutch-Direct|/Remote Content/SecondStep/Dutch" exported="true">
+    <sourcePath>/Remote Content/Dutch-Direct</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Dutch</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Swahili-Direct|/Remote Content/Swahili" exported="true">
+    <sourcePath>/Remote Content/Swahili-Direct</sourcePath>
+    <targetPath>/Remote Content/Swahili</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/Tamil-Direct|/Remote Content/SecondStep/Tamil" exported="true">
+    <sourcePath>/Remote Content/Tamil-Direct</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Tamil</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/Spanish-Direct/FO_Kenya|/Remote Content/SecondStep/Spanish/FO_Kenya" exported="true">
+    <sourcePath>/Remote Content/Spanish-Direct/FO_Kenya</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Spanish/FO_Kenya</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English-Direct|/Remote Content/French" exported="true">
+    <sourcePath>/Remote Content/English-Direct</sourcePath>
+    <targetPath>/Remote Content/French</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English|/Remote Content/SecondStep/Thai" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Thai</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English-Direct|/Remote Content/Portuguese" exported="true">
+    <sourcePath>/Remote Content/English-Direct</sourcePath>
+    <targetPath>/Remote Content/Portuguese</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Spanish|/Remote Content/English" exported="true">
+    <sourcePath>/Remote Content/Spanish</sourcePath>
+    <targetPath>/Remote Content/English</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English|/Remote Content/Thai" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/Thai</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Telugu|/Remote Content/English" exported="true">
+    <sourcePath>/Remote Content/Telugu</sourcePath>
+    <targetPath>/Remote Content/English</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/English|/Remote Content/SecondStep/English-Direct" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/SecondStep/English-Direct</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Portuguese|/Remote Content/English" exported="true">
+    <sourcePath>/Remote Content/Portuguese</sourcePath>
+    <targetPath>/Remote Content/English</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English-Direct|/Remote Content/Indonesian" exported="true">
+    <sourcePath>/Remote Content/English-Direct</sourcePath>
+    <targetPath>/Remote Content/Indonesian</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/English/FO_El Salvador|/Remote Content/SecondStep/Korean/FO_El Salvador" exported="true">
+    <sourcePath>/Remote Content/English/FO_El Salvador</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Korean/FO_El Salvador</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/English/FO_Ecuador|/Remote Content/SecondStep/English-Direct/FO_Ecuador" exported="true">
+    <sourcePath>/Remote Content/English/FO_Ecuador</sourcePath>
+    <targetPath>/Remote Content/SecondStep/English-Direct/FO_Ecuador</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/Telugu-Direct|/Remote Content/SecondStep/Telugu" exported="true">
+    <sourcePath>/Remote Content/Telugu-Direct</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Telugu</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English-Direct|/Remote Content/Spanish" exported="true">
+    <sourcePath>/Remote Content/English-Direct</sourcePath>
+    <targetPath>/Remote Content/Spanish</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Indonesian|/Remote Content/English" exported="true">
+    <sourcePath>/Remote Content/Indonesian</sourcePath>
+    <targetPath>/Remote Content/English</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/English/FO_Kenya|/Remote Content/SecondStep/Korean/FO_Kenya" exported="true">
+    <sourcePath>/Remote Content/English/FO_Kenya</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Korean/FO_Kenya</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English|/Remote Content/SecondStep/German" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/SecondStep/German</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/English/GP_NL|/Remote Content/SecondStep/Spanish/GP_NL" exported="true">
+    <sourcePath>/Remote Content/English/GP_NL</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Spanish/GP_NL</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/English/GP_NL|/Remote Content/SecondStep/English-Direct/GP_NL" exported="true">
+    <sourcePath>/Remote Content/English/GP_NL</sourcePath>
+    <targetPath>/Remote Content/SecondStep/English-Direct/GP_NL</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/Italian-Direct|/Remote Content/SecondStep/Italian" exported="true">
+    <sourcePath>/Remote Content/Italian-Direct</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Italian</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/English/GP_KR|/Remote Content/SecondStep/English-Direct/GP_KR" exported="true">
+    <sourcePath>/Remote Content/English/GP_KR</sourcePath>
+    <targetPath>/Remote Content/SecondStep/English-Direct/GP_KR</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/German-Direct|/Remote Content/SecondStep/German" exported="true">
+    <sourcePath>/Remote Content/German-Direct</sourcePath>
+    <targetPath>/Remote Content/SecondStep/German</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English-Direct|/Remote Content/Tamil" exported="true">
+    <sourcePath>/Remote Content/English-Direct</sourcePath>
+    <targetPath>/Remote Content/Tamil</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English|/Remote Content/SecondStep/Hindi" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Hindi</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Malayalam|/Remote Content/English" exported="true">
+    <sourcePath>/Remote Content/Malayalam</sourcePath>
+    <targetPath>/Remote Content/English</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Danish|/Remote Content/English" exported="true">
+    <sourcePath>/Remote Content/Danish</sourcePath>
+    <targetPath>/Remote Content/English</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Swedish|/Remote Content/English" exported="true">
+    <sourcePath>/Remote Content/Swedish</sourcePath>
+    <targetPath>/Remote Content/English</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English-Direct|/Remote Content/Creole" exported="true">
+    <sourcePath>/Remote Content/English-Direct</sourcePath>
+    <targetPath>/Remote Content/Creole</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/Portuguese-Direct|/Remote Content/SecondStep/Portuguese" exported="true">
+    <sourcePath>/Remote Content/Portuguese-Direct</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Portuguese</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English-Direct|/Remote Content/Thai" exported="true">
+    <sourcePath>/Remote Content/English-Direct</sourcePath>
+    <targetPath>/Remote Content/Thai</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Korean|/Remote Content/Spanish" exported="true">
+    <sourcePath>/Remote Content/Korean</sourcePath>
+    <targetPath>/Remote Content/Spanish</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Italian|/Remote Content/English" exported="true">
+    <sourcePath>/Remote Content/Italian</sourcePath>
+    <targetPath>/Remote Content/English</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/Swedish-Direct|/Remote Content/SecondStep/Swedish" exported="true">
+    <sourcePath>/Remote Content/Swedish-Direct</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Swedish</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English|/Remote Content/SecondStep/Sinhala" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Sinhala</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/Finnish-Direct|/Remote Content/SecondStep/Finnish" exported="true">
+    <sourcePath>/Remote Content/Finnish-Direct</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Finnish</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/Kinyarwanda-Direct|/Remote Content/SecondStep/Kinyarwanda" exported="true">
+    <sourcePath>/Remote Content/Kinyarwanda-Direct</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Kinyarwanda</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English|/Remote Content/SecondStep/Swahili" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Swahili</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English-Direct|/Remote Content/Malayalam" exported="true">
+    <sourcePath>/Remote Content/English-Direct</sourcePath>
+    <targetPath>/Remote Content/Malayalam</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/Indonesian-Direct|/Remote Content/SecondStep/Indonesian" exported="true">
+    <sourcePath>/Remote Content/Indonesian-Direct</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Indonesian</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/Icelandic-Direct|/Remote Content/SecondStep/Icelandic" exported="true">
+    <sourcePath>/Remote Content/Icelandic-Direct</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Icelandic</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/Korean|/Remote Content/English" exported="true">
+    <sourcePath>/Remote Content/Korean</sourcePath>
+    <targetPath>/Remote Content/English</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/English|/Remote Content/SecondStep/Icelandic" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Icelandic</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English-Direct|/Remote Content/English" exported="true">
+    <sourcePath>/Remote Content/English-Direct</sourcePath>
+    <targetPath>/Remote Content/English</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/Kannada-Direct|/Remote Content/SecondStep/Kannada" exported="true">
+    <sourcePath>/Remote Content/Kannada-Direct</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Kannada</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English|/Remote Content/French" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/French</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/English|/Remote Content/SecondStep/Norwegian" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Norwegian</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English|/Remote Content/SecondStep/Tamil" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Tamil</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/Sinhala-Direct|/Remote Content/SecondStep/Sinhala" exported="true">
+    <sourcePath>/Remote Content/Sinhala-Direct</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Sinhala</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/German|/Remote Content/English" exported="true">
+    <sourcePath>/Remote Content/German</sourcePath>
+    <targetPath>/Remote Content/English</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English|/Remote Content/SecondStep/Swedish" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Swedish</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English-Direct|/Remote Content/Kannada" exported="true">
+    <sourcePath>/Remote Content/English-Direct</sourcePath>
+    <targetPath>/Remote Content/Kannada</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/Hindi-Direct|/Remote Content/SecondStep/Hindi" exported="true">
+    <sourcePath>/Remote Content/Hindi-Direct</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Hindi</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English|/Remote Content/SecondStep/Oromo" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Oromo</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English|/Remote Content/SecondStep/Bengali" exported="true">
+    <sourcePath>/Remote Content/English</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Bengali</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link
+    id="/Remote Content/Creole-Direct|/Remote Content/SecondStep/Creole" exported="true">
+    <sourcePath>/Remote Content/Creole-Direct</sourcePath>
+    <targetPath>/Remote Content/SecondStep/Creole</targetPath>
+    <enabled>true</enabled>
+  </link>
+  <link id="/Remote Content/English-Direct|/Remote Content/Amharic" exported="true">
+    <sourcePath>/Remote Content/English-Direct</sourcePath>
+    <targetPath>/Remote Content/Amharic</targetPath>
+    <enabled>true</enabled>
+  </link>
+</worldServerExport>

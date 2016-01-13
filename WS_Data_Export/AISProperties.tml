@@ -1,0 +1,594 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<worldServerExport version="10.4.4" xmlns="http://www.idiominc.com/tml/1.0">
+  <metadataNode id="/Remote Content/Norwegian-Direct" exported="true">
+    <fullPath>/Remote Content/Norwegian-Direct</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Norwegian-Direct</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Kinyarwanda" exported="true">
+    <fullPath>/Remote Content/Kinyarwanda</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Kinyarwanda</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Danish" exported="true">
+    <fullPath>/Remote Content/Danish</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Danish</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/SecondStep/Italian" exported="true">
+    <fullPath>/Remote Content/SecondStep/Italian</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Italian</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Tamil-Direct" exported="true">
+    <fullPath>/Remote Content/Tamil-Direct</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Tamil-Direct</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/SecondStep/Thai" exported="true">
+    <fullPath>/Remote Content/SecondStep/Thai</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Thai</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content" exported="true">
+    <fullPath>/Remote Content</fullPath>
+    <property>
+      <name>tm_db</name>
+      <value refType="tm">Compassion Global TM</value>
+    </property>
+    <property>
+      <name>term_db</name>
+      <value refType="td">Stop Word TD</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Dutch-Direct" exported="true">
+    <fullPath>/Remote Content/Dutch-Direct</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Dutch-Direct</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/SecondStep/Amharic" exported="true">
+    <fullPath>/Remote Content/SecondStep/Amharic</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Amharic</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Tamil" exported="true">
+    <fullPath>/Remote Content/Tamil</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Tamil</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Sinhala-Direct" exported="true">
+    <fullPath>/Remote Content/Sinhala-Direct</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Sinhala-Direct</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Swedish-Direct" exported="true">
+    <fullPath>/Remote Content/Swedish-Direct</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Swedish-Direct</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Italian-Direct" exported="true">
+    <fullPath>/Remote Content/Italian-Direct</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Italian-Direct</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Kinyarwanda-Direct" exported="true">
+    <fullPath>/Remote Content/Kinyarwanda-Direct</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Kinyarwanda-Direct</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Oromo" exported="true">
+    <fullPath>/Remote Content/Oromo</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Oromo</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Finnish" exported="true">
+    <fullPath>/Remote Content/Finnish</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Finnish</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/SecondStep/Bengali" exported="true">
+    <fullPath>/Remote Content/SecondStep/Bengali</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Bengali</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/SecondStep/Kinyarwanda" exported="true">
+    <fullPath>/Remote Content/SecondStep/Kinyarwanda</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Kinyarwanda</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Thai-Direct" exported="true">
+    <fullPath>/Remote Content/Thai-Direct</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Thai-Direct</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/SecondStep/English-Direct" exported="true">
+    <fullPath>/Remote Content/SecondStep/English-Direct</fullPath>
+    <property>
+      <name>locale</name>
+      <value>English-Direct</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Italian" exported="true">
+    <fullPath>/Remote Content/Italian</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Italian</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Bengali" exported="true">
+    <fullPath>/Remote Content/Bengali</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Bengali</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/SecondStep/Norwegian" exported="true">
+    <fullPath>/Remote Content/SecondStep/Norwegian</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Norwegian</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Clients" exported="true">
+    <fullPath>/Remote Content/Clients</fullPath>
+  </metadataNode>
+  <metadataNode id="/Remote Content/SecondStep/Swahili" exported="true">
+    <fullPath>/Remote Content/SecondStep/Swahili</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Swahili</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Malayalam" exported="true">
+    <fullPath>/Remote Content/Malayalam</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Malayalam</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Icelandic-Direct" exported="true">
+    <fullPath>/Remote Content/Icelandic-Direct</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Icelandic-Direct</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Swedish" exported="true">
+    <fullPath>/Remote Content/Swedish</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Swedish</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/German-Direct" exported="true">
+    <fullPath>/Remote Content/German-Direct</fullPath>
+    <property>
+      <name>locale</name>
+      <value>German-Direct</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/SecondStep/Oromo" exported="true">
+    <fullPath>/Remote Content/SecondStep/Oromo</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Oromo</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Malayalam-Direct" exported="true">
+    <fullPath>/Remote Content/Malayalam-Direct</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Malayalam-Direct</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/SecondStep/Telugu" exported="true">
+    <fullPath>/Remote Content/SecondStep/Telugu</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Telugu</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Portuguese" exported="true">
+    <fullPath>/Remote Content/Portuguese</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Portuguese</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/SecondStep/English" exported="true">
+    <fullPath>/Remote Content/SecondStep/English</fullPath>
+    <property>
+      <name>locale</name>
+      <value>English</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/SecondStep/Kannada" exported="true">
+    <fullPath>/Remote Content/SecondStep/Kannada</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Kannada</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Korean" exported="true">
+    <fullPath>/Remote Content/Korean</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Korean</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Telugu-Direct" exported="true">
+    <fullPath>/Remote Content/Telugu-Direct</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Telugu-Direct</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Finnish-Direct" exported="true">
+    <fullPath>/Remote Content/Finnish-Direct</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Finnish-Direct</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Kannada" exported="true">
+    <fullPath>/Remote Content/Kannada</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Kannada</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/English" exported="true">
+    <fullPath>/Remote Content/English</fullPath>
+    <property>
+      <name>locale</name>
+      <value>English</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Sinhala" exported="true">
+    <fullPath>/Remote Content/Sinhala</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Sinhala</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/SecondStep/Danish" exported="true">
+    <fullPath>/Remote Content/SecondStep/Danish</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Danish</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/SecondStep/Icelandic" exported="true">
+    <fullPath>/Remote Content/SecondStep/Icelandic</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Icelandic</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Bengali-Direct" exported="true">
+    <fullPath>/Remote Content/Bengali-Direct</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Bengali-Direct</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Amharic" exported="true">
+    <fullPath>/Remote Content/Amharic</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Amharic</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/English-Direct" exported="true">
+    <fullPath>/Remote Content/English-Direct</fullPath>
+    <property>
+      <name>locale</name>
+      <value>English-Direct</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/SecondStep/French" exported="true">
+    <fullPath>/Remote Content/SecondStep/French</fullPath>
+    <property>
+      <name>locale</name>
+      <value>French</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Telugu" exported="true">
+    <fullPath>/Remote Content/Telugu</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Telugu</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Spanish-Direct" exported="true">
+    <fullPath>/Remote Content/Spanish-Direct</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Spanish-Direct</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Indonesian-Direct" exported="true">
+    <fullPath>/Remote Content/Indonesian-Direct</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Indonesian-Direct</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Oromo-Direct" exported="true">
+    <fullPath>/Remote Content/Oromo-Direct</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Oromo-Direct</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/SecondStep/Portuguese" exported="true">
+    <fullPath>/Remote Content/SecondStep/Portuguese</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Portuguese</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/SecondStep/Dutch" exported="true">
+    <fullPath>/Remote Content/SecondStep/Dutch</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Dutch</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/French" exported="true">
+    <fullPath>/Remote Content/French</fullPath>
+    <property>
+      <name>locale</name>
+      <value>French</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Dutch" exported="true">
+    <fullPath>/Remote Content/Dutch</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Dutch</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/SecondStep/Finnish" exported="true">
+    <fullPath>/Remote Content/SecondStep/Finnish</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Finnish</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/SecondStep/Swedish" exported="true">
+    <fullPath>/Remote Content/SecondStep/Swedish</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Swedish</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Kannada-Direct" exported="true">
+    <fullPath>/Remote Content/Kannada-Direct</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Kannada-Direct</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Creole" exported="true">
+    <fullPath>/Remote Content/Creole</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Creole</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Thai" exported="true">
+    <fullPath>/Remote Content/Thai</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Thai</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/German" exported="true">
+    <fullPath>/Remote Content/German</fullPath>
+    <property>
+      <name>locale</name>
+      <value>German</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Hindi" exported="true">
+    <fullPath>/Remote Content/Hindi</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Hindi</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/French-Direct" exported="true">
+    <fullPath>/Remote Content/French-Direct</fullPath>
+    <property>
+      <name>locale</name>
+      <value>French-Direct</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/SecondStep/Creole" exported="true">
+    <fullPath>/Remote Content/SecondStep/Creole</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Creole</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Hindi-Direct" exported="true">
+    <fullPath>/Remote Content/Hindi-Direct</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Hindi-Direct</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Creole-Direct" exported="true">
+    <fullPath>/Remote Content/Creole-Direct</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Creole-Direct</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Amharic-Direct" exported="true">
+    <fullPath>/Remote Content/Amharic-Direct</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Amharic-Direct</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/SecondStep/Sinhala" exported="true">
+    <fullPath>/Remote Content/SecondStep/Sinhala</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Sinhala</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Korean-Direct" exported="true">
+    <fullPath>/Remote Content/Korean-Direct</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Korean-Direct</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Norwegian" exported="true">
+    <fullPath>/Remote Content/Norwegian</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Norwegian</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/SecondStep/Korean" exported="true">
+    <fullPath>/Remote Content/SecondStep/Korean</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Korean</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Icelandic" exported="true">
+    <fullPath>/Remote Content/Icelandic</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Icelandic</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Danish-Direct" exported="true">
+    <fullPath>/Remote Content/Danish-Direct</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Danish-Direct</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/SecondStep/Spanish" exported="true">
+    <fullPath>/Remote Content/SecondStep/Spanish</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Spanish</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Portuguese-Direct" exported="true">
+    <fullPath>/Remote Content/Portuguese-Direct</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Portuguese-Direct</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Swahili-Direct" exported="true">
+    <fullPath>/Remote Content/Swahili-Direct</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Swahili-Direct</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/SecondStep/Tamil" exported="true">
+    <fullPath>/Remote Content/SecondStep/Tamil</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Tamil</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/SecondStep/Hindi" exported="true">
+    <fullPath>/Remote Content/SecondStep/Hindi</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Hindi</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/SecondStep/Malayalam" exported="true">
+    <fullPath>/Remote Content/SecondStep/Malayalam</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Malayalam</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Indonesian" exported="true">
+    <fullPath>/Remote Content/Indonesian</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Indonesian</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Swahili" exported="true">
+    <fullPath>/Remote Content/Swahili</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Swahili</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/Spanish" exported="true">
+    <fullPath>/Remote Content/Spanish</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Spanish</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/SecondStep/Indonesian" exported="true">
+    <fullPath>/Remote Content/SecondStep/Indonesian</fullPath>
+    <property>
+      <name>locale</name>
+      <value>Indonesian</value>
+    </property>
+  </metadataNode>
+  <metadataNode id="/Remote Content/SecondStep" exported="true">
+    <fullPath>/Remote Content/SecondStep</fullPath>
+  </metadataNode>
+  <metadataNode id="/Remote Content/SecondStep/German" exported="true">
+    <fullPath>/Remote Content/SecondStep/German</fullPath>
+    <property>
+      <name>locale</name>
+      <value>German</value>
+    </property>
+  </metadataNode>
+</worldServerExport>
