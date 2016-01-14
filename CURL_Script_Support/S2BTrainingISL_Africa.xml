@@ -1,0 +1,72 @@
+﻿<SBCCommunicationDetails>
+  <Beneficiary>
+    <ObjectUrl>https://api2.compassion.com/stage/ci/v2/program/beneficiaries/06448919</ObjectUrl>
+    <GlobalId>05217040</GlobalId>
+    <CompassId>2692112</CompassId>
+    <LocalId>GU8980461</LocalId>
+    <Name>Ady Malena Chete Hernandez</Name>
+    <Gender>Female</Gender>
+    <Age>7</Age>
+  </Beneficiary>
+  <Supporter>
+    <ObjectUrl>https://api2.compassion.com/stage/ci/v2/supporters/01242636</ObjectUrl>
+    <GlobalId>01242636</GlobalId>
+    <CompassConstituentId>7-2114255</CompassConstituentId>
+    <MandatoryReviewRequired>false</MandatoryReviewRequired>
+  </Supporter>
+  <ImplementingChurchPartner>
+    <ObjectUrl>https://api2.compassion.com/stage/ci/v2/program/churchpartners/ET202</ObjectUrl>
+    <Id>ET202</Id>
+  </ImplementingChurchPartner>
+  <GlobalPartner>
+    <Id>KR</Id>
+    <OptInForLanguageTranslation>true</OptInForLanguageTranslation>
+  </GlobalPartner>
+  <FieldOffice>
+    <Name>Tanzania</Name>
+  </FieldOffice>
+  <CompassionSBCId>C0028738534</CompassionSBCId>
+  <GlobalPartnerSBCId>SBC-016251453</GlobalPartnerSBCId>
+  <SourceSystem>SDL</SourceSystem>
+  <Direction>Supporter To Beneficiary</Direction>
+  <PrintType>Header Only</PrintType>
+  <SBCGlobalStatus>Translation started</SBCGlobalStatus>
+  <SBCTypes>Scheduled Letter</SBCTypes>
+  <SBCTypes>Reciprocal Letter</SBCTypes>
+  <OriginalLanguage>Korean</OriginalLanguage>
+  <TranslationLanguage>Swahili</TranslationLanguage>
+  <IsFinalLetter>false</IsFinalLetter>
+  <IsFinalLetterArchived>false</IsFinalLetterArchived>
+  <IsOriginalLetterArchived>false</IsOriginalLetterArchived>
+  <IsOriginalMailed>false</IsOriginalMailed>
+  <RelationshipType>Training Sponsor</RelationshipType>
+  <ItemNotScannedEligible>true</ItemNotScannedEligible>
+  <ItemNotScannedNotEligible>false</ItemNotScannedNotEligible>
+  <IsMarkedForRework>false</IsMarkedForRework>
+  <ReworkComments>test comment</ReworkComments>
+  <ReasonForRework>References to political issues</ReasonForRework>
+  <TranslatedBy>Brian Hardy</TranslatedBy>
+  <Template>ET-E-1S11-1</Template>
+  <NumberOfPages>2</NumberOfPages>
+  <TranslationComplexity>2</TranslationComplexity>
+  <SDLProcessRequired>Translation</SDLProcessRequired>
+  <OriginalLetterURL>>/Customization/test images/AFR/SDL Tanzania_Page_</OriginalLetterURL>    
+  <SBCStatus>Translation started</SBCStatus>
+  <Status>Translation started</Status>
+  <SupporterQuestions></SupporterQuestions>
+  <Pages>
+    <OriginalPageURL>https://api2.compassion.com/test/ci/v2/images/321YZ9X_00RJQ51WV00009J/page/321YZ9X_00RJQ51WV00009N.tiff?format=jpg&amp;pg=1&amp;dpi=96</OriginalPageURL>
+    <OriginalText>This is test ISL text in original language.</OriginalText>
+    <OriginalText>Please continue testing.</OriginalText>
+    <EnglishTranslatedText></EnglishTranslatedText>
+    <EnglishTranslatedText></EnglishTranslatedText>
+    <TranslatedText></TranslatedText>
+    <TranslatedText></TranslatedText>
+  </Pages>
+  <Pages>
+    <OriginalPageURL>https://api2.compassion.com/test/ci/v2/images/321YZ9X_00RJQ51WV00009J/page/321YZ9X_00RJQ51WV00009N.tiff?format=jpg&amp;pg=2&amp;dpi=96</OriginalPageURL>
+    <OriginalText>Thank you for assisting with the testing and training.</OriginalText>
+    <EnglishTranslatedText></EnglishTranslatedText>
+    <TranslatedText></TranslatedText>
+  </Pages>
+</SBCCommunicationDetails>
