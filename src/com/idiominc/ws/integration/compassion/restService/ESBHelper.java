@@ -26,6 +26,8 @@ import java.io.IOException;
  */
 public class ESBHelper {
 
+    private final static String _B2S = "Beneficiary To Supporter";
+
     // Get Communication kit global ID
     public static String getId(WSAssetTask task) throws IOException {
 
@@ -76,9 +78,13 @@ public class ESBHelper {
             addTo(d, "ReasonForRework", "");
 
             // also need to add the questions list to the return XML
-            String questionsList = task.getAttribute("questionAttr");
-            if (questionsList != null && !questionsList.equals("")) {
-                addTo(d, "SupporterQuestions", questionsList);
+            // Updated: 1/13/2016: The questions should be sent back only for S2B, not for B2S
+            String direction = task.getProject().getAttribute("Direction");
+            if(direction != null && !direction.equals(_B2S)) {
+                String questionsList = task.getAttribute("questionAttr");
+                if (questionsList != null && !questionsList.equals("")) {
+                    addTo(d, "SupporterQuestions", questionsList);
+                }
             }
 
             // set the last translator who did the translation -- Not yet ready
@@ -167,6 +173,7 @@ public class ESBHelper {
         }
     }
 
+    // Override method with null field value if not provided
     private static void addTo(Document existingDoc, Element newDoc, String field) throws Exception {
         addTo(existingDoc, newDoc, field, null);
     }
@@ -184,7 +191,7 @@ public class ESBHelper {
 
     }
 
-
+    // Create new XML document object
     private static Document newDocument() throws ParserConfigurationException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         // action namespace and validating options on factory, if necessary
