@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<worldServerExport version="10.4.4" xmlns="http://www.idiominc.com/tml/1.0">
+  <locale id="Karen" exported="true">
+    <name>Karen</name>
+    <userRef>admin</userRef>
+    <acl>
+      <groupEntry>
+        <groupType></groupType>
+        <groupRef>everyone</groupRef>
+        <level>3</level>
+      </groupEntry>
+    </acl>
+    <disabled>false</disabled>
+    <language>Burmese</language>
+    <encoding>UTF8</encoding>
+  </locale>
+  <locale id="Karen-Direct" exported="true">
+    <name>Karen-Direct</name>
+    <userRef>admin</userRef>
+    <acl>
+      <groupEntry>
+        <groupType></groupType>
+        <groupRef>everyone</groupRef>
+        <level>3</level>
+      </groupEntry>
+    </acl>
+    <disabled>false</disabled>
+    <language>Burmese</language>
+    <encoding>UTF8</encoding>
+  </locale>
+</worldServerExport>
