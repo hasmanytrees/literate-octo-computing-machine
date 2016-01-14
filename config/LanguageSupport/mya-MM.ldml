@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ldml>
   <identity>
     <version number="1.1">ldml version 1.1</version>
@@ -11,12 +11,12 @@
       <msLocale:languageNameAbbr type="MYA" />
       <msLocale:languageIsoName type="threeLetters">mya</msLocale:languageIsoName>
       <msLocale:languageIsoName type="twoLetters">my</msLocale:languageIsoName>
-      <msLocale:nativeName type="???" />
+      <msLocale:nativeName type="ဗမာ" />
       <msLocale:englishName type="Burmese" />
       <msLocale:sortName type="" />
       <msLocale:textInfoName type="my-MM" />
       <msLocale:englishLanguage type="Burmese" />
-      <msLocale:nativeLanguage type="???" />
+      <msLocale:nativeLanguage type="ဗမာ" />
       <msLocale:keyboardsToInstall type="0455:00010c00;0409:00000409" />
     </special>
   </identity>
@@ -71,68 +71,68 @@
       <default type="Gregorian" />
       <calendar type="Gregorian">
         <special xmlns:msLocale="http://schemas.microsoft.com/globalization/2004/08/carib/ldml">
-          <msLocale:calendarNativeName type="?????????????? ?????????" />
+          <msLocale:calendarNativeName type="နိုင်ငံတကာသုံး ပြက္ခဒိန်" />
         </special>
         <months>
           <monthContext type="format">
             <monthWidth type="wide">
-              <month type="1">????????</month>
-              <month type="2">??????????</month>
-              <month type="3">???</month>
-              <month type="4">????</month>
-              <month type="5">??</month>
-              <month type="6">????</month>
-              <month type="7">???????</month>
-              <month type="8">?????</month>
-              <month type="9">????????</month>
-              <month type="10">??????????</month>
-              <month type="11">????????</month>
-              <month type="12">???????</month>
+              <month type="1">ဇန်နဝါရီ</month>
+              <month type="2">ဖေဖော်ဝါရီ</month>
+              <month type="3">မတ်</month>
+              <month type="4">ဧပြီ</month>
+              <month type="5">မေ</month>
+              <month type="6">ဇွန်</month>
+              <month type="7">ဇူလိုင်</month>
+              <month type="8">ဩဂုတ်</month>
+              <month type="9">စက်တင်ဘာ</month>
+              <month type="10">အောက်တိုဘာ</month>
+              <month type="11">နိုဝင်ဘာ</month>
+              <month type="12">ဒီဇင်ဘာ</month>
               <month type="13" />
             </monthWidth>
             <monthWidth type="abbreviated">
-              <month type="1">???</month>
-              <month type="2">??</month>
-              <month type="3">???</month>
-              <month type="4">????</month>
-              <month type="5">??</month>
-              <month type="6">????</month>
-              <month type="7">??</month>
-              <month type="8">???</month>
-              <month type="9">????</month>
-              <month type="10">?????</month>
-              <month type="11">??????</month>
-              <month type="12">?????</month>
+              <month type="1">ဇန်</month>
+              <month type="2">ဖေ</month>
+              <month type="3">မတ်</month>
+              <month type="4">ဧပြီ</month>
+              <month type="5">မေ</month>
+              <month type="6">ဇွန်</month>
+              <month type="7">ဇူ</month>
+              <month type="8">ဩဂု</month>
+              <month type="9">စက်တ</month>
+              <month type="10">အောက်</month>
+              <month type="11">နိုဝင်</month>
+              <month type="12">ဒီဇင်</month>
               <month type="13" />
             </monthWidth>
             <monthWidth type="genitive">
-              <month type="1">????????</month>
-              <month type="2">??????????</month>
-              <month type="3">???</month>
-              <month type="4">????</month>
-              <month type="5">??</month>
-              <month type="6">????</month>
-              <month type="7">???????</month>
-              <month type="8">?????</month>
-              <month type="9">????????</month>
-              <month type="10">??????????</month>
-              <month type="11">????????</month>
-              <month type="12">???????</month>
+              <month type="1">ဇန်နဝါရီ</month>
+              <month type="2">ဖေဖော်ဝါရီ</month>
+              <month type="3">မတ်</month>
+              <month type="4">ဧပြီ</month>
+              <month type="5">မေ</month>
+              <month type="6">ဇွန်</month>
+              <month type="7">ဇူလိုင်</month>
+              <month type="8">ဩဂုတ်</month>
+              <month type="9">စက်တင်ဘာ</month>
+              <month type="10">အောက်တိုဘာ</month>
+              <month type="11">နိုဝင်ဘာ</month>
+              <month type="12">ဒီဇင်ဘာ</month>
               <month type="13" />
             </monthWidth>
             <monthWidth type="genitiveAbbreviated">
-              <month type="1">???</month>
-              <month type="2">??</month>
-              <month type="3">???</month>
-              <month type="4">????</month>
-              <month type="5">??</month>
-              <month type="6">????</month>
-              <month type="7">??</month>
-              <month type="8">???</month>
-              <month type="9">????</month>
-              <month type="10">?????</month>
-              <month type="11">??????</month>
-              <month type="12">?????</month>
+              <month type="1">ဇန်</month>
+              <month type="2">ဖေ</month>
+              <month type="3">မတ်</month>
+              <month type="4">ဧပြီ</month>
+              <month type="5">မေ</month>
+              <month type="6">ဇွန်</month>
+              <month type="7">ဇူ</month>
+              <month type="8">ဩဂု</month>
+              <month type="9">စက်တ</month>
+              <month type="10">အောက်</month>
+              <month type="11">နိုဝင်</month>
+              <month type="12">ဒီဇင်</month>
               <month type="13" />
             </monthWidth>
           </monthContext>
@@ -140,31 +140,31 @@
         <days>
           <dayContext type="format">
             <dayWidth type="wide">
-              <day type="sun">?????????</day>
-              <day type="mon">???????</day>
-              <day type="tue">??????</day>
-              <day type="wed">????????</day>
-              <day type="thu">????????</day>
-              <day type="fri">??????</day>
-              <day type="sat">???</day>
+              <day type="sun">တနင်္ဂနွေ</day>
+              <day type="mon">တနင်္လာ</day>
+              <day type="tue">အင်္ဂါ</day>
+              <day type="wed">ဗုဒ္ဓဟူး</day>
+              <day type="thu">ကြာသပတေး</day>
+              <day type="fri">သောကြာ</day>
+              <day type="sat">စနေ</day>
             </dayWidth>
             <dayWidth type="abbreviated">
-              <day type="sun">???</day>
-              <day type="mon">??</day>
-              <day type="tue">??</day>
-              <day type="wed">???</day>
-              <day type="thu">???</day>
-              <day type="fri">???</day>
-              <day type="sat">??</day>
+              <day type="sun">နွေ</day>
+              <day type="mon">လာ</day>
+              <day type="tue">ဂါ</day>
+              <day type="wed">ဟူး</day>
+              <day type="thu">တေး</day>
+              <day type="fri">ကြာ</day>
+              <day type="sat">နေ</day>
             </dayWidth>
             <dayWidth type="shortest">
-              <day type="sun">???</day>
-              <day type="mon">??</day>
-              <day type="tue">??</day>
-              <day type="wed">???</day>
-              <day type="thu">???</day>
-              <day type="fri">???</day>
-              <day type="sat">??</day>
+              <day type="sun">နွေ</day>
+              <day type="mon">လာ</day>
+              <day type="tue">ဂါ</day>
+              <day type="wed">ဟူး</day>
+              <day type="thu">တေး</day>
+              <day type="fri">ကြာ</day>
+              <day type="sat">နေ</day>
             </dayWidth>
           </dayContext>
         </days>
@@ -174,14 +174,14 @@
             <msLocale:weekRule type="firstDay" />
           </special>
         </week>
-        <am>?????</am>
-        <pm>???</pm>
+        <am>နံနက်</am>
+        <pm>ညနေ</pm>
         <eras>
           <eraNames>
-            <era type="1">????</era>
+            <era type="1">အေဒီ</era>
           </eraNames>
           <eraAbbr>
-            <era type="1">????</era>
+            <era type="1">အေဒီ</era>
           </eraAbbr>
         </eras>
         <dateFormats>
@@ -252,8 +252,8 @@
       <decimal>.</decimal>
       <group>,</group>
       <percentSign>%</percentSign>
-      <infinity type="positive">?</infinity>
-      <infinity type="negative">-?</infinity>
+      <infinity type="positive">∞</infinity>
+      <infinity type="negative">-∞</infinity>
       <nan>NaN</nan>
       <PlusSign />
       <minusSign>-</minusSign>
@@ -273,16 +273,16 @@
       <msLocale:leadingZero type="yes" />
       <msLocale:groupSizes type="0">3</msLocale:groupSizes>
       <msLocale:currencyGroupSizes type="0">3</msLocale:currencyGroupSizes>
-      <msLocale:nativeDigits type="0">?</msLocale:nativeDigits>
-      <msLocale:nativeDigits type="1">?</msLocale:nativeDigits>
-      <msLocale:nativeDigits type="2">?</msLocale:nativeDigits>
-      <msLocale:nativeDigits type="3">?</msLocale:nativeDigits>
-      <msLocale:nativeDigits type="4">?</msLocale:nativeDigits>
-      <msLocale:nativeDigits type="5">?</msLocale:nativeDigits>
-      <msLocale:nativeDigits type="6">?</msLocale:nativeDigits>
-      <msLocale:nativeDigits type="7">?</msLocale:nativeDigits>
-      <msLocale:nativeDigits type="8">?</msLocale:nativeDigits>
-      <msLocale:nativeDigits type="9">?</msLocale:nativeDigits>
+      <msLocale:nativeDigits type="0">၀</msLocale:nativeDigits>
+      <msLocale:nativeDigits type="1">၁</msLocale:nativeDigits>
+      <msLocale:nativeDigits type="2">၂</msLocale:nativeDigits>
+      <msLocale:nativeDigits type="3">၃</msLocale:nativeDigits>
+      <msLocale:nativeDigits type="4">၄</msLocale:nativeDigits>
+      <msLocale:nativeDigits type="5">၅</msLocale:nativeDigits>
+      <msLocale:nativeDigits type="6">၆</msLocale:nativeDigits>
+      <msLocale:nativeDigits type="7">၇</msLocale:nativeDigits>
+      <msLocale:nativeDigits type="8">၈</msLocale:nativeDigits>
+      <msLocale:nativeDigits type="9">၉</msLocale:nativeDigits>
       <msLocale:digitSubstitution type="nativeNational" />
     </special>
     <currencies>

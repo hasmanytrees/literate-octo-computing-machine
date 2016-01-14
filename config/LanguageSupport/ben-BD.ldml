@@ -1,0 +1,330 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ldml>
+  <identity>
+    <version number="1.1">ldml version 1.1</version>
+    <generation date="2016-01-14" />
+    <special xmlns:msLocale="http://schemas.microsoft.com/globalization/2004/08/carib/ldml">
+      <msLocale:cultureInfoVersion type="3.0" />
+      <msLocale:cultureAndRegionInfoName type="ben-BD" />
+      <msLocale:geoId>23</msLocale:geoId>
+      <msLocale:countryCode>880</msLocale:countryCode>
+      <msLocale:parentName type="" />
+      <msLocale:languageNameAbbr type="BNB" />
+      <msLocale:languageIsoName type="threeLetters">bng</msLocale:languageIsoName>
+      <msLocale:languageIsoName type="twoLetters">bn</msLocale:languageIsoName>
+      <msLocale:nativeName type="বাংলা (বাংলাদেশ)" />
+      <msLocale:regionEnglishName type="Bangladesh" />
+      <msLocale:regionNativeName type="বাংলাদেশ" />
+      <msLocale:regionIsoName type="threeLetters">BGD</msLocale:regionIsoName>
+      <msLocale:regionIsoName type="twoLetters">BD</msLocale:regionIsoName>
+      <msLocale:regionWindowsName type="threeLetters">BGD</msLocale:regionWindowsName>
+      <msLocale:englishName type="Bengali (Bangladesh)" />
+      <msLocale:sortName type="bn-DB" />
+      <msLocale:textInfoName type="bn-DB" />
+      <msLocale:englishLanguage type="Bengali" />
+      <msLocale:nativeLanguage type="বাংলা" />
+      <msLocale:keyboardsToInstall type="0845:00000445;0845:00010445;0409:00000409" />
+      <msLocale:ietfLanguageTag type="bn-BD" />
+    </special>
+  </identity>
+  <layout>
+    <special xmlns:msLocale="http://schemas.microsoft.com/globalization/2004/08/carib/ldml">
+      <msLocale:direction type="left-to-right" />
+    </special>
+  </layout>
+  <characters>
+    <special xmlns:msLocale="http://schemas.microsoft.com/globalization/2004/08/carib/ldml">
+      <msLocale:keyboardLayout>2117</msLocale:keyboardLayout>
+      <msLocale:openTypeLanguageTag>BEN </msLocale:openTypeLanguageTag>
+      <msLocale:consoleFallbackName type="en-US" />
+      <msLocale:fontSignature>
+        <msLocale:unicodeRanges>
+          <msLocale:range type="16" />
+        </msLocale:unicodeRanges>
+        <msLocale:defaultCodePages>
+          <msLocale:ansiCodePage>
+            <msLocale:codePage type="0" />
+          </msLocale:ansiCodePage>
+          <msLocale:ansiOemCodePage />
+          <msLocale:oemCodePage>
+            <msLocale:codePage type="1" />
+          </msLocale:oemCodePage>
+          <msLocale:macCodePage>
+            <msLocale:codePage type="2" />
+          </msLocale:macCodePage>
+          <msLocale:ebcdicCodePage>
+            <msLocale:codePage type="500" />
+          </msLocale:ebcdicCodePage>
+        </msLocale:defaultCodePages>
+        <msLocale:codePages>
+          <msLocale:ansiCodePage />
+          <msLocale:ansiOemCodePage />
+          <msLocale:oemCodePage />
+        </msLocale:codePages>
+      </msLocale:fontSignature>
+      <msLocale:scripts>
+        <msLocale:script type="Beng" />
+      </msLocale:scripts>
+    </special>
+  </characters>
+  <measurement>
+    <measurementSystem type="metric" />
+    <paperSize>
+      <height>297</height>
+      <width>210</width>
+    </paperSize>
+  </measurement>
+  <dates>
+    <calendars>
+      <default type="Gregorian" />
+      <calendar type="Gregorian">
+        <special xmlns:msLocale="http://schemas.microsoft.com/globalization/2004/08/carib/ldml">
+          <msLocale:calendarNativeName type="ইংরেজী ক্যালেন্ডার" />
+        </special>
+        <months>
+          <monthContext type="format">
+            <monthWidth type="wide">
+              <month type="1">জানুয়ারী</month>
+              <month type="2">ফেব্রুয়ারী</month>
+              <month type="3">মার্চ</month>
+              <month type="4">এপ্রিল</month>
+              <month type="5">মে</month>
+              <month type="6">জুন</month>
+              <month type="7">জুলাই</month>
+              <month type="8">আগস্ট</month>
+              <month type="9">সেপ্টেম্বর</month>
+              <month type="10">অক্টোবর</month>
+              <month type="11">নভেম্বর</month>
+              <month type="12">ডিসেম্বর</month>
+              <month type="13" />
+            </monthWidth>
+            <monthWidth type="abbreviated">
+              <month type="1">জানু.</month>
+              <month type="2">ফেব্রু.</month>
+              <month type="3">মার্চ</month>
+              <month type="4">এপ্রিল</month>
+              <month type="5">মে</month>
+              <month type="6">জুন</month>
+              <month type="7">জুলাই</month>
+              <month type="8">আগ.</month>
+              <month type="9">সেপ্টে.</month>
+              <month type="10">অক্টো.</month>
+              <month type="11">নভে.</month>
+              <month type="12">ডিসে.</month>
+              <month type="13" />
+            </monthWidth>
+            <monthWidth type="genitive">
+              <month type="1">জানুয়ারী</month>
+              <month type="2">ফেব্রুয়ারী</month>
+              <month type="3">মার্চ</month>
+              <month type="4">এপ্রিল</month>
+              <month type="5">মে</month>
+              <month type="6">জুন</month>
+              <month type="7">জুলাই</month>
+              <month type="8">আগস্ট</month>
+              <month type="9">সেপ্টেম্বর</month>
+              <month type="10">অক্টোবর</month>
+              <month type="11">নভেম্বর</month>
+              <month type="12">ডিসেম্বর</month>
+              <month type="13" />
+            </monthWidth>
+            <monthWidth type="genitiveAbbreviated">
+              <month type="1">জানু.</month>
+              <month type="2">ফেব্রু.</month>
+              <month type="3">মার্চ</month>
+              <month type="4">এপ্রিল</month>
+              <month type="5">মে</month>
+              <month type="6">জুন</month>
+              <month type="7">জুলাই</month>
+              <month type="8">আগ.</month>
+              <month type="9">সেপ্টে.</month>
+              <month type="10">অক্টো.</month>
+              <month type="11">নভে.</month>
+              <month type="12">ডিসে.</month>
+              <month type="13" />
+            </monthWidth>
+          </monthContext>
+        </months>
+        <days>
+          <dayContext type="format">
+            <dayWidth type="wide">
+              <day type="sun">রবিবার</day>
+              <day type="mon">সোমবার</day>
+              <day type="tue">মঙ্গলবার</day>
+              <day type="wed">বুধবার</day>
+              <day type="thu">বৃহস্পতিবার</day>
+              <day type="fri">শুক্রবার</day>
+              <day type="sat">শনিবার</day>
+            </dayWidth>
+            <dayWidth type="abbreviated">
+              <day type="sun">রবি.</day>
+              <day type="mon">সোম.</day>
+              <day type="tue">মঙ্গল.</day>
+              <day type="wed">বুধ.</day>
+              <day type="thu">বৃহস্পতি.</day>
+              <day type="fri">শুক্র.</day>
+              <day type="sat">শনি.</day>
+            </dayWidth>
+            <dayWidth type="shortest">
+              <day type="sun">র</day>
+              <day type="mon">স</day>
+              <day type="tue">ম</day>
+              <day type="wed">ব</day>
+              <day type="thu">ব</day>
+              <day type="fri">শ</day>
+              <day type="sat">শ</day>
+            </dayWidth>
+          </dayContext>
+        </days>
+        <week>
+          <firstDay day="mon" />
+          <special xmlns:msLocale="http://schemas.microsoft.com/globalization/2004/08/carib/ldml">
+            <msLocale:weekRule type="firstDay" />
+          </special>
+        </week>
+        <am>পুর্বাহ্ন</am>
+        <pm>অপরাহ্ন</pm>
+        <eras>
+          <eraNames>
+            <era type="1">A.D.</era>
+          </eraNames>
+          <eraAbbr>
+            <era type="1">AD</era>
+          </eraAbbr>
+        </eras>
+        <dateFormats>
+          <special xmlns:msLocale="http://schemas.microsoft.com/globalization/2004/08/carib/ldml">
+            <msLocale:dateFormatLength type="long">
+              <msLocale:default type="0" />
+              <msLocale:dateFormat type="0">
+                <msLocale:pattern>dd MMMM yyyy</msLocale:pattern>
+              </msLocale:dateFormat>
+              <msLocale:dateFormat type="1">
+                <msLocale:pattern>d MMMM yyyy</msLocale:pattern>
+              </msLocale:dateFormat>
+            </msLocale:dateFormatLength>
+            <msLocale:dateFormatLength type="short">
+              <msLocale:default type="0" />
+              <msLocale:dateFormat type="0">
+                <msLocale:pattern>dd-MM-yy</msLocale:pattern>
+              </msLocale:dateFormat>
+              <msLocale:dateFormat type="1">
+                <msLocale:pattern>d-M-yy</msLocale:pattern>
+              </msLocale:dateFormat>
+              <msLocale:dateFormat type="2">
+                <msLocale:pattern>d.M.yy</msLocale:pattern>
+              </msLocale:dateFormat>
+              <msLocale:dateFormat type="3">
+                <msLocale:pattern>dd-MM-yyyy</msLocale:pattern>
+              </msLocale:dateFormat>
+              <msLocale:dateFormat type="4">
+                <msLocale:pattern>yyyy-MM-dd</msLocale:pattern>
+              </msLocale:dateFormat>
+            </msLocale:dateFormatLength>
+            <msLocale:yearMonthFormat>
+              <msLocale:default type="0" />
+              <msLocale:yearMonth type="0">
+                <msLocale:pattern>MMMM, yyyy</msLocale:pattern>
+              </msLocale:yearMonth>
+            </msLocale:yearMonthFormat>
+            <msLocale:monthDay>
+              <msLocale:pattern>dd MMMM</msLocale:pattern>
+            </msLocale:monthDay>
+          </special>
+        </dateFormats>
+        <timeFormats>
+          <special xmlns:msLocale="http://schemas.microsoft.com/globalization/2004/08/carib/ldml">
+            <msLocale:timeFormatLength type="long">
+              <msLocale:default type="0" />
+              <msLocale:timeFormat type="0">
+                <msLocale:pattern>HH.mm.ss</msLocale:pattern>
+              </msLocale:timeFormat>
+              <msLocale:timeFormat type="1">
+                <msLocale:pattern>H.mm.ss</msLocale:pattern>
+              </msLocale:timeFormat>
+              <msLocale:timeFormat type="2">
+                <msLocale:pattern>tt hh.mm.ss</msLocale:pattern>
+              </msLocale:timeFormat>
+              <msLocale:timeFormat type="3">
+                <msLocale:pattern>tt h.mm.ss</msLocale:pattern>
+              </msLocale:timeFormat>
+            </msLocale:timeFormatLength>
+            <msLocale:timeFormatLength type="short">
+              <msLocale:default type="0" />
+              <msLocale:timeFormat type="0">
+                <msLocale:pattern>HH.mm</msLocale:pattern>
+              </msLocale:timeFormat>
+              <msLocale:timeFormat type="1">
+                <msLocale:pattern>H.mm</msLocale:pattern>
+              </msLocale:timeFormat>
+              <msLocale:timeFormat type="2">
+                <msLocale:pattern>tt hh.mm</msLocale:pattern>
+              </msLocale:timeFormat>
+              <msLocale:timeFormat type="3">
+                <msLocale:pattern>tt h.mm</msLocale:pattern>
+              </msLocale:timeFormat>
+            </msLocale:timeFormatLength>
+            <msLocale:durationFormats>
+              <msLocale:default type="0" />
+              <msLocale:durationFormat type="0">
+                <msLocale:pattern>HH.mm.ss</msLocale:pattern>
+              </msLocale:durationFormat>
+            </msLocale:durationFormats>
+          </special>
+        </timeFormats>
+      </calendar>
+    </calendars>
+  </dates>
+  <numbers>
+    <symbols>
+      <list>,</list>
+      <decimal>.</decimal>
+      <group>,</group>
+      <percentSign>%</percentSign>
+      <infinity type="positive">Infinity</infinity>
+      <infinity type="negative">-Infinity</infinity>
+      <nan>NaN</nan>
+      <PlusSign />
+      <minusSign>-</minusSign>
+      <special xmlns:msLocale="http://schemas.microsoft.com/globalization/2004/08/carib/ldml">
+        <msLocale:currencyDecimalSeparator>.</msLocale:currencyDecimalSeparator>
+        <msLocale:currencyGroupSeparator>,</msLocale:currencyGroupSeparator>
+      </special>
+    </symbols>
+    <special xmlns:msLocale="http://schemas.microsoft.com/globalization/2004/08/carib/ldml">
+      <msLocale:decimalDigits>2</msLocale:decimalDigits>
+      <msLocale:negativePattern type="1" />
+      <msLocale:currencyDecimalDigits type="2" />
+      <msLocale:currencyPositivePattern type="2" />
+      <msLocale:currencyNegativePattern type="12" />
+      <msLocale:percentNegativePattern type="2" />
+      <msLocale:percentPositivePattern type="2" />
+      <msLocale:leadingZero type="yes" />
+      <msLocale:groupSizes type="0">3</msLocale:groupSizes>
+      <msLocale:groupSizes type="1">2</msLocale:groupSizes>
+      <msLocale:currencyGroupSizes type="0">3</msLocale:currencyGroupSizes>
+      <msLocale:currencyGroupSizes type="1">2</msLocale:currencyGroupSizes>
+      <msLocale:nativeDigits type="0">০</msLocale:nativeDigits>
+      <msLocale:nativeDigits type="1">১</msLocale:nativeDigits>
+      <msLocale:nativeDigits type="2">২</msLocale:nativeDigits>
+      <msLocale:nativeDigits type="3">৩</msLocale:nativeDigits>
+      <msLocale:nativeDigits type="4">৪</msLocale:nativeDigits>
+      <msLocale:nativeDigits type="5">৫</msLocale:nativeDigits>
+      <msLocale:nativeDigits type="6">৬</msLocale:nativeDigits>
+      <msLocale:nativeDigits type="7">৭</msLocale:nativeDigits>
+      <msLocale:nativeDigits type="8">৮</msLocale:nativeDigits>
+      <msLocale:nativeDigits type="9">৯</msLocale:nativeDigits>
+      <msLocale:digitSubstitution type="none" />
+    </special>
+    <currencies>
+      <currency type="default">
+        <symbol>৳</symbol>
+        <displayName>টাকা</displayName>
+        <special xmlns:msLocale="http://schemas.microsoft.com/globalization/2004/08/carib/ldml">
+          <msLocale:isoCurrency>BDT</msLocale:isoCurrency>
+          <msLocale:currencyEnglishName>Bangladeshi Taka</msLocale:currencyEnglishName>
+        </special>
+      </currency>
+    </currencies>
+  </numbers>
+</ldml>

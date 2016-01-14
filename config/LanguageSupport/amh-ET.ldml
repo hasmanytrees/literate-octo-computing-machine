@@ -1,0 +1,300 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ldml>
+  <identity>
+    <version number="1.1">ldml version 1.1</version>
+    <generation date="2016-01-14" />
+    <special xmlns:msLocale="http://schemas.microsoft.com/globalization/2004/08/carib/ldml">
+      <msLocale:cultureInfoVersion type="3.0" />
+      <msLocale:cultureAndRegionInfoName type="amh-ET" />
+      <msLocale:geoId>73</msLocale:geoId>
+      <msLocale:countryCode>251</msLocale:countryCode>
+      <msLocale:parentName type="" />
+      <msLocale:languageNameAbbr type="AMH" />
+      <msLocale:languageIsoName type="threeLetters">amh</msLocale:languageIsoName>
+      <msLocale:languageIsoName type="twoLetters">am</msLocale:languageIsoName>
+      <msLocale:nativeName type="አማርኛ (ኢትዮጵያ)" />
+      <msLocale:regionEnglishName type="Ethiopia" />
+      <msLocale:regionNativeName type="ኢትዮጵያ" />
+      <msLocale:regionIsoName type="threeLetters">ETH</msLocale:regionIsoName>
+      <msLocale:regionIsoName type="twoLetters">ET</msLocale:regionIsoName>
+      <msLocale:regionWindowsName type="threeLetters">ETH</msLocale:regionWindowsName>
+      <msLocale:englishName type="Amharic (Ethiopia)" />
+      <msLocale:sortName type="am-ET" />
+      <msLocale:textInfoName type="am-ET" />
+      <msLocale:englishLanguage type="Amharic" />
+      <msLocale:nativeLanguage type="አማርኛ" />
+      <msLocale:keyboardsToInstall type="045e:{E429B25A-E5D3-4D1F-9BE3-0C608477E3A1}{8F96574E-C86C-4bd6-9666-3F7327D4CBE8};0409:00000409" />
+      <msLocale:ietfLanguageTag type="am-ET" />
+    </special>
+  </identity>
+  <layout>
+    <special xmlns:msLocale="http://schemas.microsoft.com/globalization/2004/08/carib/ldml">
+      <msLocale:direction type="left-to-right" />
+    </special>
+  </layout>
+  <characters>
+    <special xmlns:msLocale="http://schemas.microsoft.com/globalization/2004/08/carib/ldml">
+      <msLocale:keyboardLayout>1118</msLocale:keyboardLayout>
+      <msLocale:openTypeLanguageTag>AMH </msLocale:openTypeLanguageTag>
+      <msLocale:consoleFallbackName type="en-US" />
+      <msLocale:fontSignature>
+        <msLocale:unicodeRanges>
+          <msLocale:range type="75" />
+        </msLocale:unicodeRanges>
+        <msLocale:defaultCodePages>
+          <msLocale:ansiCodePage>
+            <msLocale:codePage type="0" />
+          </msLocale:ansiCodePage>
+          <msLocale:ansiOemCodePage />
+          <msLocale:oemCodePage>
+            <msLocale:codePage type="1" />
+          </msLocale:oemCodePage>
+          <msLocale:macCodePage>
+            <msLocale:codePage type="2" />
+          </msLocale:macCodePage>
+          <msLocale:ebcdicCodePage>
+            <msLocale:codePage type="500" />
+          </msLocale:ebcdicCodePage>
+        </msLocale:defaultCodePages>
+        <msLocale:codePages>
+          <msLocale:ansiCodePage />
+          <msLocale:ansiOemCodePage />
+          <msLocale:oemCodePage />
+        </msLocale:codePages>
+      </msLocale:fontSignature>
+      <msLocale:scripts>
+        <msLocale:script type="Ethi" />
+      </msLocale:scripts>
+    </special>
+  </characters>
+  <measurement>
+    <measurementSystem type="metric" />
+    <paperSize>
+      <height>297</height>
+      <width>210</width>
+    </paperSize>
+  </measurement>
+  <dates>
+    <calendars>
+      <default type="Gregorian" />
+      <calendar type="Gregorian">
+        <special xmlns:msLocale="http://schemas.microsoft.com/globalization/2004/08/carib/ldml">
+          <msLocale:calendarNativeName type="የግሪጎሪያንአቆጣጠር" />
+        </special>
+        <months>
+          <monthContext type="format">
+            <monthWidth type="wide">
+              <month type="1">ጃንዩወሪ</month>
+              <month type="2">ፌብሩወሪ</month>
+              <month type="3">ማርች</month>
+              <month type="4">ኤፕረል</month>
+              <month type="5">ሜይ</month>
+              <month type="6">ጁን</month>
+              <month type="7">ጁላይ</month>
+              <month type="8">ኦገስት</month>
+              <month type="9">ሴፕቴምበር</month>
+              <month type="10">ኦክተውበር</month>
+              <month type="11">ኖቬምበር</month>
+              <month type="12">ዲሴምበር</month>
+              <month type="13" />
+            </monthWidth>
+            <monthWidth type="abbreviated">
+              <month type="1">ጃንዩ</month>
+              <month type="2">ፌብሩ</month>
+              <month type="3">ማርች</month>
+              <month type="4">ኤፕረ</month>
+              <month type="5">ሜይ</month>
+              <month type="6">ጁን</month>
+              <month type="7">ጁላይ</month>
+              <month type="8">ኦገስ</month>
+              <month type="9">ሴፕቴ</month>
+              <month type="10">ኦክተ</month>
+              <month type="11">ኖቬም</month>
+              <month type="12">ዲሴም</month>
+              <month type="13" />
+            </monthWidth>
+            <monthWidth type="genitive">
+              <month type="1">ጃንዩወሪ</month>
+              <month type="2">ፌብሩወሪ</month>
+              <month type="3">ማርች</month>
+              <month type="4">ኤፕረል</month>
+              <month type="5">ሜይ</month>
+              <month type="6">ጁን</month>
+              <month type="7">ጁላይ</month>
+              <month type="8">ኦገስት</month>
+              <month type="9">ሴፕቴምበር</month>
+              <month type="10">ኦክተውበር</month>
+              <month type="11">ኖቬምበር</month>
+              <month type="12">ዲሴምበር</month>
+              <month type="13" />
+            </monthWidth>
+            <monthWidth type="genitiveAbbreviated">
+              <month type="1">ጃንዩ</month>
+              <month type="2">ፌብሩ</month>
+              <month type="3">ማርች</month>
+              <month type="4">ኤፕረ</month>
+              <month type="5">ሜይ</month>
+              <month type="6">ጁን</month>
+              <month type="7">ጁላይ</month>
+              <month type="8">ኦገስ</month>
+              <month type="9">ሴፕቴ</month>
+              <month type="10">ኦክተ</month>
+              <month type="11">ኖቬም</month>
+              <month type="12">ዲሴም</month>
+              <month type="13" />
+            </monthWidth>
+          </monthContext>
+        </months>
+        <days>
+          <dayContext type="format">
+            <dayWidth type="wide">
+              <day type="sun">እሑድ</day>
+              <day type="mon">ሰኞ</day>
+              <day type="tue">ማክሰኞ</day>
+              <day type="wed">ረቡዕ</day>
+              <day type="thu">ሐሙስ</day>
+              <day type="fri">ዓርብ</day>
+              <day type="sat">ቅዳሜ</day>
+            </dayWidth>
+            <dayWidth type="abbreviated">
+              <day type="sun">እሑድ</day>
+              <day type="mon">ሰኞ</day>
+              <day type="tue">ማክሰ</day>
+              <day type="wed">ረቡዕ</day>
+              <day type="thu">ሐሙስ</day>
+              <day type="fri">ዓርብ</day>
+              <day type="sat">ቅዳሜ</day>
+            </dayWidth>
+            <dayWidth type="shortest">
+              <day type="sun">እ</day>
+              <day type="mon">ሰ</day>
+              <day type="tue">ማ</day>
+              <day type="wed">ረ</day>
+              <day type="thu">ሐ</day>
+              <day type="fri">ዓ</day>
+              <day type="sat">ቅ</day>
+            </dayWidth>
+          </dayContext>
+        </days>
+        <week>
+          <firstDay day="sun" />
+          <special xmlns:msLocale="http://schemas.microsoft.com/globalization/2004/08/carib/ldml">
+            <msLocale:weekRule type="firstDay" />
+          </special>
+        </week>
+        <am>ጡዋት</am>
+        <pm>ከሰዓት</pm>
+        <eras>
+          <eraNames>
+            <era type="1">ዓመተ  ምሕረት</era>
+          </eraNames>
+          <eraAbbr>
+            <era type="1">ዓ.ም.</era>
+          </eraAbbr>
+        </eras>
+        <dateFormats>
+          <special xmlns:msLocale="http://schemas.microsoft.com/globalization/2004/08/carib/ldml">
+            <msLocale:dateFormatLength type="long">
+              <msLocale:default type="0" />
+              <msLocale:dateFormat type="0">
+                <msLocale:pattern>dddd '፣' MMMM d 'ቀን' yyyy</msLocale:pattern>
+              </msLocale:dateFormat>
+            </msLocale:dateFormatLength>
+            <msLocale:dateFormatLength type="short">
+              <msLocale:default type="0" />
+              <msLocale:dateFormat type="0">
+                <msLocale:pattern>d/M/yyyy</msLocale:pattern>
+              </msLocale:dateFormat>
+              <msLocale:dateFormat type="1">
+                <msLocale:pattern>yyyy-MM-dd</msLocale:pattern>
+              </msLocale:dateFormat>
+            </msLocale:dateFormatLength>
+            <msLocale:yearMonthFormat>
+              <msLocale:default type="0" />
+              <msLocale:yearMonth type="0">
+                <msLocale:pattern>MMMM yyyy</msLocale:pattern>
+              </msLocale:yearMonth>
+            </msLocale:yearMonthFormat>
+            <msLocale:monthDay>
+              <msLocale:pattern>MMMM d ቀን</msLocale:pattern>
+            </msLocale:monthDay>
+          </special>
+        </dateFormats>
+        <timeFormats>
+          <special xmlns:msLocale="http://schemas.microsoft.com/globalization/2004/08/carib/ldml">
+            <msLocale:timeFormatLength type="long">
+              <msLocale:default type="0" />
+              <msLocale:timeFormat type="0">
+                <msLocale:pattern>h:mm:ss tt</msLocale:pattern>
+              </msLocale:timeFormat>
+            </msLocale:timeFormatLength>
+            <msLocale:timeFormatLength type="short">
+              <msLocale:default type="0" />
+              <msLocale:timeFormat type="0">
+                <msLocale:pattern>h:mm tt</msLocale:pattern>
+              </msLocale:timeFormat>
+            </msLocale:timeFormatLength>
+            <msLocale:durationFormats>
+              <msLocale:default type="0" />
+              <msLocale:durationFormat type="0">
+                <msLocale:pattern>dd HH:mm:ss.fff</msLocale:pattern>
+              </msLocale:durationFormat>
+            </msLocale:durationFormats>
+          </special>
+        </timeFormats>
+      </calendar>
+    </calendars>
+  </dates>
+  <numbers>
+    <symbols>
+      <list>፣</list>
+      <decimal>.</decimal>
+      <group>,</group>
+      <percentSign>%</percentSign>
+      <infinity type="positive">Infinity</infinity>
+      <infinity type="negative">-Infinity</infinity>
+      <nan>NAN</nan>
+      <PlusSign />
+      <minusSign>-</minusSign>
+      <special xmlns:msLocale="http://schemas.microsoft.com/globalization/2004/08/carib/ldml">
+        <msLocale:currencyDecimalSeparator>.</msLocale:currencyDecimalSeparator>
+        <msLocale:currencyGroupSeparator>,</msLocale:currencyGroupSeparator>
+      </special>
+    </symbols>
+    <special xmlns:msLocale="http://schemas.microsoft.com/globalization/2004/08/carib/ldml">
+      <msLocale:decimalDigits>1</msLocale:decimalDigits>
+      <msLocale:negativePattern type="1" />
+      <msLocale:currencyDecimalDigits type="2" />
+      <msLocale:currencyPositivePattern type="0" />
+      <msLocale:currencyNegativePattern type="1" />
+      <msLocale:percentNegativePattern type="1" />
+      <msLocale:percentPositivePattern type="1" />
+      <msLocale:leadingZero type="yes" />
+      <msLocale:groupSizes type="0">3</msLocale:groupSizes>
+      <msLocale:groupSizes type="1">0</msLocale:groupSizes>
+      <msLocale:currencyGroupSizes type="0">3</msLocale:currencyGroupSizes>
+      <msLocale:currencyGroupSizes type="1">0</msLocale:currencyGroupSizes>
+      <msLocale:nativeDigits type="0">0</msLocale:nativeDigits>
+      <msLocale:nativeDigits type="1">1</msLocale:nativeDigits>
+      <msLocale:nativeDigits type="2">2</msLocale:nativeDigits>
+      <msLocale:nativeDigits type="3">3</msLocale:nativeDigits>
+      <msLocale:nativeDigits type="4">4</msLocale:nativeDigits>
+      <msLocale:nativeDigits type="5">5</msLocale:nativeDigits>
+      <msLocale:nativeDigits type="6">6</msLocale:nativeDigits>
+      <msLocale:nativeDigits type="7">7</msLocale:nativeDigits>
+      <msLocale:nativeDigits type="8">8</msLocale:nativeDigits>
+      <msLocale:nativeDigits type="9">9</msLocale:nativeDigits>
+      <msLocale:digitSubstitution type="none" />
+    </special>
+    <currencies>
+      <currency type="default">
+        <symbol>ETB</symbol>
+        <displayName>ብር</displayName>
+        <special xmlns:msLocale="http://schemas.microsoft.com/globalization/2004/08/carib/ldml">
+          <msLocale:isoCurrency>ETB</msLocale:isoCurrency>
+          <msLocale:currencyEnglishName>Ethiopian Birr</msLocale:currencyEnglishName>
+        </special>
+      </currency>
+    </currencies>
+  </numbers>
+</ldml>
