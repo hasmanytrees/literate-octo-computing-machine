@@ -4,7 +4,7 @@ var strToken = getToken();
 var strHead = '<td nowrap="">';
 var strTail = '</td>';
 
-var strTranscription_uiName = 'Transcribe'; // should output localized?
+var strTranscription_uiName = 'Scanned Letter Editor'; // should output localized?
 var strTranscription_servletName = 'transcription_ui';
 var strTranscription_Link =
     strHead +
@@ -20,7 +20,7 @@ window.onload = function() {
 	
     if (fExistingOnloadList != null) fExistingOnloadList();
 
-    var htmlTranscriptionAnchor = $j('a[onmouseover*="Export"]:first').parent();
+    var htmlTranscriptionAnchor = $j('a[onmouseover*="Complete"]:first').parent();
     htmlTranscriptionAnchor.before(strTranscription_Link);
 }
 

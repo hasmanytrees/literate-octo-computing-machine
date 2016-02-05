@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>SDL WorldServer - Translator Payment Report</title>
+
+    <!-- Third party JavaScript libraries -->
+	<script src="js/jquery/jquery.js"></script>
+    <script src="compassion_inc/shared/js/jquery-ui/jquery-ui.js"></script>
+    <script src="compassion_inc/shared/select2/js/select2.min.js"></script>
+    <script src="compassion_inc/shared/js/datatables/js/jquery.dataTables.min.js"></script>
+
+    <!-- Local JavaScript code -->
+    <script src="compassion_inc/shared/js/_nsSDL_shared.js"></script>
+    <script src="compassion_inc/translatorPaymentReport/js/_nsSDL_translatorPaymentReport.js"></script>
+    <script src="compassion_inc/translatorPaymentReport/js/_nsSDL_translator_payment_commands.js"></script>
+    <script src="compassion_inc/translatorPaymentReport/js/_nsSDL_translator_payment_bindings.js"></script>
+
+    <!-- Third Party Stylesheets -->
+    <link rel='stylesheet' href='compassion_inc/shared/js/datatables/css/jquery.dataTables.min.css' type='text/css'>
+    <link rel='stylesheet' href='compassion_inc/shared/select2/css/select2.min.css' type='text/css'>
+    <link rel='stylesheet' href='compassion_inc/shared/js/jquery-ui/jquery-ui.css' type='text/css'>
+
+    <!-- Local Stylesheets -->
+    <link rel='stylesheet' href='compassion_inc/translatorPaymentReport/stylesheets/translatorPaymentReport.css' type='text/css'>
+
+</head>
+
+<body>
+	<header>
+		<h1>Translator Payment Report</h1>
+		<img class="product_logo" src="images/common/ws/headerright.png" alt="WorldServer 10" title="WorldServer 10">
+	</header>
+
+    <main>
+        <section class="clearfix" id="entryBox">
+            <div class="entry-left">
+                <div class="start">
+                    <label class="entryElement" for="start_date">Start Date</label>
+                    <input type="text" id="start_date">
+                </div>
+                <div class="end">
+                    <label class="entryElement" for="end_date">End Date</label>
+                    <input type="text" id="end_date">
+                </div>
+
+                <div class="workgroups">
+                    <label class="entryElement" for="workgroupSelect">Select Field Office / Global Partner</label>
+                    <select id="workgroupSelect" multiple="multiple">
+                        <!-- Populated by JavaScript -->
+                    </select>
+                </div>
+            </div>
+
+            <div class="entry-right">
+                <div class="entry-right-inner">
+                    <label class="entryElement">Choose Report Type</label>
+                    <button class="entryElement" id="detailedReportButton">Detailed Report</button>
+                    <button class="entryElement" id="summaryReportButton">Summary Report</button>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="error-box">
+            <!-- Any error messages will be inserted here -->
+        </section>
+
+        <table id="translator_report" class="display compact" cellspacing="0" width="100%">
+            <!-- Populated by JavaScript -->
+        </table>
+
+    </main>
+
+    <footer>
+        <button id="closeButton">Close</button>
+	    <button id="csvButton">Export to CSV</button>
+    </footer>
+
+</body>

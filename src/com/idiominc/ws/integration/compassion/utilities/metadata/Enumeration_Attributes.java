@@ -20,7 +20,8 @@ public enum Enumeration_Attributes {
     TranslationLanguage ("SBCCommunicationDetails/TranslationLanguage", "TranslationLanguage", ATTRIBUTE_TYPE.TEXT, ATTRIBUTE_OBJECT.PROJECT, true),
     FieldOfficeName ("SBCCommunicationDetails/FieldOffice/Name", "FOName", ATTRIBUTE_TYPE.TEXT, ATTRIBUTE_OBJECT.PROJECT, true),
     GlobalPartnerId ("SBCCommunicationDetails/GlobalPartner/Id", "GlobalPartnerId", ATTRIBUTE_TYPE.TEXT, ATTRIBUTE_OBJECT.PROJECT, true),
-    SDLProcessRequired ("SBCCommunicationDetails/SDLProcessRequired", "SDLProcessRequired", ATTRIBUTE_TYPE.TEXT, ATTRIBUTE_OBJECT.PROJECT, true);
+    SDLProcessRequired ("SBCCommunicationDetails/SDLProcessRequired", "SDLProcessRequired", ATTRIBUTE_TYPE.TEXT, ATTRIBUTE_OBJECT.PROJECT, true),
+    TemplateID ("SBCCommunicationDetails/Template", "TemplateID", ATTRIBUTE_TYPE.TEXT, ATTRIBUTE_OBJECT.PROJECT, true);
 
     //xpath to attribute tag in the source asset
     private final String xPath;
