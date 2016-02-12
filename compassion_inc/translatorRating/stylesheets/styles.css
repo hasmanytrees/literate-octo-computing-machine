@@ -3,9 +3,9 @@ html {
   box-sizing: border-box;
   font-family: Verdana, Arial;
   color: #444;
-  width: 95%;
-  margin: 0 auto;
-  max-width: 1200px;
+  width: 100%;
+  /*margin: 0 auto;*/
+  /*max-width: 1200px;*/
   min-width: 980px;
 }
 
@@ -17,7 +17,7 @@ html {
 /*** basic styles ***/
 /* line 26, ../sass/styles.scss */
 body {
-  margin: 30px;
+  margin: 0px;
 }
 
 /* line 27, ../sass/styles.scss */
@@ -55,6 +55,19 @@ header {
   display: block;
   height: 75px;
 }
+
+body > header,
+main,
+footer {
+  width: 95%;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+footer {
+  margin-bottom: 30px;
+}
+
 /* line 55, ../sass/styles.scss */
 header #title {
   float: left;
@@ -63,7 +76,7 @@ header #title {
 /* line 60, ../sass/styles.scss */
 header #add_new_source {
   float: left;
-  width: 50%;
+  width: 100%;
   text-align: right;
 }
 
@@ -309,10 +322,37 @@ aside a {
 footer {
   padding-top: 20px;
   text-align: right;
+
 }
 /* line 298, ../sass/styles.scss */
 footer #okButton {
   margin-right: 0;
   padding-left: 20px;
   padding-right: 20px;
+}
+
+#head {
+  height: 100px;
+  margin-bottom: 20px;
+  background: rgba(125,135,148,1);
+  background: -moz-linear-gradient(top, rgba(125,135,148,1) 0%, rgba(83,91,102,1) 100%);
+  background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(125,135,148,1)), color-stop(100%, rgba(83,91,102,1)));
+  background: -webkit-linear-gradient(top, rgba(125,135,148,1) 0%, rgba(83,91,102,1) 100%);
+  background: -o-linear-gradient(top, rgba(125,135,148,1) 0%, rgba(83,91,102,1) 100%);
+  background: -ms-linear-gradient(top, rgba(125,135,148,1) 0%, rgba(83,91,102,1) 100%);
+  background: linear-gradient(to bottom, rgba(125,135,148,1) 0%, rgba(83,91,102,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7d8794', endColorstr='#535b66', GradientType=0 );
+}
+
+#head h1 {
+  color: white;
+  float: left;
+  margin-top: 33px;
+  margin-left: 20px;
+}
+
+.product_logo {
+  float: right;
+  margin-top: 20px;
+  margin-right: 20px;
 }

@@ -49,7 +49,7 @@ SDL.translatorUI = (function() {
 
     return {
         init              : init,
-        updateUser        : updateUser,
+        updateUser        : updateUser
     };
 
 })();

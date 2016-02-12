@@ -35,6 +35,7 @@ import java.util.Calendar;
  *
  * [Optionally] send out email to previous claimant.
  *
+ * @author SDL Professional Services
  */
 public class AutoUnclaimRule extends WSActionClauseComponent {
 
@@ -93,59 +94,65 @@ public class AutoUnclaimRule extends WSActionClauseComponent {
         WSProject[] activeProjects = context.getWorkflowManager().getProjects(
                 new WSProjectStatus[]{WSProjectStatus.ACTIVE});
 
-        // Iterate through all active projects in the system, and identify tasks that need to be pushed back to Queue
-        for(WSProject project : activeProjects) {
+        try {
+            // Iterate through all active projects in the system, and identify tasks that need to be pushed back to Queue
+            for(WSProject project : activeProjects) {
 
-            // Iterate through all active tasks in the system, for each active projects
-            for (WSTask task : project.getActiveTasks()) {
-                WSAssetTask assetTask = (WSAssetTask) task;
-                String currentStepName = assetTask.getCurrentTaskStep().getWorkflowStep().getName();
+                // Iterate through all active tasks in the system, for each active projects
+                for (WSTask task : project.getActiveTasks()) {
+                    WSAssetTask assetTask = (WSAssetTask) task;
+                    String currentStepName = assetTask.getCurrentTaskStep().getWorkflowStep().getName();
 
-                // Perform the claimant check only for given specified workflow step
-                if(currentStepName != null && stepFound(currentStepName, allStepNamesParam)) {
+                    // Perform the claimant check only for given specified workflow step
+                    if(currentStepName != null && stepFound(currentStepName, allStepNamesParam)) {
 
-                    WSUser assignedUser = ((WSHumanTaskStep)assetTask.getCurrentTaskStep()).getUserAssignees()[0];
-                    if(assignedUser == null) {
-                        // we expect the user to be assigned! Cannot perform auto-unclaim for unassigned tasks!
-                        String errMsg = "Current step must be assigned to a specific user for auto-unclaim to work! [" +
-                                assetTask.getSourcePath() +
-                                "]";
-                        log.error(errMsg);
-                        msg.append(errMsg).append("<br>");
+                        WSUser assignedUser = ((WSHumanTaskStep)assetTask.getCurrentTaskStep()).getUserAssignees()[0];
+                        if(assignedUser == null) {
+                            // we expect the user to be assigned! Cannot perform auto-unclaim for unassigned tasks!
+                            String errMsg = "Current step must be assigned to a specific user for auto-unclaim to work! [" +
+                                    assetTask.getSourcePath() +
+                                    "]";
+                            log.error(errMsg);
+                            msg.append(errMsg).append("<br>");
 
-                        continue;
+                            continue;
+                        }
+
+                        // Found the accepted task step! identify last queue step for given task step
+                        WSTaskStep lastQueueStep = findLastQueueStep(context, assetTask, currentStepName);
+                        if(lastQueueStep == null) {
+                            // Could not find last queue step; unexpected! Log and continue with next task!
+                            String errMsg = "Could not identify last queue step for task: " + assetTask.getSourcePath();
+                            log.error(errMsg);
+                            msg.append(errMsg).append("<br>");
+                            continue;
+                        }
+
+                        // Get the completion of last Queue step, to determine if push-back to Queue will be required
+                        Date lastQueueStepCompletionDate = lastQueueStep.getCompletionDate();
+
+                        // Evaluate if "unclaim" is needed based on most recent Queue completion event
+                        if(evaluateForUnclaim(lastQueueStepCompletionDate,
+                                autoUnclaimDurationHoursParamValue,
+                                autoUnclaimDurationMinutesParamValue)) {
+                            // This has been claimed for longer than the parameter; unclaim and push back to Queue!
+                            assetTask.completeCurrentTaskStep("Return to Queue", "Auto-unclaimed and returned " +
+                                    "to the Queue as it was claimed for longer than the expected duration!");
+
+                            msg.append("Task ").append(assetTask.getSourcePath()).
+                                    append(" at step: ").append(currentStepName).
+                                    append(" was automatically unclaimed from ").append(assignedUser.getUserName()).
+                                    append("!<br>\n");
+                        }
                     }
-
-                    // Found the accepted task step! identify last queue step for given task step
-                    WSTaskStep lastQueueStep = findLastQueueStep(context, assetTask, currentStepName);
-                    if(lastQueueStep == null) {
-                        // Could not find last queue step; unexpected! Log and continue with next task!
-                        String errMsg = "Could not identify last queue step for task: " + assetTask.getSourcePath();
-                        log.error(errMsg);
-                        msg.append(errMsg).append("<br>");
-                        continue;
-                    }
-
-                    // Get the completion of last Queue step, to determine if push-back to Queue will be required
-                    Date lastQueueStepCompletionDate = lastQueueStep.getCompletionDate();
-
-                    // Evaluate if "unclaim" is needed based on most recent Queue completion event
-                    if(evaluateForUnclaim(lastQueueStepCompletionDate,
-                                          autoUnclaimDurationHoursParamValue,
-                                          autoUnclaimDurationMinutesParamValue)) {
-                        // This has been claimed for longer than the parameter; unclaim and push back to Queue!
-                        assetTask.completeCurrentTaskStep("Return to Queue", "Auto-unclaimed and returned " +
-                                "to the Queue as it was claimed for longer than the expected duration!");
-
-                        msg.append("Task ").append(assetTask.getSourcePath()).
-                                append(" at step: ").append(currentStepName).
-                                append(" was automatically unclaimed from ").append(assignedUser.getUserName()).
-                                append("!<br>\n");
-                    }
+                    // otherwise the current step does not match the target step to check for claimant; continue with rest of tasks
                 }
-                // otherwise the current step does not match the target step to check for claimant; continue with rest of tasks
             }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            msg.append(e.getMessage());
         }
+
 
         return new WSActionClauseResults("Done. <br>\n" + msg.toString());
     }

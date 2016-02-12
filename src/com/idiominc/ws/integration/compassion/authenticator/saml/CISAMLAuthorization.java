@@ -12,14 +12,25 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * Created by cslack on 9/11/2015.
+ * Compassion SAML authorization extending common SAML authorization class to provide standard SAML support.
+ *
+ * @author SDL Professional Services
  */
 public class CISAMLAuthorization extends SAMLAuthorization {
 
     private static final Logger log = Logger.getLogger(CISAMLAuthorization.class);
 
+    // Default value;  will be overriden with value from configuration file
     private static final String _CI_REDIRECT = "https://globalaccess.ci.org/";
 
+    /**
+     * Perform user authentication based on provided input
+     *
+     * @param context WorldServer context
+     * @param request HTTP servlet request
+     * @return Authenticated CI SSO User object
+     * @throws IOException Exception from getting authenticated SSO user
+     */
     public CISSOUser authenticate(WSContext context, HttpServletRequest request) throws IOException {
 
         try {

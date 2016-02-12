@@ -1,0 +1,149 @@
+<components>
+    <!-- Automatic Actions -->
+    <auto_action class="com.idiominc.ws.integration.compassion.autoaction.MergeTranscribedContent"/>
+    <auto_action class="com.idiominc.ws.integration.compassion.autoaction.ContentPreprocessing"/>
+    <auto_action class="com.idiominc.ws.integration.compassion.autoaction.DetermineQCSampling"/>
+    <auto_action class="com.idiominc.ws.integration.compassion.autoaction.IncrementTranslationCount"/>
+    <auto_action class="com.idiominc.ws.integration.compassion.autoaction.ProcessTranslationMetadata"/>
+    <auto_action class="com.idiominc.ws.integration.compassion.autoaction.ReassignNextStepToRecentExecutor"/>
+    <auto_action class="com.idiominc.ws.integration.compassion.autoaction.ReassignQCStep"/>
+    <auto_action class="com.idiominc.ws.integration.compassion.autoaction.ReassignQueueStep"/>
+    <auto_action class="com.idiominc.ws.integration.compassion.autoaction.IncrementTranslationUpdateCount"/>
+    <auto_action class="com.idiominc.ws.integration.compassion.autoaction.SetESBStatus"/>
+    <auto_action class="com.idiominc.ws.integration.compassion.autoaction.CreateTwoStepProject"/>
+    <auto_action class="com.idiominc.ws.integration.compassion.autoaction.CheckForStopWords"/>
+    <auto_action class="com.idiominc.ws.integration.compassion.autoaction.MergeISLContent"/>
+    <auto_action class="com.idiominc.ws.integration.compassion.autoaction.MergeFinalTranslatedTextContent"/>
+    <auto_action class="com.idiominc.ws.integration.compassion.autoaction.ReassignNextStepToTranslator"/>
+    <auto_action class="com.idiominc.ws.integration.compassion.autoaction.MergeFinalTranslatedTextContentTarget"/>
+    <auto_action class="com.idiominc.ws.integration.compassion.autoaction.AccountForQCer"/>
+    <auto_action class="com.idiominc.ws.integration.compassion.autoaction.CheckForQuestions"/>
+
+    <!-- CO 2 Automatic Actions -->
+    <auto_action class="com.idiominc.ws.integration.compassion.autoaction.reporting.CollectTranslationInfo"/>
+    <auto_action class="com.idiominc.ws.integration.compassion.autoaction.reporting.CollectQCInfo"/>
+    <auto_action class="com.idiominc.ws.integration.compassion.autoaction.reporting.CollectEscalationInfo"/>
+    <auto_action class="com.idiominc.ws.integration.compassion.autoaction.reporting.CollectReworkInfo"/>
+    <auto_action class="com.idiominc.ws.integration.compassion.autoaction.reporting.CollectTranslationDelay"/>
+
+
+    <!-- Servlets -->
+    <servlet class="com.idiominc.ws.integration.compassion.servlet.TranscriptionUI"/>
+    <servlet class="com.idiominc.ws.integration.compassion.servlet.TranscriptionAJAXHandler"/>
+    <servlet class="com.idiominc.ws.integration.compassion.servlet.TranslatorRatingUI.TranslatorRatingUI"/>
+    <servlet class="com.idiominc.ws.integration.compassion.servlet.TranslatorRatingUI.TranslatorRatingCommands"/>
+    <servlet class="com.idiominc.ws.integration.compassion.servlet.TranslatorPaymentReport.TranslatorPaymentReport"/>
+    <servlet class="com.idiominc.ws.integration.compassion.servlet.TranslatorPaymentReport.TranslatorPaymentCommands"/>
+
+    <servlet class="com.idiominc.ws.integration.compassion.servlet.UserAssignmentRuleUI.UserAssignmentRuleUI"/>
+    <servlet class="com.idiominc.ws.integration.compassion.servlet.UserAssignmentRuleUI.UserAssignmentRuleCommands"/>
+    <servlet class="com.idiominc.ws.integration.compassion.servlet.EscalationHAServlet"/>
+
+    <servlet class="com.idiominc.ws.integration.profserv.commons.wssdk.servlet.HTMLIncludeProxy"/>
+
+
+    <!-- UI Hook -->
+    <ui_hooks class="com.idiominc.ws.integration.compassion.ui.CompassionCustomUI"/>
+
+    <!-- Rules -->
+    <rule_clause class="com.idiominc.ws.integration.compassion.rules.monitor.action.AutoUnclaimRule"/>
+    <rule_clause class="com.idiominc.ws.integration.compassion.rules.nocondition.condition.NoConditionClause"/>
+    <rule_clause class="com.idiominc.ws.integration.compassion.rules.nocondition.selector.NonContentSelector"/>
+
+    <!-- Attributes -->
+    <attribute name="isSSO" ui_name="SSO?" object_type="user" type="boolean"/>
+    <attribute name="ssoId" ui_name="SSO-ID" object_type="user" type="text"/>
+    <attribute name="trCount" ui_name="Translation Count" object_type="user" type="integer"/>
+    <attribute name="qcQualified" ui_name="QC Qualified?" object_type="user" type="boolean"/>
+    <attribute name="sso_hash" ui_name="sso_hash" object_type="user" type="text" flags="hidden,readonly"/>
+    <attribute name="workingTranscription" ui_name="workingTranscription" object_type="task" type="attachment" flags="readonly"/>
+    <attribute name="rating" ui_name="Translator Rating" object_type="user" type="large_text_area"/>
+    <attribute name="userAssignmentRule" ui_name="User Assignment Rule" object_type="workgroup" type="large_text_area" flags="hidden"/>
+
+    <attribute name="questionFileAttachment" ui_name="Questions File Attachment" object_type="project" type="attachment" />
+    <attribute name="questionAttr" ui_name="Questions" object_type="task" type="text" />
+    <attribute name="stopwordAttr" ui_name="Stop Words" object_type="task" type="large_text_area"  /> <!-- flags="hidden" -->
+    <attribute name="trIterationCount" ui_name="Translation Iteration Count" object_type="task" type="integer"/>
+    <attribute name="Direction" ui_name="Translation Direction" object_type="project" type="text"/>
+    <attribute name="BeneficiaryName" ui_name="Beneficiary Name" object_type="project" type="text"/>
+    <attribute name="BeneficiaryGender" ui_name="Beneficiary Gender" object_type="project" type="text"/>
+    <attribute name="BeneficiaryAge" ui_name="Beneficiary Age" object_type="project" type="text"/>
+    <attribute name="OriginalLanguage" ui_name="Original Language" object_type="project" type="text"/>
+    <attribute name="TranslationLanguage" ui_name="Translation Language" object_type="project" type="text"/>
+    <attribute name="FOName" ui_name="Field Office Name" object_type="project" type="text"/>
+    <attribute name="GlobalPartnerId" ui_name="Global Partner ID" object_type="project" type="text"/>
+    <attribute name="reworkComment" ui_name="Rework Comment" object_type="task" type="large_text_area"/>
+    <attribute name="reworkReason" ui_name="Rework Reason" object_type="task" type="selector">
+        <option value="References to political issues"/>
+        <option value="Requests for money or special favors"/>
+        <option value="Any personal identifications"/>
+        <option value="Illegible handwriting"/>
+        <option value="No date written"/>
+        <option value="Supporter not addressed by name"/>
+        <option value="No personal info on Beneficiary life"/>
+        <option value="Does not contain new skill information"/>
+        <option value="No thank you for gift"/>
+        <option value="No photo for large gift"/>
+        <option value="No question for Sponsor/Correspondent"/>
+        <option value="No prayer request"/>
+        <option value="No drawing from beneficiary (8 or below)"/>
+        <option value="3rd party not identified (if not child)"/>
+        <option value="Contains personal contact information"/>
+        <option value="Inappropriate content"/>
+        <option value="Inappropriate photo"/>
+        <option value="Other"/>
+    </attribute>
+    <attribute name="reworkReasonS2B" ui_name="Rework Reason" object_type="task" type="selector">
+        <option value="Contains personal contact information"/>
+        <option value="Inappropriate content"/>
+        <option value="Inappropriate photo"/>
+        <option value="Other"/>
+    </attribute>
+    <attribute name="CompassionSBCId" ui_name="Compassion SBC Id" object_type="project" type="text"/>
+    <attribute name="TranslationComplexity" ui_name="Translation Complexity" object_type="project" type="integer"/>
+    <attribute name="GlobalPartner" ui_name="Global Partner OptIn for WorldServer?" object_type="project" type="boolean"/>
+    <attribute name="MandatoryReview" ui_name="Supporter Flagged for Mandatory Review?" object_type="project" type="boolean"/>
+    <attribute name="qcResult" ui_name="QC Audit Result" object_type="task" type="selector">
+        <option value="Fail"/>
+        <option value="Pass"/>
+    </attribute>
+    <attribute name="projectPriority" ui_name="Project Priority" object_type="project" type="selector">
+        <option value="Normal"/>
+        <option value="Rework"/>
+        <option value="Urgent"/>
+    </attribute>
+    <attribute name="SDLProcessRequired" ui_name="SDL Process Required" object_type="project" type="text"/>
+    <attribute name="TwoStepProcess" ui_name="Two Step Process Status" object_type="project" type="text"/>
+    <attribute name="MostRecentTranslator" ui_name="Most Recent Translator" object_type="project" type="text"/>
+    <attribute name="secondStepProjectRequired" ui_name="Second Step Project Required Override" object_type="project" type="text"/>
+    <attribute name="qcNotRequiredOverride" ui_name="QC Not Required Override" object_type="project" type="text"/>
+    <attribute name="workflowOverride" ui_name="2nd Step Workflow Name Override" object_type="project" type="text"/>
+    <attribute name="electronicContent" ui_name="Is this Electronic Content?" object_type="project" type="boolean"/>
+    <attribute name="returnTextRequirements" ui_name="Return Text Field Requirements" object_type="project" type="text"/>
+    <attribute name="ItemNotScannedNotEligible" ui_name="Attachment Not Mailed" object_type="project" type="text"/>
+    <attribute name="MostRecentQCer" ui_name="Most Recent QCer" object_type="project" type="text"/>
+    <attribute name="LanguageExceptionType" ui_name="Language Exception Type" object_type="project" type="text"/>
+
+    <!-- CO 2 Attributes -->
+    <attribute name="TranslateStepAcceptedBy" ui_name="Translation Queue Step Accepted By" object_type="project" type="text"/>
+    <attribute name="TranslateStepAcceptedOn" ui_name="Translation Queue Step Accepted On" object_type="project" type="text"/>
+    <attribute name="TranslateStepCompletedBy" ui_name="Translate Step Completed By" object_type="project" type="text"/>
+    <attribute name="TranslateStepCompletedOn" ui_name="Translate Step Completed On" object_type="project" type="text"/>
+    <attribute name="QCStepAcceptedBy" ui_name="QC Queue Step Accepted By" object_type="project" type="text"/>
+    <attribute name="QCStepAcceptedOn" ui_name="QC Queue Step Accepted On" object_type="project" type="text"/>
+    <attribute name="QCStepCompletedBy" ui_name="Perform QC Step Completed By" object_type="project" type="text"/>
+    <attribute name="QCStepCompletedOn" ui_name="Perform QC Step Completed On" object_type="project" type="text"/>
+    <attribute name="TranslationEscalated" ui_name="Translation Escalated" object_type="project" type="text"/>
+    <attribute name="ReturnedToQueue" ui_name="Task Returned To Queue" object_type="project" type="text"/>
+    <attribute name="TranslationSubmittedForRework" ui_name="Translation Submitted For Rework" object_type="project" type="text"/>
+    <attribute name="TemplateID" ui_name="Template ID" object_type="project" type="text"/>
+
+
+    <!-- Human steps -->
+
+    <!-- Authenticator -->
+    <authenticator
+            class="com.idiominc.ws.integration.compassion.authenticator.saml.CISAMLAuthenticator"
+            />
+
+</components>

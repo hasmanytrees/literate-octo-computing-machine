@@ -17,9 +17,10 @@ SDL.uarUICommands = (function() {
         // Get the jQuery object for the workgroup select box
         var $workgroupSelectBox = $('#workgroupSelect');
 
+        $workgroupSelectBox.append("<option></option>");
+
         // Get a list of workgroups from WorldServer
         SDL.shared.executeWSRequest('getWorkgroups', function(result) {
-
 
                 // Look through the workgroups
                 $(result.sort(SortByName)).each(function(iIndex, oWorkgroup) {
@@ -39,7 +40,6 @@ SDL.uarUICommands = (function() {
         );
     };
 
-
     /**
      * Sort function
      * @param a
@@ -54,6 +54,7 @@ SDL.uarUICommands = (function() {
 
         return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
     };
+
 
     /**
      * Sets the assignment rule in WorldServer
@@ -232,6 +233,7 @@ SDL.uarUICommands = (function() {
             SDL.uarUIBindings.bindRatingRadioChange();
 
         }, { workgroupId: iWorkgroupId });
+
 
     };
 

@@ -1,11 +1,10 @@
 package com.idiominc.ws.integration.compassion.servlet;
 
 import com.idiominc.ws.integration.profserv.commons.FileUtils;
-import com.idiominc.ws.integration.profserv.commons.wssdk.WSUtils;
 import com.idiominc.ws.integration.profserv.commons.wssdk.ui.WSHtmlContainer;
 import com.idiominc.wssdk.WSContext;
 import com.idiominc.wssdk.ais.WSAisException;
-import com.idiominc.wssdk.ais.WSNode;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,21 +17,22 @@ import java.io.InputStream;
 public class Embed {
 
 
-    /***
-     * @depreacted Deprecated by moving JS to public directory rather than embedding the contents directly in the output
-     *
+    private static final Logger log = Logger.getLogger(Embed.class);
+
+    /**
      * @param context
      * @param hook
      * @param name
      * @throws WSAisException
      * @throws IOException
+     * @depreacted Deprecated by moving JS to public directory rather than embedding the contents directly in the output
      */
     public static void embedJS(WSContext context, WSHtmlContainer hook, String name) throws WSAisException, IOException {
-        throw new IOException("EmbedJS has been deprecated!");
-        /*hook.add("<script>\n");
+        log.warn("EmbedJS has been deprecated!");
+        hook.add("<script>\n");
         embed(context, hook, name);
         hook.add("\n</script>\n");
-        */
+
     }
 
     public static void embed(WSContext context, WSHtmlContainer hook, String name) throws WSAisException, IOException {
@@ -54,12 +54,12 @@ public class Embed {
     }
 
     /***
-    @depreacted Deprecated by moving JS to public directory rather than embedding the contents directly in the output
+     @depreacted Deprecated by moving JS to public directory rather than embedding the contents directly in the output
 
-    private static String replaceVariables(WSContext context, String htmlFile) {
-        return htmlFile.replaceAll("%PROXY%", "ws_ext?servlet=include_proxy&token=" + context.getSessionToken() + "&fileName=");
-    }
-    */
+     private static String replaceVariables(WSContext context, String htmlFile) {
+     return htmlFile.replaceAll("%PROXY%", "ws_ext?servlet=include_proxy&token=" + context.getSessionToken() + "&fileName=");
+     }
+     */
 
 
 }

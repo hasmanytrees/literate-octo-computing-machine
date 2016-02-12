@@ -57,10 +57,10 @@ SDL.tPaymentCommands = function () {
             {title: "Communication ID"},
             {title: "Source Locale"},
             {title: "Target Locale"},
-            {title: "Translation Task Creation Date"},
+            {title: "Translation Creation Date"},
             {title: "Task Start Date"},
             {title: "Task Completion Date"},
-            {title: "Translation Task Completion Date"},
+            {title: "Translation Completion Date"},
             {title: "Escalation"},
             {title: "Rework"},
             {title: "Returned to Queue"}

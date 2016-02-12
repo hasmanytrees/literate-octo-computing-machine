@@ -37,6 +37,7 @@ public class KV {
         return v;
     }
 
+    // Parse given two arrays of keys and values and create one array of KV objects each containing matching key and value pair
     public static KV[] parse(String[] keys, String[] values) throws IOException {
 
         if (keys.length != values.length) {

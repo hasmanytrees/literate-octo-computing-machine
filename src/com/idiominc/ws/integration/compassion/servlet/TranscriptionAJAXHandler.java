@@ -243,6 +243,6 @@ public class TranscriptionAJAXHandler extends WSHttpServlet {
     }
 
     public String getVersion() {
-        return "0.1-test";
+        return "1.0";
     }
 }

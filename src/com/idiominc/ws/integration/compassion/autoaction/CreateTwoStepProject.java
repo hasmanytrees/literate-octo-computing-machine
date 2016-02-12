@@ -399,6 +399,12 @@ public class CreateTwoStepProject extends WSCustomProjectAutomaticActionWithPara
 
     }
 
+    /**
+     * Setup the new project attribute.
+     * This is required to bypass most recent QCer and Translator attribute from being set in the new project by a simple copy.
+     * @param createdProject Newly created project
+     * @param p Current project
+     */
     private void setupNewProjectAttributes(WSProject createdProject, WSProject p) {
         for(Iterator keysIt = p.getAttributes().keySet().iterator(); keysIt.hasNext(); ) {
             String keyName = (String)keysIt.next();
@@ -456,6 +462,18 @@ public class CreateTwoStepProject extends WSCustomProjectAutomaticActionWithPara
 
     }
 
+    /**
+     * Prepare for second step project by creating source node for the second step from the first step project
+     * @param context WorldServer context
+     * @param creator Project creator
+     * @param directLocaleName Direct locale name for use with second step
+     * @param frmFolderNodePath Source/From folder node
+     * @param frmBaseLocaleNode Source/From base locale node
+     * @param fullPathToSource Full path to the source node
+     * @return Full path to the node created
+     * @throws WSAisException WorldServer Asset interface system exception
+     * @throws TwoStepProjectException custom exception if any issues with the source node creator
+     */
     private String makeNewSourceNodeFromTargetNode(WSContext context,
                                                    WSUser creator,
                                                    String directLocaleName,

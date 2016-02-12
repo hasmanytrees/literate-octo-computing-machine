@@ -4,6 +4,7 @@ import com.idiominc.ws.integration.profserv.commons.wssdk.ui.WSHtmlContainer;
 import com.idiominc.wssdk.WSContext;
 import com.idiominc.wssdk.WSRuntimeException;
 import com.idiominc.wssdk.component.servlet.WSHttpServlet;
+import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class TranscriptionUI extends WSHttpServlet {
 
+    private static final Logger log = Logger.getLogger(TranscriptionUI.class);
+
     public boolean handle(WSContext context, HttpServletRequest request, HttpServletResponse response) {
 
         WSHtmlContainer container = new WSHtmlContainer(context, request, response);
@@ -24,6 +27,7 @@ public class TranscriptionUI extends WSHttpServlet {
             container.printHtml(response.getWriter());
             return true;
         } catch (Exception e) {//todo
+            log.error(e.getMessage(), e);
             throw new WSRuntimeException(e);
         }
     }

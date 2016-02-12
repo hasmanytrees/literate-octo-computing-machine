@@ -13,28 +13,23 @@ import com.idiominc.wssdk.user.WSWorkgroup;
 //dom and sax
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import org.xml.sax.InputSource;
 
 //java
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.*;
 import java.util.List;
 import java.util.Formatter;
 import java.util.ArrayList;
-import java.io.StringReader;
 
 /**
  * This class is responsible for
- * parsing eorkgroup-based complexity rule configuration data
+ * parsing workgroup-based complexity rule configuration data
  *
  * @author SDL Professional Services
  */
 
-public class WBAssignmentRuleIdentifier {
+public class WBAssignmentRuleIdentifier extends WBAssignmentDefaultRuleIdentifier {
 
     //constants
-    private static final String _ASSIGNMENTRULE_ATTRIBUTE = "userAssignmentRule";
     private static final String _XPATH = "//assignment_rule/rule[@type='%1$s']/complexity[@level='%2$s']";
 
     //data
@@ -48,6 +43,8 @@ public class WBAssignmentRuleIdentifier {
      */
     public WBAssignmentRuleIdentifier(WSContext context,
                                       WSWorkgroup workgroup) throws RatingException {
+      //call parent's ctor
+        super(context);
       try {
         AttributeValidator.validateAttribute(context,
                                              _ASSIGNMENTRULE_ATTRIBUTE,
@@ -56,10 +53,7 @@ public class WBAssignmentRuleIdentifier {
                                              workgroup,
                                              "");
         String rule = workgroup.getAttributeValue(_ASSIGNMENTRULE_ATTRIBUTE).getAttributeValue();
-        DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
-        domFactory.setNamespaceAware(true);
-        DocumentBuilder builder = domFactory.newDocumentBuilder();
-        document = builder.parse(new InputSource(new StringReader(rule)));
+        document = build(rule);
       } catch (Exception e) {
           throw new RatingException(e.getLocalizedMessage());
       }
@@ -75,12 +69,16 @@ public class WBAssignmentRuleIdentifier {
     public List<RATING> getListOfRatingsPerComplexity(final RATING_APPLICABILITY applicability,
                                                       final String complexity) throws RatingException {
         try {
-              String query = new Formatter(new StringBuffer()).format(_XPATH,
+             String query = new Formatter(new StringBuffer()).format(_XPATH,
                                                                       applicability,
                                                                       complexity).toString();
-              Node ratingsNode = performXPathQuery(query);
-              if(null == ratingsNode) {
-                 throw new RatingException("Assignment rules per workgroup and complexity are not available");
+              Node ratingsNode = performXPathQuery(document, query);
+              if(null == ratingsNode || null == ratingsNode.getTextContent() || 0 == ratingsNode.getTextContent().length()) {
+                 ratingsNode = performXPathQuery(null, query);
+                 if(null == ratingsNode || null == ratingsNode.getTextContent() || 0 == ratingsNode.getTextContent().length()) {
+                   throw new RatingException("Assignment rules per workgroup and complexity are not available, " +
+                                             "and so are default rules");
+                 }
               }
               String ratingsNamesPerComplexity = ratingsNode.getTextContent();
               List<RATING> result = new ArrayList<RATING>();
@@ -96,20 +94,6 @@ public class WBAssignmentRuleIdentifier {
         } catch (XPathExpressionException ex) {
             throw new RatingException(ex.getLocalizedMessage());
         }
-    }
-
-    /**
-     * Perform XPath operation
-     * @param query - query
-     * @return - node that was satisfies the query
-     * @throws XPathExpressionException - exception
-     */
-    private Node performXPathQuery(final String query) throws XPathExpressionException {
-        if(null == document) throw new XPathExpressionException("Document Node is null");
-        XPathFactory factory = XPathFactory.newInstance();
-        XPath xpath = factory.newXPath();
-        XPathExpression expr = xpath.compile(query);
-        return (Node)expr.evaluate(document, XPathConstants.NODE);
     }
 
 }

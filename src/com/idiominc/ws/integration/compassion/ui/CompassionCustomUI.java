@@ -117,8 +117,6 @@ public class CompassionCustomUI extends WSUIHooksComponent {
 
                     stopwordTable.addRow(new String[] {segID, srcText, term});
                 }
-
-//                hook.add(table);
             }
 
             // add other useful links table
@@ -228,8 +226,6 @@ public class CompassionCustomUI extends WSUIHooksComponent {
 
                     stopwordTable.addRow(new String[] {segID, srcText, term});
                 }
-
-                //hook.add(table);
             }
 
             twoTables.addRow(new WSHtmlTable[]{stopwordTable, new WSHtmlTable(context, request, null, 1)});

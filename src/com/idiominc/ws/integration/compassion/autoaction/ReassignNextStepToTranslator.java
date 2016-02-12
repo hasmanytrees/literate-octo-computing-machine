@@ -31,6 +31,11 @@ import java.util.regex.Matcher;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * An automatic action to identify and assign next human step to most recent translator
+ *
+ * @author SDL Professional Services
+ */
 public class ReassignNextStepToTranslator extends WSCustomTaskAutomaticAction {
 
     //version

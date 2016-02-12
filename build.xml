@@ -1,0 +1,240 @@
+<project name="compassion" default="usage" basedir=".">
+
+    <property environment="env"/>
+
+    <!-- THESE SHOULD BE SET AS WINDOWS ENV VARIABLES, NOT IN THIS FILE -->
+    <!--<property name="env.PROFSERV_PACKAGE" value="C:/Views/SVN"/>-->
+    <property name="env.WS_HOME" value="D:/WS/10.4.4/ws"/>
+    <!--<property name="env.WS_HOME" value="C:/10.3.0.310/ws"/>-->
+    <!--<property name="env.WS_HOME" value="C:/10.3.0.310/ws"/>-->
+    <property name="common_client" value="common"/>
+    <property name="sso_client" value="sso"/>
+
+    <property name="common_client.dir" value="."/>
+    <property name="sso_client.dir" value="."/>
+
+    <!--<property name="rcnt.dir" value="${env.PROFSERV_PACKAGE}/connectors/rcnt/trunk/server"/>-->
+
+
+    <import file="${common_client.dir}\build.xml"/>
+
+    <!--  <import file="${rcnt.dir}\server.build.xml"/> -->
+
+
+    <property name="version" value="1.0"/>
+    <property name="client" value="compassion-sow2"/>
+
+    <property name="src" value="src"/>
+
+    <property name="build" value="${env.WS_HOME}/WEB-INF"/>
+    <property name="lib" value="${build}/lib"/>
+    <property name="classes" value="${build}/classes"/>
+    <echo message="classes are set to ${classes}"></echo>
+
+    <property name="client.dir" value="."/>
+
+
+    <!-- compiler variable-->
+    <property name="build.compiler" value="modern"/>
+
+    <!-- Build and set classpath -->
+    <path id="project.class.path">
+
+        <fileset dir="${lib}">
+            <include name="**/*.jar"/>
+        </fileset>
+        <fileset dir="./deploy/jars">
+            <include name="**/*.jar"/>
+        </fileset>
+        <fileset dir="${sso_client.dir}">
+            <include name="**/*.jar"/>
+        </fileset>
+        <!--<fileset dir="${env.WS_HOME}/WEB-INF/lib">-->
+        <!--<include name="**/*.jar"/>-->
+        <!--</fileset>-->
+        <!--<fileset dir="${env.WS_HOME}/WEB-INF/classes">-->
+        <!--<include name="**/*.jar"/>-->
+        <!--</fileset>-->
+        <!--<fileset dir="${env.WS_HOME}/../../lib">-->
+            <!--<include name="**/*.jar"/>-->
+        <!--</fileset>-->
+        <fileset dir="${env.WS_HOME}/../sdk/lib/server">
+        <include name="**/*.jar"/>
+        </fileset>
+        <pathelement location="${common_client.dir}/classes"/>
+        <pathelement location="${sso_client.dir}/"/>
+        <pathelement location="${classes}"/>
+
+    </path>
+    <!-- usage -->
+    <target name="usage">
+        <!-- <echo message="ant -f build-custom.xml ${client}"/> -->
+        <!-- Windows without cygwin -->
+        <echo>
+            From the directory containing the build.xml file:
+            ant ${client} -DTOMCAT_HOME="%TOMCAT_HOME%"
+        </echo>
+
+        <!-- Solaris or with cygwin
+        <echo>
+          From the directory containing the build.xml file:
+          ant ${client} -DTOMCAT_HOME="$TOMCAT_HOME"
+        </echo> -->
+    </target>
+
+    <target name="all">
+        <antcall target="compassion-sow2" inheritall="false"/>
+    </target>
+
+
+    <!-- Actual custom build process -->
+    <target name="compassion-sow2" depends="addToAis">
+
+        <tstamp>
+            <format property="build.time" pattern="MM-dd-yy"/>
+        </tstamp>
+
+        <delete dir="com"/>
+        <javac srcdir="${client.dir}/src/"
+               includes="**/*.java"
+               excludes="**/external/**"
+               destdir="${client.dir}"
+               debug="on"
+               deprecation="off"
+               nowarn="yes">
+            <classpath refid="project.class.path"/>
+        </javac>
+
+        <!-- Remove already existing custom .zip file -->
+        <delete verbose="true">
+            <fileset dir="${client.dir}" includes="${client}*_*.zip"/>
+        </delete>
+
+        <!-- Create a single .zip file for all custom components. Assumes the descriptor (desc.xml) -->
+        <!-- resides in com/idiominc/ws/client/<client>. -->
+        <zip destfile="${client.dir}/${client}_${version}_${build.time}.zip"
+             update="false">
+            <zipfileset dir="${common_client.dir}"
+                        includes="com/**/*.class"
+                        excludes="${common_client}_custom_${version}.zip,**/*.tmp,**/*.bak,**/*.wsdd,**/profserv/commons/webservices/**,**/com/idiominc/external/**"
+                    />
+            <!--<zipfileset dir="${sso_client.dir}/lib"-->
+                        <!--includes="**/*.jar"-->
+                    <!--/>-->
+            <zipfileset dir="${client.dir}"
+                        includes="desc.xml"
+                    />
+        </zip>
+
+    </target>
+
+
+    <target name="compassion-sow2-withoutSAML" depends="addToAis">
+
+        <tstamp>
+          <format property="build.time" pattern="MM-dd-yy"/>
+        </tstamp>
+
+        <delete dir="com"/>
+        <javac srcdir="${client.dir}/src/"
+               includes="**/*.java"
+               destdir="${client.dir}"
+               debug="on"
+               deprecation="off"
+               excludes="**/external/** **/authenticator/saml/**.java,**/CompassionCustomUI.java"
+               nowarn="yes">
+            <classpath refid="project.class.path"/>
+        </javac>
+
+        <!-- Remove already existing custom .zip file -->
+        <delete verbose="true">
+            <fileset dir="${client.dir}" includes="${client}*_*.zip"/>
+        </delete>
+
+        <!-- Create a single .zip file for all custom components. Assumes the descriptor (desc.xml) -->
+        <!-- resides in com/idiominc/ws/client/<client>. -->
+        <zip destfile="${client.dir}/${client}_${version}_${build.time}.zip"
+             update="true">
+            <zipfileset dir="${common_client.dir}"
+                        includes="com/**/*.class"
+                        excludes="${common_client}_custom_${version}.zip,**/*.tmp,**/*.bak,**/*.wsdd,**/profserv/commons/webservices/**,**/com/idiominc/external/**"
+                    />
+            <zipfileset dir="${client.dir}"
+                        includes="desc.xml"
+                    />
+        </zip>
+
+    </target>
+
+    <target name="externalAPI" depends="addToAis">
+        <delete dir="com"/>
+        <javac srcdir="${client.dir}/src/"
+               includes="**/external/**/*.java"
+               destdir="${client.dir}"
+               debug="on"
+               deprecation="off"
+               nowarn="yes">
+            <classpath refid="project.class.path"/>
+        </javac>
+        <jar destfile="deploy/jars/compassion-external-API.jar">
+            <zipfileset dir="${client.dir}" includes="**/external/**/*.class"/>
+        </jar>
+    </target>
+
+    <target name="compassion-no-depends" depends="addToAis">
+
+        <tstamp>
+          <format property="build.time" pattern="MM-dd-yy"/>
+        </tstamp>
+
+        <delete dir="com"/>
+        <javac srcdir="${client.dir}/src/"
+               includes="**/*.java"
+               excludes="**/external/**"
+               destdir="${client.dir}"
+               debug="on"
+               deprecation="off"
+               nowarn="yes">
+            <classpath refid="project.class.path"/>
+        </javac>
+
+        <!-- Remove already existing custom .zip file -->
+        <delete verbose="true">
+            <fileset dir="${client.dir}" includes="${client}*_*.zip"/>
+        </delete>
+
+        <!-- Create a single .zip file for all custom components. Assumes the descriptor (desc.xml) -->
+        <!-- resides in com/idiominc/ws/client/<client>. -->
+        <zip destfile="${client.dir}/${client}_${version}_${build.time}.zip"
+             update="true">
+            <zipfileset dir="${client.dir}"
+                        includes="**/*.class"
+                        excludes="${client}_custom_${version}.zip,**/*.tmp,**/*.bak,**/*.wsdd,**/profserv/commons/webservices/**,**/com/idiominc/external/**"
+                    />
+
+            <zipfileset dir="${common_client.dir}"
+                        includes="com/**/*.class"
+                        excludes="${common_client}_custom_${version}.zip,**/*.tmp,**/*.bak,**/*.wsdd,**/profserv/commons/webservices/**,**/com/idiominc/external/**"
+                    />
+            <zipfileset dir="${client.dir}"
+                        includes="desc.xml"
+                    />
+        </zip>
+
+    </target>
+    <target name="addToAis">
+        <tstamp>
+            <format property="build.time" pattern="MM-dd-yy"/>
+        </tstamp>
+
+
+        <touch file="compassion_inc/.updated"/>
+
+        <zip destfile="${client.dir}/upload_to_customization_${build.time}.zip" update="false">
+            <zipfileset dir="${client.dir}" includes="compassion_inc/**"/>
+            <zipfileset dir="${client.dir}/config" includes="**"/>
+
+        </zip>
+    </target>
+
+</project>

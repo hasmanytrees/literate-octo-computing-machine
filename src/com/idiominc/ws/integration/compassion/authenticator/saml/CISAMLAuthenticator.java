@@ -6,7 +6,9 @@ import com.idiominc.wssdk.WSContext;
 import com.idiominc.wssdk.user.WSUser;
 
 /**
- * Created by cslack on 9/11/2015.
+ * Compassion SAML authenticator class; utilize the common SSO authenticator parent object
+ *
+ * @author SDL Professional Services
  */
 public class CISAMLAuthenticator extends SSOAuthenticator {
 

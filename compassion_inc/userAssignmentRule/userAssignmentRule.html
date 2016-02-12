@@ -26,11 +26,17 @@
 </head>
 
 <body>
-<header class="uarMain">
-    <div id="title">
-        <h1>User Assignment Rule Editor</h1>
-    </div>
-</header>
+
+<section id="head">
+    <h1>User Assignment Rule Editor</h1>
+    <img class="product_logo" src="images/common/ws/headerright.png" alt="WorldServer 10" title="WorldServer 10">
+</section>
+
+<!--<header class="uarMain">-->
+    <!--<div id="title">-->
+        <!--<h1>User Assignment Rule Editor</h1>-->
+    <!--</div>-->
+<!--</header>-->
 
 <main>
     <section id="selectionSection">
@@ -50,7 +56,7 @@
 </main>
 
 <footer>
-    <button id="okButton" onclick="goBack()">OK</button>
+    <button id="okButton" onclick="goBack()">Close</button>
 </footer>
 
 <!-- Popup box for language selection -->
@@ -67,7 +73,7 @@
 
 <script>
     function goBack() {
-        window.history.back();
+        window.close();
     }
 </script>
 

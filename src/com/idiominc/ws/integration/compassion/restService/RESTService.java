@@ -49,7 +49,7 @@ public class RESTService {
 
     Logger log = Logger.getLogger(RESTService.class);
 
-
+    // Get an instance of REST service responsible for making REST call to the ESB server
     public static RESTService getInstance(WSContext context) throws IllegalArgumentException {
 
         try {
@@ -75,6 +75,13 @@ public class RESTService {
 
     }
 
+    /**
+     * REST service object constructor
+     * @param serverURL REST server URL
+     * @param client Client application name; 'worldserver' by default
+     * @param secret Secret string used as part of ESB REST OAuth
+     * @param apiKey API key used as part of ESB REST OAuth
+     */
     public RESTService(String serverURL, String client, String secret, String apiKey) {
         this.serverURL = serverURL + (serverURL.endsWith("/") ? "" : "/");
         this.client = client;
@@ -82,6 +89,14 @@ public class RESTService {
         this.apiKey = apiKey;
     }
 
+    /**
+     * Build and send out status update message to ESB via REST
+     * @param context WorldServer context
+     * @param task current task
+     * @param kvs Key/Value pair passed in from Set ESB automatic action
+     * @throws RESTException REST exception when making REST call
+     * @throws IOException IO exception when building status update message
+     */
     public void setESBStatus(WSContext context, WSAssetTask task, KV... kvs) throws RESTException, IOException {
         executeCommand(
                 context,
@@ -95,6 +110,13 @@ public class RESTService {
 
     }
 
+    /**
+     * Build and send out return kit message to ESB via REST
+     * @param context WorldServer context
+     * @param task current task
+     * @throws RESTException REST exception when making REST call
+     * @throws IOException IO exception when building return message
+     */
     public void sendReturnKit(WSContext context, WSAssetTask task) throws RESTException, IOException {
         executeCommand(
                 context,

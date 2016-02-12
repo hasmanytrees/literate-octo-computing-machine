@@ -27,15 +27,16 @@
     </head>
 
     <body>
-        <header>
-            <div id="title">
-                <h1>Translator Rating Editor</h1>
-            </div>
 
+        <section id="head">
+            <h1>Translator Rating Editor</h1>
+            <img class="product_logo" src="images/common/ws/headerright.png" alt="WorldServer 10" title="WorldServer 10">
+        </section>
+
+        <header>
             <div id="add_new_source">
                 <a id="addSourceButton" class="addLanguageButton" href="#">Add New Source Language</a>
             </div>
-
         </header>
 
         <main>
@@ -49,7 +50,7 @@
                 </div>
 
                 <div id="limitTranslators">
-                    <input type="checkbox" id="limitToWorkgroup" name="limitToWorkgroup">
+                    <input type="checkbox" id="limitToWorkgroup" name="limitToWorkgroup" checked>
                     <label for="limitToWorkgroup">My Workgroups Only</label>
                 </div>
             </section>
@@ -60,7 +61,7 @@
         </main>
 
         <footer>
-            <button id="okButton" onclick="goBack()">OK</button>
+            <button id="okButton" onclick="goBack()">Close</button>
         </footer>
 
         <!-- Popup box for language selection -->
@@ -77,7 +78,7 @@
 
         <script>
             function goBack() {
-                window.history.back();
+                window.close();
             }
         </script>
 

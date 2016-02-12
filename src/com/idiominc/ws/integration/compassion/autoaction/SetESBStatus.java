@@ -142,6 +142,7 @@ public class SetESBStatus extends WSCustomTaskAutomaticActionWithParameters {
 
     }
 
+    // Get automatic action parameters
     public WSParameter[] getParameters() {
         return new WSParameter[]{
                 WSParameterFactory.createStringParameter(_ATTR_STATUS_FIELD, "Field(s)", ""),
@@ -151,6 +152,7 @@ public class SetESBStatus extends WSCustomTaskAutomaticActionWithParameters {
         };
     }
 
+    // Pre-load the automatic action parameter values
     protected void preLoadParameters(Map parameters) throws WSInvalidParameterException {
         statusField = preLoadParameter(parameters, _ATTR_STATUS_FIELD, false);
         statusValue = preLoadParameter(parameters, _ATTR_STATUS_VALUE, false);
@@ -158,14 +160,17 @@ public class SetESBStatus extends WSCustomTaskAutomaticActionWithParameters {
         returnKit = "Yes".equalsIgnoreCase(preLoadParameter(parameters, _ATTR_RETURN_KIT, false));
     }
 
+    // Automatic action return value
     public String[] getReturns() {
         return new String[]{_TRANSITION_DONE};
     }
 
+    // Automatic action name
     public String getName() {
         return "Update ESB (v0.2)";
     }
 
+    // Automatic action description
     public String getDescription() {
         return "Update ESB";
     }

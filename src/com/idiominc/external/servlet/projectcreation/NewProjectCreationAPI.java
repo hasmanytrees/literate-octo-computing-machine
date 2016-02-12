@@ -39,7 +39,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathException;
 import java.io.*;
 
-
+/**
+ * External component responsible for listening for project creation request and creating projects in WorldServer.
+ *
+ * @author SDL Professional Services
+ */
 public class NewProjectCreationAPI extends HttpServlet {
 
     private final static String _PROCESS_ISL = "ISL";
@@ -87,11 +91,7 @@ public class NewProjectCreationAPI extends HttpServlet {
             }
 
             try {
-//                StringWriter errors = new StringWriter();
-//                e.printStackTrace(new PrintWriter(errors));
                 JSONObject msg = new JSONObject();
-//                msg.put("Error", e.toString());
-//                msg.put("Stack", errors.toString());
                 msg.put("Reason", e.getMessage());
                 msg.writeJSONString(httpServletResponse.getWriter());
 
@@ -152,6 +152,8 @@ public class NewProjectCreationAPI extends HttpServlet {
         // Same language pair
         if(originalSrcLocale.getName().equals(translationTgtLocale.getName())) {
             // handle same language pair logic (English to English)
+
+            targetWorkflow = context.getWorkflowManager().getWorkflow("Compassion Translation and Review Workflow-SameLang");
             if(direction.equals(_B2S)) {
                 /*
                  * a. FO Translator only does the Content Check passes it
@@ -180,8 +182,12 @@ public class NewProjectCreationAPI extends HttpServlet {
                 Original Text - Blank
                 English Text - Blank
                 Final Translated Text - Blank
+                --> Updated January 12, 2016
+                Original Text - Blank
+                English Text - English
+                Final Translated Text - English
                  */
-                returnTextRequirements = "false|false|false";
+                returnTextRequirements = "false|true|true";
             } else {
                 // S2B: Create one-step project for FO for content-check only:
                 /*
@@ -217,8 +223,12 @@ public class NewProjectCreationAPI extends HttpServlet {
                     Original Text - Blank
                     English Text - Blank
                     Final Translated Text - Blank
+                    --> Updated January 12, 2016
+                    Original Text - Blank
+                    English Text - English
+                    Final Translated Text - English
                      */
-                    returnTextRequirements = "false|false|false";
+                    returnTextRequirements = "false|true|true";
                 }
             }
         } else if(originalSrcLocale.getName().equals(intermediaryLocale.getName())) {
