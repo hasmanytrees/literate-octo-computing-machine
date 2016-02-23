@@ -139,13 +139,14 @@ SDL.tPaymentCommands = function () {
 
         // Display the report table
         oDataTable = $('#translator_report').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'csv', 'excel'
+            ],
+            lengthChange: true,
             data: arrDataSet,
             columns: arrTitles
         });
-
-        // Set the currents for CSV creation
-        SDL.tPaymentBindings.setCurrentTitles(arrTitles);
-        SDL.tPaymentBindings.setCurrentDataSet(arrDataSet);
     };
 
 

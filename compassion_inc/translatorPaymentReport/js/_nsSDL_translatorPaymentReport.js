@@ -37,9 +37,6 @@ SDL.translatorPayment = (function() {
 		// Bind action the Summary Report Button
 		SDL.tPaymentBindings.bindSummaryReportButton();
 
-		// Bind action to the Export to CSV Button
-		SDL.tPaymentBindings.bindExportToCSVButton();
-
 		// Bind action to the Close Button
 		SDL.tPaymentBindings.bindCloseButton();
 	};

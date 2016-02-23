@@ -9,27 +9,6 @@ var SDL = SDL || {};
 
 SDL.tPaymentBindings = (function() {
 
-    var aoCurrentDataSet = [];
-    var asCurrentTitles = [];
-
-    /**
-     * Setter for titles
-     *
-     * @param asTitles
-     */
-    var setCurrentTitles = function(asTitles) {
-        asCurrentTitles = asTitles;
-    };
-
-    /**
-     * Setter for current data set
-     * @param aData
-     */
-    var setCurrentDataSet = function(aData) {
-        aoCurrentDataSet = aData;
-    };
-
-
     /**
      * Action when detailed report button is clicked
      */
@@ -75,61 +54,6 @@ SDL.tPaymentBindings = (function() {
 
 
     /**
-     * Action when Export to CSV button is clicked
-     */
-    var bindExportToCSVButton = function () {
-
-        // Capture the "Generate CSV" button click
-        $("#csvButton").click(function (oEvent) {
-
-            // Stop the button click from doing anything defaulty
-            oEvent.preventDefault();
-
-            // Only do anything if a dataset is actually selected
-            if(aoCurrentDataSet != null) {
-
-                if ($("#csvDownload").length > 0) {
-                    $("#csvDownload").remove();
-                }
-
-                // Set the header MIME type for the CSV file
-                var strCSVContent = "data:text/csv;charset=utf-8,";
-
-                // Add titles to CSV file, have to map the object values
-                strCSVContent += asCurrentTitles.map(function (oElement) {
-                        return oElement.title;
-                    }).join(",") + "\n";
-
-                // Add data to CSV file
-                aoCurrentDataSet.forEach(function (dataArrayArg) {
-                    var aoData = Array.prototype.slice.call(dataArrayArg);
-                    strCSVContent += aoData.join(",") + "\n";
-                });
-
-                // Encode CSV for download
-                var oEncodedUri = encodeURI(strCSVContent);
-
-                // Create timestamp
-                var oDate = new Date();
-                var iMonth = oDate.getMonth() + 1;
-                var iDay = oDate.getDate();
-                var iYear = oDate.getFullYear();
-                var iHours = oDate.getHours() + 1;
-                var iMinutes = oDate.getMinutes();
-                var strTimeStamp = iMonth + "-" + iDay + "-" + iYear + "_" + iHours + iMinutes;
-
-                // Create filename
-                var strFilename = "report_" + strTimeStamp + ".csv";
-
-                $("body").append("<a href='" + oEncodedUri + "' id='csvDownload' style='display: none;' download='" + strFilename + "'>Test</a>");
-
-                $("#csvDownload")[0].click();
-            }
-        });
-    };
-
-
-    /**
      * Closes Window
      */
     var bindCloseButton = function() {
@@ -164,10 +88,7 @@ SDL.tPaymentBindings = (function() {
     return {
         bindDetailedReportButton     : bindDetailedReportButton,
         bindSummaryReportButton      : bindSummaryReportButton,
-        bindExportToCSVButton        : bindExportToCSVButton,
-        bindCloseButton              : bindCloseButton,
-        setCurrentTitles             : setCurrentTitles,
-        setCurrentDataSet            : setCurrentDataSet
+        bindCloseButton              : bindCloseButton
     };
 
 })();
