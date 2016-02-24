@@ -182,14 +182,21 @@ SDL.tUIBindings = (function() {
     var bindLimitWorkgroupCheckboxChange = function() {
 
         $("#limitToWorkgroup").change(function () {
-            SDL.translatorUI.init();
+            // Check to see if we will limit translator list to just those in user's workgroup
+            var bLimitTranslators = $("input#limitToWorkgroup").is(':checked');
+
+            // Populate the Translators select box
+            SDL.tUICommands.showTranslators(bLimitTranslators);
         });
     };
 
+
+
+    /**
+     * Setup nicer looking select boxes using Select2
+     */
     var select2Setup = function () {
-        /**
-         * Setup nicer looking select boxes using Select2
-         */
+
         $("#translatorSelect").select2({
             placeholder: "Select a translator",
             width: '267px'
@@ -198,7 +205,6 @@ SDL.tUIBindings = (function() {
             .on("change", function() {
                 $("#addSourceButton").show();
                 SDL.translatorUI.updateUser();
-
             });
 
         $("#source_language").select2({

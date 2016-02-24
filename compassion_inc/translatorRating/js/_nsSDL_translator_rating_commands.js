@@ -164,105 +164,105 @@ SDL.tUICommands = (function() {
         // Clearn the ratings first
         $("#ratings").empty();
 
-        SDL.shared.executeWSRequest('getUserRating', function(result) {
+        if(iUserId) {
 
-            var RATING_STRINGS = ["Trainee", "Beginner", "Intermediate", "Advanced", "Expert"];
+            SDL.shared.executeWSRequest('getUserRating', function (result) {
 
-            $(result).find("language_pair").each(function(i, languagePair) {
+                var RATING_STRINGS = ["Trainee", "Beginner", "Intermediate", "Advanced", "Expert"];
 
-                var strSourceLanguage = $(languagePair).attr("source");
+                $(result).find("language_pair").each(function (i, languagePair) {
 
-                var $ratingSourceSection = $("<section>",
-                    {class: "source_language"}).appendTo($("#ratings"));
+                    var strSourceLanguage = $(languagePair).attr("source");
 
-                $("<header>",
-                    {html: "<h2>From | " +  $(languagePair).attr("source") + "</h2>"})
-                    .appendTo($ratingSourceSection);
+                    var $ratingSourceSection = $("<section>",
+                        {class: "source_language"}).appendTo($("#ratings"));
 
-                // Insert the delete button for source language
-                $("<a href='#' class='source-delete-button'></a>")
-                    .attr("data-source-lang", strSourceLanguage)
-                    .appendTo($ratingSourceSection);
+                    $("<header>",
+                        {html: "<h2>From | " + $(languagePair).attr("source") + "</h2>"})
+                        .appendTo($ratingSourceSection);
 
-                // Insert the add button for source language
-                $("<aside>",
-                    {html: "<a class='addLanguageButton addTargetButton' href='#' data-source-lang='" + strSourceLanguage + "'>Add New Target</a>"})
-                    .attr("data-source-lang", strSourceLanguage)
-                    .appendTo($ratingSourceSection);
-
-                var $sourceMain = $("<main>").appendTo($ratingSourceSection);
-                var $sourceMainUl = $("<ul class='languagePairList'>").appendTo($sourceMain);
-
-                $(languagePair).find("target").each(function(n, target) {
-
-                    var translationID = $(languagePair).attr("source") + "." + $(target).text();
-                    var strTargetLanguage = $(target).text();
-
-                    var $targetLi = $("<li>")
+                    // Insert the delete button for source language
+                    $("<a href='#' class='source-delete-button'></a>")
                         .attr("data-source-lang", strSourceLanguage)
-                        .attr("data-target-lang", strTargetLanguage)
-                        .appendTo($sourceMainUl);
+                        .appendTo($ratingSourceSection);
 
-                    // Create the left column
-                    $("<div>", {
-                        class: "leftcol", html: "<p>To | " + strTargetLanguage + "</p>"
-                    }).appendTo($targetLi);
+                    // Insert the add button for source language
+                    $("<aside>",
+                        {html: "<a class='addLanguageButton addTargetButton' href='#' data-source-lang='" + strSourceLanguage + "'>Add New Target</a>"})
+                        .attr("data-source-lang", strSourceLanguage)
+                        .appendTo($ratingSourceSection);
 
-                    //Create the right column
-                    var $targetRight = $("<div>", {
-                        class: "rightcol", html: "<div class='linediv'></div>"
-                    }).appendTo($targetLi);
+                    var $sourceMain = $("<main>").appendTo($ratingSourceSection);
+                    var $sourceMainUl = $("<ul class='languagePairList'>").appendTo($sourceMain);
 
+                    $(languagePair).find("target").each(function (n, target) {
 
-                    // Loop through ratings
-                    $.each( RATING_STRINGS, function(idx, rating) {
+                        var translationID = $(languagePair).attr("source") + "." + $(target).text();
+                        var strTargetLanguage = $(target).text();
 
-                        // Create the radio button group
-                        var $radioGroup = $("<div>", {
-                            class: "radiogroup"
-                        }).appendTo($targetRight);
-
-
-                        // Insert Rating Radio Button
-                        $('<input id="' + translationID + idx +
-                            '" name="' + translationID + '" type="radio" value="' + rating +
-                            '"/>')
+                        var $targetLi = $("<li>")
                             .attr("data-source-lang", strSourceLanguage)
                             .attr("data-target-lang", strTargetLanguage)
-                            .appendTo($radioGroup);
+                            .appendTo($sourceMainUl);
 
-                        // Insert Radio Button label
-                        $('<label for="' + translationID + idx + '"><span></span><br>' +
-                            rating + '</label>').appendTo($radioGroup);
+                        // Create the left column
+                        $("<div>", {
+                            class: "leftcol", html: "<p>To | " + strTargetLanguage + "</p>"
+                        }).appendTo($targetLi);
 
-                        $('input[name="' + translationID + '"]').val([$(target).attr("rating")]);
+                        //Create the right column
+                        var $targetRight = $("<div>", {
+                            class: "rightcol", html: "<div class='linediv'></div>"
+                        }).appendTo($targetLi);
 
+
+                        // Loop through ratings
+                        $.each(RATING_STRINGS, function (idx, rating) {
+
+                            // Create the radio button group
+                            var $radioGroup = $("<div>", {
+                                class: "radiogroup"
+                            }).appendTo($targetRight);
+
+
+                            // Insert Rating Radio Button
+                            $('<input id="' + translationID + idx +
+                                '" name="' + translationID + '" type="radio" value="' + rating +
+                                '"/>')
+                                .attr("data-source-lang", strSourceLanguage)
+                                .attr("data-target-lang", strTargetLanguage)
+                                .appendTo($radioGroup);
+
+                            // Insert Radio Button label
+                            $('<label for="' + translationID + idx + '"><span></span><br>' +
+                                rating + '</label>').appendTo($radioGroup);
+
+                            $('input[name="' + translationID + '"]').val([$(target).attr("rating")]);
+
+                        });
+
+                        // Insert target language Delete button
+                        $("<a href='#' class='target-delete-button'><span></span></a>")
+                            .attr("data-source-lang", strSourceLanguage)
+                            .attr("data-target-lang", strTargetLanguage)
+                            .appendTo($targetLi);
                     });
-
-                    // Insert target language Delete button
-                    $("<a href='#' class='target-delete-button'><span></span></a>")
-                        .attr("data-source-lang", strSourceLanguage)
-                        .attr("data-target-lang", strTargetLanguage)
-                        .appendTo($targetLi);
                 });
-            });
 
-            // Action when Source lang delete button is clicked
-            SDL.tUIBindings.bindSourceDeleteButton();
+                // Action when Source lang delete button is clicked
+                SDL.tUIBindings.bindSourceDeleteButton();
 
-            // Action when target lang delete button is clicked
-            SDL.tUIBindings.bindTargetDeleteButton();
+                // Action when target lang delete button is clicked
+                SDL.tUIBindings.bindTargetDeleteButton();
 
-            // Action when Target Lang add button is clicked
-            SDL.tUIBindings.bindTargetAddButton();
+                // Action when Target Lang add button is clicked
+                SDL.tUIBindings.bindTargetAddButton();
 
-            // Action on any change in radio button status
-            SDL.tUIBindings.bindRatingRadioChange();
+                // Action on any change in radio button status
+                SDL.tUIBindings.bindRatingRadioChange();
 
-        }, { userId: iUserId });
-
-
-
+            }, {userId: iUserId});
+        }
     };
 
     /**
