@@ -17,12 +17,14 @@ import java.util.*;
 /**
  * Handles interface between Javascript and Worldserver for the translator payment report.
  *
- * Created by cslack on 1/26/2016.
+ * @author SDL Professional Services
  */
 public class TranslatorPaymentCommands extends WSHttpServlet {
 
 
     private static final Logger log = Logger.getLogger(TranslatorPaymentCommands.class);
+    private static final int _STATUS_OK = 200;
+    private static final int _STATUS_ERROR = 400;
 
     public synchronized boolean handle(WSContext context, HttpServletRequest request, HttpServletResponse response) {
 
@@ -33,7 +35,7 @@ public class TranslatorPaymentCommands extends WSHttpServlet {
 
             // Send a valid HTTP response
             response.setContentType("application/json");
-            response.setStatus(200);
+            response.setStatus(_STATUS_OK);
 
             Object result = null;
 
@@ -58,7 +60,7 @@ public class TranslatorPaymentCommands extends WSHttpServlet {
 
             log.error("API ERROR", e);
 
-            response.setStatus(400);
+            response.setStatus(_STATUS_ERROR);
 
             try {
                 JSONValue.writeJSONString((e.getMessage() != null ? e.getMessage() : "UNKNOWN"), response.getWriter());
@@ -145,41 +147,42 @@ public class TranslatorPaymentCommands extends WSHttpServlet {
         // Create the array to return to Javascript for display
         ArrayList<ArrayList<String>> returnList = new ArrayList<ArrayList<String>>();
 
+        // Create a list of projects from the SQL database
+        List<ArchivedProject> projects = null;
         try {
-
-            // Create a list of projects from the SQL database
-            List<ArchivedProject> projects = archivedProjects.runQuery();
-
-            // Check if any projects returned
-            if(projects != null) {
-
-                // If so loop through them
-                for (ArchivedProject project : projects) {
-
-                    // Create the row array for the report table
-                    ArrayList<String> projectList = new ArrayList<String>();
-
-                    // Add in the elements in the left to right order
-                    projectList.add(project.getStepAcceptedBy());
-                    projectList.add(project.getStepName());
-                    projectList.add(project.getTemplateId());
-                    projectList.add(project.getCommunicationId());
-                    projectList.add(project.getSourceLocale());
-                    projectList.add(project.getTargetLocale());
-                    projectList.add(project.getProjectStartDate());
-                    projectList.add(project.getStepAcceptedOn());
-                    projectList.add(project.getStepCompletedOn());
-                    projectList.add(project.getProjectCompletionDate());
-                    projectList.add(project.isWasEscalated());
-                    projectList.add(project.isRequiredRework());
-                    projectList.add(project.isWasReturnedToQueue());
-
-                    // Add the row to the full array
-                    returnList.add(projectList);
-                }
-            }
+            projects = archivedProjects.runQuery();
         } catch (SQLException e) {
             log.error("SQL error executing query for Detailed Report.", e);
+            return returnList;
+        }
+
+        // Check if any projects returned
+        if(projects != null) {
+
+            // If so loop through them
+            for (ArchivedProject project : projects) {
+
+                // Create the row array for the report table
+                ArrayList<String> projectList = new ArrayList<String>();
+
+                // Add in the elements in the left to right order
+                projectList.add(project.getStepAcceptedBy());
+                projectList.add(project.getStepName());
+                projectList.add(project.getTemplateId());
+                projectList.add(project.getCommunicationId());
+                projectList.add(project.getSourceLocale());
+                projectList.add(project.getTargetLocale());
+                projectList.add(project.getProjectStartDate());
+                projectList.add(project.getStepAcceptedOn());
+                projectList.add(project.getStepCompletedOn());
+                projectList.add(project.getProjectCompletionDate());
+                projectList.add(project.isWasEscalated());
+                projectList.add(project.isRequiredRework());
+                projectList.add(project.isWasReturnedToQueue());
+
+                // Add the row to the full array
+                returnList.add(projectList);
+            }
         }
 
         // Return the full array to Javascript for display

@@ -27,6 +27,7 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 
 //sax and DOM
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -51,6 +52,9 @@ public class NewProjectCreationAPI extends HttpServlet {
     private final static String _PROCESS_TRANSCRIPTION = "Transcription";
     private final static String _B2S = "Beneficiary To Supporter";
 
+    //log
+    private final Logger log = Logger.getLogger(NewProjectCreationAPI.class);
+
     protected void doPost(final HttpServletRequest httpServletRequest, final HttpServletResponse httpServletResponse) {
 
         final Exception[] eRef = new Exception[1];
@@ -73,6 +77,7 @@ public class NewProjectCreationAPI extends HttpServlet {
                         return true;
 
                     } catch (Exception e) {
+                        log.error("Project creation error:", e);
                         eRef[0] = e;
                         return false;
                     }
@@ -91,6 +96,7 @@ public class NewProjectCreationAPI extends HttpServlet {
             }
 
             try {
+                log.error("Project creation error - ", e);
                 JSONObject msg = new JSONObject();
                 msg.put("Reason", e.getMessage());
                 msg.writeJSONString(httpServletResponse.getWriter());

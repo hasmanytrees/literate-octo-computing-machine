@@ -1,5 +1,6 @@
 package com.idiominc.ws.integration.compassion.autoaction.reporting;
 
+import com.idiominc.external.config.Config;
 import com.idiominc.ws.integration.compassion.utilities.AttributeValidationUtils;
 import com.idiominc.ws.integration.profserv.commons.wssdk.autoaction.WSCustomTaskAutomaticAction;
 import com.idiominc.wssdk.WSContext;
@@ -25,12 +26,12 @@ public class CollectEscalationInfo extends WSCustomTaskAutomaticAction {
     //log
     private Logger log = Logger.getLogger(CollectEscalationInfo.class);
 
-    //variable
-    private static final String _translationEscalated = "TranslationEscalated";
-    private static final String _TranslateStepName = "Translate";
-    private static final String _UpdateTranslationStepName = "Update Translation";
-    private static final String _QCStepName = "Perform QC";
-    private static final String _EscalationTransition = "Escalate to Supervisor";
+    //variable [default values]
+    private static String _translationEscalated = "TranslationEscalated";
+    private static String _TranslateStepName = "Translate";
+    private static String _UpdateTranslationStepName = "Update Translation";
+    private static String _QCStepName = "Perform QC";
+    private static String _EscalationTransition = "Escalate to Supervisor";
 
     /**
      * Aggregate the escalation data
@@ -38,6 +39,17 @@ public class CollectEscalationInfo extends WSCustomTaskAutomaticAction {
      * @param task - project's task
      */
     public WSActionResult execute(WSContext wsContext, WSAssetTask task) {
+
+        //setup step name variables from custom.properties
+        try {
+            _TranslateStepName = Config.getString(wsContext, "step_name.translate", "Translate");
+            _UpdateTranslationStepName = Config.getString(wsContext, "step_name.update_translation", "Update Translation");
+            _QCStepName = Config.getString(wsContext, "step_name.perform_qc", "Perform QC");
+            _EscalationTransition = Config.getString(wsContext, "transition.EscalationTransition", "Escalate to Supervisor");
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+
 
         //validate attributes
         if(!AttributeValidationUtils.validateAttributeExists(wsContext, task.getProject().getClass(), _translationEscalated, log)) {

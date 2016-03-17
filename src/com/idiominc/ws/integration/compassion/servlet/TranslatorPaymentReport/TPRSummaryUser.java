@@ -2,9 +2,9 @@ package com.idiominc.ws.integration.compassion.servlet.TranslatorPaymentReport;
 
 /**
  * Data structure to use as key containing user and step information for the summary
- * report
+ * report (TPR = Translator Payment Report, now called Translator Activity Report)
  *
- * Created by cslack on 2/4/2016.
+ * @author SDL Professional Services
  */
 
 public class TPRSummaryUser {
@@ -57,11 +57,11 @@ public class TPRSummaryUser {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(Object user) {
+        if (this == user) return true;
+        if (user == null || getClass() != user.getClass()) return false;
 
-        TPRSummaryUser that = (TPRSummaryUser) o;
+        TPRSummaryUser that = (TPRSummaryUser) user;
 
         return name.equals(that.name) &&
                 stepName.equals(that.stepName) &&

@@ -43,6 +43,7 @@ SDL.tPaymentBindings = (function() {
             oEvent.preventDefault();
 
             var iStartDate = processDate($("#start_date").val());
+            //var iStartDate = new Date($("#start_date").val()).getTime();
             var iEndDate = processDate($("#end_date").val());
             var asWorkgroups = $("#workgroupSelect").val();
 

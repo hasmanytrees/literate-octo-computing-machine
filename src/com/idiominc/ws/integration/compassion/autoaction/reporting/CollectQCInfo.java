@@ -1,5 +1,6 @@
 package com.idiominc.ws.integration.compassion.autoaction.reporting;
 
+import com.idiominc.external.config.Config;
 import com.idiominc.ws.integration.compassion.utilities.AttributeValidationUtils;
 import com.idiominc.ws.integration.profserv.commons.wssdk.autoaction.WSCustomTaskAutomaticAction;
 import com.idiominc.wssdk.WSContext;
@@ -34,8 +35,8 @@ public class CollectQCInfo extends WSCustomTaskAutomaticAction {
     private static final String _qcStepAcceptedOn = "QCStepAcceptedOn";
     private static final String _qcStepCompletedBy = "QCStepCompletedBy";
     private static final String _qcStepCompletedOn = "QCStepCompletedOn";
-    private static final String _QC_Queue_Stepname = "QC Queue";
-    private static final String _QC_Stepname = "Perform QC";
+    private static String _QC_Queue_Stepname = "QC Queue";
+    private static String _QC_Stepname = "Perform QC";
 
     /**
      * Aggregate the QC acceptance & completion data
@@ -43,6 +44,14 @@ public class CollectQCInfo extends WSCustomTaskAutomaticAction {
      * @param task - project's task
      */
     public WSActionResult execute(WSContext wsContext, WSAssetTask task) {
+
+        //setup step name variables from custom.properties
+        try {
+            _QC_Queue_Stepname = Config.getString(wsContext, "step_name.qc_queue", "QC Queue");
+            _QC_Stepname = Config.getString(wsContext, "step_name.perform_qc", "Perform QC");
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
 
         //validate attributes
         if(!AttributeValidationUtils.validateAttributeExists(wsContext, task.getProject().getClass(), _qcStepAcceptedBy, log) ||

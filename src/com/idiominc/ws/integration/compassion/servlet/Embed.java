@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Created by bslack on 9/23/15.
+ * Helper class to embed JS and supporting files in custom UI components.
  */
 public class Embed {
 
@@ -28,7 +28,8 @@ public class Embed {
      * @depreacted Deprecated by moving JS to public directory rather than embedding the contents directly in the output
      */
     public static void embedJS(WSContext context, WSHtmlContainer hook, String name) throws WSAisException, IOException {
-        log.warn("EmbedJS has been deprecated!");
+        //This will be officially deprecated once automated deployment of supporting files are completed
+        //log.warn("EmbedJS has been deprecated!");
         hook.add("<script>\n");
         embed(context, hook, name);
         hook.add("\n</script>\n");

@@ -1,5 +1,6 @@
 package com.idiominc.ws.integration.compassion.autoaction.reporting;
 
+import com.idiominc.external.config.Config;
 import com.idiominc.ws.integration.compassion.utilities.AttributeValidationUtils;
 import com.idiominc.ws.integration.profserv.commons.wssdk.autoaction.WSCustomTaskAutomaticAction;
 import com.idiominc.wssdk.WSContext;
@@ -25,8 +26,8 @@ public class CollectReworkInfo extends WSCustomTaskAutomaticAction {
 
     //variable
     private static final String _translationSubmittedForRework = "TranslationSubmittedForRework";
-    private static final String _QCStepName = "Perform QC";
-    private static final String _ReworkTransition = "Require Update";
+    private static String _QCStepName = "Perform QC";
+    private static String _ReworkTransition = "Require Update";
 
     /**
      * Aggregate the rework data
@@ -34,6 +35,14 @@ public class CollectReworkInfo extends WSCustomTaskAutomaticAction {
      * @param task - project's task
      */
     public WSActionResult execute(WSContext wsContext, WSAssetTask task) {
+
+        //setup step name variables from custom.properties
+        try {
+            _QCStepName = Config.getString(wsContext, "step_name.perform_qc", "Perform QC");
+            _ReworkTransition = Config.getString(wsContext, "transition.ReworkTransition", "Require Update");
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
 
         //validate attributes
         if(!AttributeValidationUtils.validateAttributeExists(wsContext, task.getProject().getClass(), _translationSubmittedForRework, log)) {
