@@ -44,22 +44,26 @@ public class UserRatingParser {
      * @param user - WS User Object
      * @throws RatingException - parsing exception
      */
-    public UserRatingParser(final WSUser user) throws RatingException {
-        XMLReader xmlReader;
+    public UserRatingParser(final WSUser user, XMLReader xmlReader) throws RatingException {
         try {
             if(null == user) {
                 throw new RatingException("User object is not defined");
             }
             userName = user.getUserName();
-            xmlReader = XMLReaderFactory.createXMLReader();
-            UserRatingHandler handler = new UserRatingHandler();
-            xmlReader.setContentHandler(handler);
-            String ratingData = user.getAttributeValue(Config._USER_RATING_ATTRIBUTE).getAttributeValue();
+
+            String ratingData = user.getAttribute(Config._USER_RATING_ATTRIBUTE);
             if(null == ratingData || 0 == ratingData.length()) {
                 throw new RatingException("Rating Data is not available for user " + userName);
             }
+
+            if(xmlReader == null) {
+                xmlReader = XMLReaderFactory.createXMLReader();
+            }
+            UserRatingHandler handler = new UserRatingHandler();
+            xmlReader.setContentHandler(handler);
             xmlReader.parse(new InputSource(
                     new ByteArrayInputStream(ratingData.getBytes("utf-8"))));
+
             ratingsList = handler.getLanguagePairs();
         } catch (SAXException e) {
             throw new RatingException(e.getLocalizedMessage());

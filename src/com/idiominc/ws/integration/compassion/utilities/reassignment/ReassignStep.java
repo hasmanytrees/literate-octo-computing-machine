@@ -17,9 +17,7 @@ import com.idiominc.wssdk.user.WSLocale;
 import com.idiominc.wssdk.user.WSWorkgroup;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -52,9 +50,26 @@ public class ReassignStep {
      * @param task task being reassigned
      * @param log WorldServer application log
      * @param returnMsg StringBuilder to pass output message to caller
+     * @param hts human task step for reassignment
+     * @param candidates preloaded candidate users for reassignment, if available; null if not preloaded
+     * @param allUserRatingParsersTable preloaded table of all users' rating parsers; null if not preloaded
+     * @param allLocaleUsers preloaded table of all users per locale; null if not preloaded
+     * @param allRoleUsers preloaded table of all users per workflow role; null if not preloaded
+     * @param allWorkgroupUsers preloaded table of all users per workgroup; null if not preloaded
+     * @param allRuleIDTable preloaded table of all assignment rule per workgroup; null if not preloaded
      * @return true if reassign was successful; false otherwise
      */
-    public static boolean reassignTranslationQueue(WSContext wsContext, WSAssetTask task, Logger log, StringBuilder returnMsg, WSHumanTaskStep hts) {
+    public static boolean reassignTranslationQueue(WSContext wsContext, WSAssetTask task, Logger log, StringBuilder returnMsg,
+                                                   WSHumanTaskStep hts,
+                                                   WSUser[] candidates,
+                                                   Hashtable<Integer,UserRatingParser> allUserRatingParsersTable,
+                                                   Hashtable<String,List<Integer>> allLocaleUsers,
+                                                   Hashtable<String,List<Integer>> allRoleUsers,
+                                                   Hashtable<String,List<Integer>> allWorkgroupUsers,
+                                                   Hashtable<String, WBAssignmentRuleIdentifier> allRuleIDTable) {
+
+        // performance capture
+        long starttime = new Date().getTime();
 
         //data
         List<WSUser> resultingList = new ArrayList<>();
@@ -142,21 +157,44 @@ public class ReassignStep {
         }
 
         try {
-            WBAssignmentRuleIdentifier rid = new WBAssignmentRuleIdentifier(wsContext, workgroup);
+            WBAssignmentRuleIdentifier rid;
+            if(allRuleIDTable != null) {
+                rid = allRuleIDTable.get(workgroup.getName());
+                if(rid == null) {
+                    rid = new WBAssignmentRuleIdentifier(wsContext, workgroup);
+                }
+            } else {
+                rid = new WBAssignmentRuleIdentifier(wsContext, workgroup);
+            }
             List<RATING> acceptableRatings = rid.getListOfRatingsPerComplexity(RATING_APPLICABILITY.TRANSLATE,
                     complexityStr);
 
-            for(WSUser candidate: wsContext.getUserManager().getUsers()) {
-                if(ReassignStep.belongs(candidate.getId(), targetLocale)
+            if(candidates == null) {
+                candidates = wsContext.getUserManager().getUsers();
+            }
+
+            for(WSUser candidate: candidates) {
+                if(ReassignStep.belongs(candidate.getId(), targetLocale, allLocaleUsers)
                         &&
-                        ReassignStep.belongs(candidate.getId(), translatorRole)
+                        ReassignStep.belongs(candidate.getId(), translatorRole, allRoleUsers)
                         &&
-                        ReassignStep.belongs(candidate.getId(), workgroup)) {
+                        ReassignStep.belongs(candidate.getId(), workgroup, allWorkgroupUsers)) {
 
                     try {
                         // expect RatingException, if user is not set with rating data; should not break the customization
                         log.info("Testing candidacy for " + candidate.getUserName() + " for " + sourceLocale.getName() + "-->" + targetLocale.getName());
-                        UserRatingParser parser = new UserRatingParser(candidate);
+
+                        // performance update: retrieved preloaded data if exists
+                        UserRatingParser parser;
+                        if(allUserRatingParsersTable != null) {
+                            parser = allUserRatingParsersTable.get(candidate.getId());
+                            if (parser == null) {
+                                parser = new UserRatingParser(candidate, null);
+                            }
+                        } else {
+                            parser = new UserRatingParser(candidate, null);
+                        }
+
                         RATING userRating = parser.getRating(wsContext, sourceLocale, targetLocale);
                         if(acceptableRatings.contains(userRating)) {
                             resultingList.add(candidate);
@@ -177,11 +215,11 @@ public class ReassignStep {
             log.info("Opting out to supervisor's role users");
             assignedToSupervisors.append("Assigned Translator Queue step to Supervisors - no qualified Translator found.");
             for(WSUser candidate: supervisorRole.getUsers()) {
-                if(ReassignStep.belongs(candidate.getId(), targetLocale)
+                if(ReassignStep.belongs(candidate.getId(), targetLocale, allLocaleUsers)
                         &&
-                        ReassignStep.belongs(candidate.getId(), sourceLocale)
+                        ReassignStep.belongs(candidate.getId(), sourceLocale, allLocaleUsers)
                         &&
-                        ReassignStep.belongs(candidate.getId(), workgroup))
+                        ReassignStep.belongs(candidate.getId(), workgroup, allWorkgroupUsers))
                 {
                     resultingList.add(candidate);
                 }
@@ -194,12 +232,25 @@ public class ReassignStep {
             return false;
         }
 
+        // performance capture
+        long userEvaluationEndtime = new Date().getTime();
+        long userEvaluationDuration = userEvaluationEndtime - starttime;
+
         if(!isUserAssigneeSame(hts, resultingList.toArray(new WSUser[resultingList.size()]))) {
             ReassignStep.reassign(hts, resultingList.toArray(new WSUser[resultingList.size()]));
             returnMsg.append("Reassigned step ").append(hts.getWorkflowStep().getName()).append(" to ").
                     append(resultingList.size()).append(" qualified users. ").
                     append(assignedToSupervisors.toString());
         }
+
+        // performance capture
+        long endtime = new Date().getTime();
+        long assignmentDuration = endtime - userEvaluationEndtime;
+        long totalDuration = endtime - starttime;
+        log.debug(returnMsg.toString() + "Total:" + totalDuration +
+        " User Evaluation:" + userEvaluationDuration +
+        " Reassignment:" + assignmentDuration);
+
         // otherwise user assignees are same; no assignment is needed
         // do nothing; only output message when there is actual reassignment
 
@@ -238,9 +289,28 @@ public class ReassignStep {
      * @param task task being reassigned
      * @param log WorldServer application log
      * @param returnMsg StringBuilder to pass output message to caller
+     * @param parent parent object for use with reassignment
+     * @param hts human task step for reassignment
+     * @param candidates preloaded candidate users for reassignment, if available; null if not preloaded
+     * @param allUserRatingParsersTable preloaded table of all users' rating parsers; null if not preloaded
+     * @param allLocaleUsers preloaded table of all users per locale; null if not preloaded
+     * @param allRoleUsers preloaded table of all users per workflow role; null if not preloaded
+     * @param allWorkgroupUsers preloaded table of all users per workgroup; null if not preloaded
+     * @param allRuleIDTable preloaded table of all assignment rule per workgroup; null if not preloaded
      * @return true if reassign was successful; false otherwise
      */
-    public static boolean reassignQCQueue(WSContext wsContext, WSAssetTask task, Logger log, StringBuilder returnMsg, Object parent, WSHumanTaskStep hts ) {
+    public static boolean reassignQCQueue(WSContext wsContext, WSAssetTask task, Logger log, StringBuilder returnMsg, Object parent,
+                                          WSHumanTaskStep hts,
+                                          WSUser[] candidates,
+                                          Hashtable<Integer,UserRatingParser> allUserRatingParsersTable,
+                                          Hashtable<String,List<Integer>> allLocaleUsers,
+                                          Hashtable<String,List<Integer>> allRoleUsers,
+                                          Hashtable<String,List<Integer>> allWorkgroupUsers,
+                                          Hashtable<String, WBAssignmentRuleIdentifier> allRuleIDTable) {
+
+        // performance capture
+        long starttime = new Date().getTime();
+
         //data
         List<WSUser> resultingList = new ArrayList<>();
         StringBuilder assignedToSupervisors = new StringBuilder();
@@ -329,7 +399,15 @@ public class ReassignStep {
         try {
             String qcQualifiedAttributeName;
             WSUser realTranslator = findTranslator(wsContext, task.getProject(), log);
-            WBAssignmentRuleIdentifier rid = new WBAssignmentRuleIdentifier(wsContext, workgroup);
+            WBAssignmentRuleIdentifier rid;
+            if(allRuleIDTable != null) {
+                rid = allRuleIDTable.get(workgroup.getName());
+                if(rid == null) {
+                    rid = new WBAssignmentRuleIdentifier(wsContext, workgroup);
+                }
+            } else {
+                rid = new WBAssignmentRuleIdentifier(wsContext, workgroup);
+            }
             List<RATING> acceptableRatings = rid.getListOfRatingsPerComplexity(RATING_APPLICABILITY.QC,
                     complexityStr);
             try {
@@ -349,7 +427,11 @@ public class ReassignStep {
                 return false;
             }
 
-            for(WSUser candidate: wsContext.getUserManager().getUsers()) {
+            if(candidates == null) {
+                candidates = wsContext.getUserManager().getUsers();
+            }
+
+            for(WSUser candidate: candidates) {
                 boolean isUserQualified = WSAttributeUtils.getBooleanAttribute(parent, candidate, qcQualifiedAttributeName);
                 if(!isUserQualified) {
                     log.info("User " + candidate.getUserName() + " is disqualified for QC as defined in User setting");
@@ -362,16 +444,25 @@ public class ReassignStep {
                     log.info("User " + candidate.getUserName() + " is disqualified for QC. Did translation");
                     continue;
                 }
-                if(ReassignStep.belongs(candidate.getId(), targetLocale)
+                if(ReassignStep.belongs(candidate.getId(), targetLocale, allLocaleUsers)
                         &&
-                        ReassignStep.belongs(candidate.getId(), sourceLocale)
+                        ReassignStep.belongs(candidate.getId(), sourceLocale, allLocaleUsers)
                         &&
-                        ReassignStep.belongs(candidate.getId(), translatorRole)
+                        ReassignStep.belongs(candidate.getId(), translatorRole, allRoleUsers)
                         &&
-                        ReassignStep.belongs(candidate.getId(), workgroup)) {
+                        ReassignStep.belongs(candidate.getId(), workgroup, allWorkgroupUsers)) {
 
                     try {
-                        UserRatingParser parser = new UserRatingParser(candidate);
+                        // performance update: retrieved preloaded data if exists
+                        UserRatingParser parser;
+                        if(allUserRatingParsersTable != null) {
+                            parser = allUserRatingParsersTable.get(candidate.getId());
+                            if (parser == null) {
+                                parser = new UserRatingParser(candidate, null);
+                            }
+                        } else {
+                            parser = new UserRatingParser(candidate, null);
+                        }
                         RATING userRating = parser.getRating(wsContext, sourceLocale, targetLocale);
                         if(acceptableRatings.contains(userRating)) {
                             resultingList.add(candidate);
@@ -400,11 +491,11 @@ public class ReassignStep {
                     log.info("User " + candidate.getUserName() + " is disqualified for QC. Did translation");
                     continue;
                 }
-                if(ReassignStep.belongs(candidate.getId(), targetLocale)
+                if(ReassignStep.belongs(candidate.getId(), targetLocale, allLocaleUsers)
                         &&
-                        ReassignStep.belongs(candidate.getId(), sourceLocale)
+                        ReassignStep.belongs(candidate.getId(), sourceLocale, allLocaleUsers)
                         &&
-                        ReassignStep.belongs(candidate.getId(), workgroup)) {
+                        ReassignStep.belongs(candidate.getId(), workgroup, allWorkgroupUsers)) {
                     resultingList.add(candidate);
                 }
             }
@@ -416,12 +507,25 @@ public class ReassignStep {
             return false;
         }
 
+        // performance capture
+        long userEvaluationEndtime = new Date().getTime();
+        long userEvaluationDuration = userEvaluationEndtime - starttime;
+
         if(!isUserAssigneeSame(hts, resultingList.toArray(new WSUser[resultingList.size()]))) {
             ReassignStep.reassign(hts, resultingList.toArray(new WSUser[resultingList.size()]));
             returnMsg.append("Reassigned step ").append(hts.getWorkflowStep().getName()).append(" to ").
                     append(resultingList.size()).append(" qualified users. ").
                     append(assignedToSupervisors.toString());
         }
+
+        // performance capture
+        long endtime = new Date().getTime();
+        long assignmentDuration = endtime - userEvaluationEndtime;
+        long totalDuration = endtime - starttime;
+        log.debug(returnMsg.toString() + "Total:" + totalDuration +
+                " User Evaluation:" + userEvaluationDuration +
+                " Reassignment:" + assignmentDuration);
+
         // otherwise users are same; no assignment is needed
         // do nothing; only output message for when there is actual reassignment
 
@@ -470,62 +574,28 @@ public class ReassignStep {
 
 
     /**
-     * Check if step is assigned to role
-     * @param hts - human workflow step
-     * @param role - workflow role
-     * @return true, if step is assigned to passed role
-     */
-    public static boolean belongs(WSHumanTaskStep hts, WSRole role) {
-         WSRole[] roles = hts.getRoleAssignees();
-         if(belongs(role, roles)) {
-                 return true;
-         }
-         WSUser[] users = hts.getUserAssignees();
-         if(users != null && users.length > 0) {
-           for(WSUser u: users) {
-               roles = u.getRoles();
-               if(!belongs(role, roles)) {
-                     return false;
-               }
-           }
-           return true;
-         }
-         return false;
-     }
-
-    /**
-     * Check if role is in the list of passed roles
-     * @param targetRole - role to check
-     * @param roles - list of roles
-     * @return true if passed role is found in the list
-     */
-     public static boolean belongs(WSRole targetRole, WSRole[] roles) {
-         if(null == roles || roles.length == 0) return false;
-         for(WSRole r: roles) {
-           if(r.getId() == targetRole.getId()) {
-             return true;
-           }
-         }
-         return false;
-     }
-
-    /**
      * Check if user belongs to the locale's user
      * @param userID - user ID
      * @param locale - WorldServer locale
      * @return true if user belongs to the locale's users
      */
-    public static boolean belongs(int userID, WSLocale locale) {
-        WSUser[] lcUsers = locale.getUsers();
-        if(null == lcUsers || lcUsers.length == 0) {
+    public static boolean belongs(int userID, WSLocale locale, Hashtable<String,List<Integer>> allUsers) {
+
+        if(allUsers != null) {
+            List<Integer> userIds = allUsers.get(locale.getName());
+            return find(userID, userIds);
+        } else {
+            WSUser[] lcUsers = locale.getUsers();
+            if(null == lcUsers || lcUsers.length == 0) {
+                return false;
+            }
+            for(WSUser u: lcUsers) {
+                if(u.getId() == userID) {
+                    return true;
+                }
+            }
             return false;
         }
-        for(WSUser u: lcUsers) {
-            if(u.getId() == userID) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**
@@ -534,17 +604,23 @@ public class ReassignStep {
      * @param role - WorldServer role
      * @return true if user belongs to the role's users
      */
-    public static boolean belongs(int userID, WSRole role) {
-        WSUser[] rlUsers = role.getUsers();
-        if(null == rlUsers || rlUsers.length == 0) {
+    public static boolean belongs(int userID, WSRole role, Hashtable<String,List<Integer>> allUsers) {
+
+        if(allUsers != null) {
+            List<Integer> userIds = allUsers.get(role.getName());
+            return find(userID, userIds);
+        } else {
+            WSUser[] rlUsers = role.getUsers();
+            if(null == rlUsers || rlUsers.length == 0) {
+                return false;
+            }
+            for(WSUser u: rlUsers) {
+                if(u.getId() == userID) {
+                    return true;
+                }
+            }
             return false;
         }
-        for(WSUser u: rlUsers) {
-            if(u.getId() == userID) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**
@@ -553,16 +629,35 @@ public class ReassignStep {
      * @param workgroup - WorldServer workgroup
      * @return true if user belongs to the workgroup's users
      */
+    public static boolean belongs(int userID, WSWorkgroup workgroup, Hashtable<String,List<Integer>> allUsers) {
 
-    public static boolean belongs(int userID, WSWorkgroup workgroup) {
-        WSUser[] wgUsers = workgroup.getUsers();
-        if(null == wgUsers || wgUsers.length == 0) {
+        if(allUsers != null) {
+            List<Integer> userIds = allUsers.get(workgroup.getName());
+            return find(userID, userIds);
+        } else {
+            WSUser[] wgUsers = workgroup.getUsers();
+            if(null == wgUsers || wgUsers.length == 0) {
+                return false;
+            }
+            for(WSUser u: wgUsers) {
+                if(u.getId() == userID) {
+                    return true;
+                }
+            }
             return false;
         }
-        for(WSUser u: wgUsers) {
-            if(u.getId() == userID) {
+    }
+
+    /**
+     * Search and return true if given userId is found in the list of IDs
+     * @param userId target user ID
+     * @param userIds list of user IDs to search from
+     * @return true if userId is found in the given list
+     */
+    private static boolean find(int userId, List<Integer> userIds) {
+        for (Integer id : userIds) {
+            if (userId == id)
                 return true;
-            }
         }
         return false;
     }
@@ -572,9 +667,16 @@ public class ReassignStep {
      * @param step - step to reassign
      * @param users - users to whom step should be assigned to
      */
-    public static void reassign(WSHumanTaskStep step, WSUser[] users) {
-       step.setUserAssignees(users);
-       step.setRoleAssignees(new WSRole[0]);
+    public static boolean reassign(WSHumanTaskStep step, WSUser[] users) {
+
+        final List<WSUser> usersList = new ArrayList<>();
+        Collections.addAll(usersList, users);
+        WSRole[] currentRoleAssignees = step.getRoleAssignees();
+        step.setUserAssignees(usersList.toArray(new WSUser[usersList.size()]));
+        if(currentRoleAssignees != null && currentRoleAssignees.length > 0)
+            step.setRoleAssignees(new WSRole[0]);
+
+        return true;
     }
 
     /**

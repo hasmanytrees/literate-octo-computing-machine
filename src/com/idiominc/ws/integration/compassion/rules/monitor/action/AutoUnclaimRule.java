@@ -59,6 +59,9 @@ public class AutoUnclaimRule extends WSActionClauseComponent {
      */
     public WSActionClauseResults execute(WSContext context, WSRule rule, Set objects, Map parameters) {
 
+        // performance capture
+        long starttime = new Date().getTime();
+
         // Build output message for rule execution log
         StringBuilder msg = new StringBuilder();
 
@@ -93,7 +96,7 @@ public class AutoUnclaimRule extends WSActionClauseComponent {
 
         WSProject[] activeProjects = context.getWorkflowManager().getProjects(
                 new WSProjectStatus[]{WSProjectStatus.ACTIVE});
-
+        int unclaimCount = 0;
         try {
             // Iterate through all active projects in the system, and identify tasks that need to be pushed back to Queue
             for(WSProject project : activeProjects) {
@@ -113,8 +116,6 @@ public class AutoUnclaimRule extends WSActionClauseComponent {
                                     assetTask.getSourcePath() +
                                     "]";
                             log.error(errMsg);
-                            msg.append(errMsg).append("<br>");
-
                             continue;
                         }
 
@@ -124,7 +125,6 @@ public class AutoUnclaimRule extends WSActionClauseComponent {
                             // Could not find last queue step; unexpected! Log and continue with next task!
                             String errMsg = "Could not identify last queue step for task: " + assetTask.getSourcePath();
                             log.error(errMsg);
-                            msg.append(errMsg).append("<br>");
                             continue;
                         }
 
@@ -139,10 +139,10 @@ public class AutoUnclaimRule extends WSActionClauseComponent {
                             assetTask.completeCurrentTaskStep("Return to Queue", "Auto-unclaimed and returned " +
                                     "to the Queue as it was claimed for longer than the expected duration!");
 
-                            msg.append("Task ").append(assetTask.getSourcePath()).
-                                    append(" at step: ").append(currentStepName).
-                                    append(" was automatically unclaimed from ").append(assignedUser.getUserName()).
-                                    append("!<br>\n");
+                            log.info("Project at " + currentStepName + " was automatically unclaimed from " + assignedUser.getUserName() +
+                                    "!<br>\n");
+
+                            unclaimCount++;
                         }
                     }
                     // otherwise the current step does not match the target step to check for claimant; continue with rest of tasks
@@ -150,11 +150,11 @@ public class AutoUnclaimRule extends WSActionClauseComponent {
             }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            msg.append(e.getMessage());
         }
 
-
-        return new WSActionClauseResults("Done. <br>\n" + msg.toString());
+        long endtime = new Date().getTime();
+        msg.insert(0, "Unclaimed " + unclaimCount + " [" + (endtime - starttime) / 1000.00 + "s]");
+        return new WSActionClauseResults("Done:" + msg.toString());
     }
 
     /**
@@ -300,7 +300,7 @@ public class AutoUnclaimRule extends WSActionClauseComponent {
      * @return Rule version
      */
     public String getVersion() {
-        return "1.1";
+        return "1.2";
     }
 
     /**

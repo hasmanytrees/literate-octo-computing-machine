@@ -168,7 +168,7 @@ public class DetermineQCSampling extends WSCustomTaskAutomaticActionWithParamete
         //obtain trnalsator's rating
         RATING userRating;
         try {
-           UserRatingParser parser = new UserRatingParser(translator);
+           UserRatingParser parser = new UserRatingParser(translator, null);
            userRating = parser.getRating(wsContext, sourceLocale, targetLocale);
         }catch (RatingException e) {
             // user was not qualified for this assignment, so assume this is a beginner

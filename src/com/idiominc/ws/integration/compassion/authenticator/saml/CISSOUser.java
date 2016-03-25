@@ -61,6 +61,23 @@ public class CISSOUser extends SSOUser {
         /** Call the SSOUser super update method */
         super.update(context, ssoUser);
 
+        // If the user doesn't have a valid "UserChanged" attribute value then it should be true
+        if(ssoUser.getAttribute("UserChanged") == null) {
+            ssoUser.setAttribute("UserChanged", "true");
+        }
+
+        // Get the default value from the attribute
+        String defaultRule = context.getAttributeManager().getAttributeDescriptor( WSUser.class,
+                "UserChanged").getDefaultValue();
+
+        // Check to see if it exists
+        if (defaultRule == null) {
+
+            // if it doesn't then set the default value
+            context.getAttributeManager().getAttributeDescriptor( WSUser.class,
+                    "UserChanged").setDefaultValue(true);
+        }
+
         // todo: Should this be in here or in base SSO class?
         if (!getUserType().equals(ssoUser.getUserType().getName())) {
             WSUserType uType = context.getUserManager().getUserType(getUserType());
@@ -243,6 +260,9 @@ public class CISSOUser extends SSOUser {
         for (WSGroup g : toRemove) {
             user.removeFromGroup(g);
         }
+
+        // Indicate that the user has changed for the dynamic assignment rule
+        user.setAttribute("UserChanged", "true");
 
         return true;
     }

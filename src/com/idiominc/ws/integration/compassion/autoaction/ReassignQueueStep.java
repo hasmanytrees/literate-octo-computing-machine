@@ -45,7 +45,8 @@ public class ReassignQueueStep extends WSCustomTaskAutomaticAction {
 
         StringBuilder returnMsg = new StringBuilder();
         WSHumanTaskStep hts = ReassignStep.getNextHumanTaskStep(task);
-        boolean success = ReassignStep.reassignTranslationQueue(wsContext, task, log, returnMsg, hts);
+        boolean success = ReassignStep.reassignTranslationQueue(wsContext, task, log, returnMsg, hts,
+                null, null, null, null, null, null);
 
         if(success) {
             return new WSActionResult(DONE_TRANSITION, returnMsg.toString());

@@ -96,7 +96,7 @@ public class ReassignNextStepToTranslator extends WSCustomTaskAutomaticAction {
             log.error("Can't reassig step " +
                                                    hts.getWorkflowStep().getName() +
                                                    " to translator as nothing is recorded in project attribute " + MOST_RECENT_TRANSLATOR_ATTR);
-            return reassignToSupervisors(hts,
+            return reassignToSupervisors(wsContext, hts,
                                         supervisorRole,
                                         task.getProject().getTargetLocale(),
                                         task.getProject().getProjectGroup().getWorkgroup());
@@ -108,7 +108,7 @@ public class ReassignNextStepToTranslator extends WSCustomTaskAutomaticAction {
             translator = wsContext.getUserManager().getUser(userName);
             if(null == translator) {
                 log.error("Can not locate user whose userName is " + userName);
-                return reassignToSupervisors(hts,
+                return reassignToSupervisors(wsContext, hts,
                                             supervisorRole,
                                             task.getProject().getTargetLocale(),
                                             task.getProject().getProjectGroup().getWorkgroup());
@@ -116,7 +116,7 @@ public class ReassignNextStepToTranslator extends WSCustomTaskAutomaticAction {
             ReassignStep.reassign(hts, new WSUser[] {translator});
         } else {
             log.error("Can not parse user info from " + attributeValue);
-            return reassignToSupervisors(hts,
+            return reassignToSupervisors(wsContext, hts,
                                         supervisorRole,
                                         task.getProject().getTargetLocale(),
                                         task.getProject().getProjectGroup().getWorkgroup());
@@ -129,21 +129,23 @@ public class ReassignNextStepToTranslator extends WSCustomTaskAutomaticAction {
 
     /**
      * Reassign step to eligible supervisors
+     * @param wsContext WorldServer context
      * @param hts - human task step
      * @param supervisorRole - supervisor Role as configured in WS
      * @param targetLocale - project's target locale
      * @param workgroup - project's workgroup
      * @return OK transition out of the automatic action should we have at least 1 eligible supervisor. ERROR if we find none.
      */
-    private WSActionResult reassignToSupervisors(WSHumanTaskStep hts,
+    private WSActionResult reassignToSupervisors(WSContext wsContext,
+                                                 WSHumanTaskStep hts,
                                                  WSRole supervisorRole,
                                                  WSLocale targetLocale,
                                                  WSWorkgroup workgroup) {
         List<WSUser> supervisors = new ArrayList<WSUser>();
         for(WSUser candidate: supervisorRole.getUsers()) {
-               if(ReassignStep.belongs(candidate.getId(), targetLocale)
+               if(ReassignStep.belongs(candidate.getId(), targetLocale, null)
                   &&
-                  ReassignStep.belongs(candidate.getId(), workgroup))
+                  ReassignStep.belongs(candidate.getId(), workgroup, null))
                   {
                       supervisors.add(candidate);
                   }

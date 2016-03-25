@@ -396,6 +396,9 @@ public class TranslatorRatingCommands extends WSHttpServlet{
 
         // Save the XML to the WorldServer user rating attribute
         user.setAttribute(RATING_ATTR, xmlString);
+
+        // Indicate that the user has changed for the dynamic assignment rules
+        user.setAttribute("UserChanged","true");
     }
 
 

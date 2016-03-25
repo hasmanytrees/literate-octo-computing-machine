@@ -47,12 +47,9 @@ public class LanguagePair {
      */
     protected boolean isQualifiedPair(final WSContext context,
                                    final WSLocale sourceLocale)  {
-        WSLocale pairSourceLocale = context.getUserManager().getLocale(sourceLocaleName);
         return null != sourceLocale
                &&
-               null != pairSourceLocale
-               &&
-               pairSourceLocale.getId() == sourceLocale.getId();
+                sourceLocale.getName().equals(sourceLocaleName);
     }
 
     /**

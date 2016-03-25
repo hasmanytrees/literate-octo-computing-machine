@@ -1,9 +1,13 @@
 package com.idiominc.ws.integration.compassion.rules.monitor.action;
 
-import com.idiominc.external.config.Config;
 import com.idiominc.ws.integration.compassion.rules.nocondition.Generic;
+import com.idiominc.ws.integration.compassion.utilities.rating.RatingException;
+import com.idiominc.ws.integration.compassion.utilities.rating.UserRatingParser;
+import com.idiominc.ws.integration.compassion.utilities.rating.WBAssignmentRuleIdentifier;
 import com.idiominc.ws.integration.compassion.utilities.reassignment.ReassignStep;
 import com.idiominc.wssdk.WSContext;
+import com.idiominc.wssdk.WSContextManager;
+import com.idiominc.wssdk.WSRunnable;
 import com.idiominc.wssdk.asset.WSAssetTask;
 import com.idiominc.wssdk.component.rule.WSActionClauseComponent;
 import com.idiominc.wssdk.component.rule.WSActionClauseResults;
@@ -12,22 +16,19 @@ import com.idiominc.wssdk.component.rule.WSClauseParameterDescriptorFactory;
 import com.idiominc.wssdk.component.rule.parameter.WSIntegerClauseParameterValue;
 import com.idiominc.wssdk.component.rule.parameter.WSStringClauseParameterValue;
 import com.idiominc.wssdk.rule.WSRule;
+import com.idiominc.wssdk.user.WSLocale;
+import com.idiominc.wssdk.user.WSRole;
 import com.idiominc.wssdk.user.WSUser;
+import com.idiominc.wssdk.user.WSWorkgroup;
 import com.idiominc.wssdk.workflow.*;
 import org.apache.log4j.Logger;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
- * WorldServer Business Rule to check for claimed tasks longer than input-parameter and automatically unclaim.
- *
- * Iterate through all active tasks in the system and identify those that are at Translate/QC step.
- * For Translate/QC steps, confirm if the tasks have been at the Translate/QC/Update steps for longer than expected.
- * If longer than the input-parameter, "unclaim" by pushing it back to the corresponding Queue steps.
- *
  * [March, 2016] Enhancements added to support the dynamic reassignment where the rule will re-evaluate the step assignment.
  * This change will support the scenario where projects are already created in WorldServer, and then new users are added to the system.
  * Traditionally these users are not assigned to previously allocated step.
@@ -38,242 +39,307 @@ import java.util.Set;
 public class CIBusinessRule extends WSActionClauseComponent {
 
     //log
-    private Logger log = Logger.getLogger(AutoUnclaimRule.class);
+    private Logger log = Logger.getLogger(CIBusinessRule.class);
 
     // rule parameters
-    public static String PARAM_CLAIMED_DURATION_HOURS   = "claimedDurationHours";
-    public static String PARAM_CLAIMED_DURATION_MINUTES = "claimedDurationMinutes";
-    public static String PARAM_CLAIMED_STEPS            = "claimedSteps";
-    public static String PARAM_REASSIGN_STEPS           = "reassignSteps";
+    public static String PARAM_REASSIGN_STEPS = "reassignSteps";
+    public static String PARAM_REASSIGN_BATCH = "reassignBatch";
 
     // Rule default step names
     public static final String STEP_TRANSLATION_QUEUE = "Translation Queue";
     public static final String STEP_QC_QUEUE = "QC Queue";
 
     /*
-     * Execute the rule; identify the given parameters, and parse through the list of active tasks in the system,
-     * and identify tasks that have been in "Accepted/Claimed" state for longer than expected, and put them
-     * back into appropriate Queue steps.
+     * Identify a window of project IDs which will be processed by inner transaction to process for reassignment
      *
      * @param context - WorldServer Context
      * @param rule - WorldServer Rule for this given rule action clause
      * @param objects - WorldServer objects against which the rule is being executed
      * @param parameters - List of parameters included with the rule definition
      */
-    public WSActionClauseResults execute(WSContext context, WSRule rule, Set objects, Map parameters) {
+    public WSActionClauseResults execute(final WSContext context, final WSRule rule, final Set objects, final Map parameters) {
 
-        // Build output message for rule execution log
-        StringBuilder msg = new StringBuilder();
+        // retrieve batch input parameter
+        Integer reassignBatchParamValue = ((WSIntegerClauseParameterValue) parameters.get(reassignBatchParam.getName())).getValue();
+        int maxWindow = (reassignBatchParamValue > 1000) ? 1000 : reassignBatchParamValue;
 
-        // retrieve CSV-formatted step names parameter
-        String stepNamesParamStr = ((WSStringClauseParameterValue) parameters.get(
-                autoUnclaimStepsParam.getName())).getValue();
-        String[] allStepNamesParam;
-        if(stepNamesParamStr.contains(",")) {
-            allStepNamesParam = stepNamesParamStr.split(",");
-        } else {
-            allStepNamesParam = new String[] {stepNamesParamStr};
+        // setup project IDs for reassignment check in batch size
+        final WSUser[] updatedUsers = retrieveUpdatedUsers(context);
+        if(updatedUsers.length == 0) {
+            // no affected users; no need to run the rule!
+            return new WSActionClauseResults("Done. No user has been updated for reassignment.");
+    }
+        WSProject[] affectedProjects = retrieveAffectedProjects(context, updatedUsers);
+
+        List<List<Integer>> aggregateWindowedProjectIds = new ArrayList<>();
+        for (WSProject project : affectedProjects) {
+            if (aggregateWindowedProjectIds.size() == 0 || aggregateWindowedProjectIds.get(aggregateWindowedProjectIds.size() - 1).size() >= maxWindow) {
+                aggregateWindowedProjectIds.add(new ArrayList<Integer>());
+            }
+            aggregateWindowedProjectIds.get(aggregateWindowedProjectIds.size() - 1).add(project.getId());
         }
+
+        // perform the business rule for each batch at a time
+        final Integer[] resultsCounter = new Integer[2];
+        int reassignCounter = 0;
+        for (final List<Integer> windowedProjectIdTx : aggregateWindowedProjectIds) {
+            WSContextManager.run(context, new WSRunnable() {
+                @Override
+                public boolean run(WSContext context) {
+                    _internalTx_executeWithProjects(context, parameters, windowedProjectIdTx, resultsCounter);
+                    return true;
+                }
+            });
+            reassignCounter = reassignCounter + resultsCounter[0];
+        }
+
+        resetUserChangedAttribute(updatedUsers);
+
+        return new WSActionClauseResults("Done:" + "Reassigned:[" + reassignCounter + "].");
+    }
+
+    /**
+     * Retrieve list of users that have been changed via SAML and/or user rating UI
+     * @param context WorldServer context
+     * @return array of users
+     */
+    private WSUser[] retrieveUpdatedUsers(WSContext context) {
+        WSUser[] users = context.getUserManager().getUsers();
+        List<WSUser> usersList = new ArrayList<>();
+        for(WSUser user : users) {
+            String userChangedStr = user.getAttribute("UserChanged");
+            if(userChangedStr != null && userChangedStr.equals("true")) {
+                usersList.add(user);
+            }
+        }
+        return usersList.toArray(new WSUser[usersList.size()]);
+    }
+
+    private void resetUserChangedAttribute(WSUser[] updatedUsers) {
+        // reset users if all reassignment has been completed: Currently under investigation for future enhancements
+        for(WSUser user : updatedUsers) {
+            user.setAttribute("UserChanged", "false");
+        }
+   }
+
+    private WSProject[] retrieveAffectedProjects(WSContext context, final WSUser[] updatedUsers) {
+        Hashtable<Integer, WSProject> projectIdTable = new Hashtable<>();
+        Hashtable<String,WSLocale> localeTable = new Hashtable<>();
+
+        for(WSUser user : updatedUsers) {
+            WSProject[] assignedProjects = context.getWorkflowManager().getAssignedProjectsForUser(user);
+            addProjectListToTable(assignedProjects, projectIdTable);
+            WSLocale[] userLocales = user.getLocales();
+            addLocalesToTable(userLocales, localeTable);
+        }
+
+        for (WSLocale locale : localeTable.values()) {
+            WSProject[] localeProjects = context.getWorkflowManager().getProjectsForLocale(locale, (new WSProjectStatus[]{WSProjectStatus.ACTIVE}));
+            addProjectListToTable(localeProjects, projectIdTable);
+        }
+
+        return projectIdTable.values().toArray(new WSProject[projectIdTable.size()]);
+    }
+
+    private void addLocalesToTable(WSLocale[] userLocales, Hashtable<String, WSLocale> localeTable) {
+        for(WSLocale locale : userLocales) {
+            localeTable.put(locale.getName(), locale);
+        }
+    }
+
+    private void addProjectListToTable(WSProject[] assignedProjects, Hashtable<Integer, WSProject> projectIds) {
+        for(WSProject project : assignedProjects) {
+            projectIds.put(project.getId(), project);
+        }
+    }
+
+    /**
+     * Retrieve projects by the ID
+     * @param context WorldServer context
+     * @param projectIds to-be retrieved project IDs
+     * @return array of WSProject objects from given project IDs
+     */
+    private WSProject[] getProjectsById(WSContext context, List<Integer> projectIds) {
+        List<WSProject> ret = new ArrayList<>();
+        for (int pid : projectIds) {
+            ret.add(context.getWorkflowManager().getProject(pid));
+        }
+
+        return ret.toArray(new WSProject[ret.size()]);
+    }
+
+    /**
+     * Execute the rule; identify the given parameters, and parse through the list of active tasks in the system,
+     * and identify tasks that have been in "Accepted/Claimed" state for longer than expected, and put them
+     * back into appropriate Queue steps.
+     *
+     * @param context WorldServer context
+     * @param parameters input parameters
+     * @param projectIds project IDs to be processed for given batch
+     * @param resultsCounter return value for processed reassignment
+     * @return true if execution is successful
+     */
+    public boolean _internalTx_executeWithProjects(final WSContext context, final Map parameters, List<Integer> projectIds, final Integer[] resultsCounter) {
+
+        // retrieve the partial list of projects from given project IDs
+        WSProject[] partialProjects = getProjectsById(context, projectIds);
+
+        // performance capture
+        long starttime = new Date().getTime();
+
+        // ********************************* Prepare Parameters
 
         // retrieve CSV-formatted reassign step names parameter
         String reassignStepNamesParamStr = ((WSStringClauseParameterValue) parameters.get(
                 autoReassignStepsParam.getName())).getValue();
         String[] allReassignStepNamesParam;
-        if(reassignStepNamesParamStr.contains(",")) {
+        if (reassignStepNamesParamStr.contains(",")) {
             allReassignStepNamesParam = reassignStepNamesParamStr.split(",");
         } else {
-            allReassignStepNamesParam = new String[] {reassignStepNamesParamStr};
+            allReassignStepNamesParam = new String[]{reassignStepNamesParamStr};
         }
 
-        // retrieve allowed claimed time duration (hours first, then minutes) parameter
-        Integer autoUnclaimDurationHoursParamValue = ((WSIntegerClauseParameterValue) parameters.get(
-                autoUnclaimDurationHoursParam.getName())).getValue();
-
-        if(autoUnclaimDurationHoursParamValue < 0) {
-            log.error("Invalid configuration for duration(hours) - defaulting to 8 hours");
-            autoUnclaimDurationHoursParamValue = 8;
+        // ********************************* Performance Preload data
+        // performance: preload all users and user rating info
+        XMLReader xmlReader;
+        try {
+            xmlReader = XMLReaderFactory.createXMLReader();
+        } catch (SAXException e) {
+            log.error(e.getMessage());
+            return false;
         }
 
-        Integer autoUnclaimDurationMinutesParamValue = ((WSIntegerClauseParameterValue) parameters.get(
-                autoUnclaimDurationMinutesParam.getName())).getValue();
-
-        if(autoUnclaimDurationMinutesParamValue < 0 || autoUnclaimDurationMinutesParamValue > 59) {
-            log.error("Invalid configuration for duration(minutes)");
-            autoUnclaimDurationMinutesParamValue = 0;
+        // Retrieving a subset of users list is currently being investigated for future enhancements
+        WSUser[] allUsers = context.getUserManager().getUsers();
+        Hashtable<Integer, UserRatingParser> allUserRatingParsersTable = new Hashtable<>();
+        for (WSUser user : allUsers) {
+            try {
+                UserRatingParser parser = new UserRatingParser(user, xmlReader);
+                allUserRatingParsersTable.put(user.getId(), parser);
+            } catch (RatingException e) {
+                // Some users may not be setup with rating; that's fine we'll skip such users
+            }
         }
 
-        log.debug("********** Begin Processing all Active Tasks for Auto-Unclaim Rule *********");
+        // performance: preload all required user information
+        WSLocale[] allLocales = context.getUserManager().getLocales();
+        Hashtable<String, List<Integer>> allLocaleUsers = new Hashtable<>();
+        for (WSLocale aLocale : allLocales) {
 
-        WSProject[] activeProjects = context.getWorkflowManager().getProjects(
-                new WSProjectStatus[]{WSProjectStatus.ACTIVE});
+            WSUser[] localeUsers = aLocale.getUsers();
+            List<Integer> userIds = new ArrayList<>();
+            for (WSUser user : localeUsers) {
+                userIds.add(user.getId());
+            }
+            allLocaleUsers.put(aLocale.getName(), userIds);
+        }
+
+        WSRole[] allRoles = context.getUserManager().getRoles();
+        Hashtable<String, List<Integer>> allRoleUsers = new Hashtable<>();
+        for (WSRole aRole : allRoles) {
+            WSUser[] users = aRole.getUsers();
+            List<Integer> userIds = new ArrayList<>();
+            for (WSUser user : users) {
+                userIds.add(user.getId());
+            }
+            allRoleUsers.put(aRole.getName(), userIds);
+        }
+
+        WSWorkgroup[] allWorkgroups = context.getUserManager().getWorkgroups();
+        Hashtable<String, List<Integer>> allWorkgroupUsers = new Hashtable<>();
+        Hashtable<String, WBAssignmentRuleIdentifier> allRuleIDTable = new Hashtable<>();
+        for (WSWorkgroup aWorkgroup : allWorkgroups) {
+            WSUser[] users = aWorkgroup.getUsers();
+            List<Integer> userIds = new ArrayList<>();
+            for (WSUser user : users) {
+                userIds.add(user.getId());
+            }
+            allWorkgroupUsers.put(aWorkgroup.getName(), userIds);
+            try {
+                WBAssignmentRuleIdentifier rid = new WBAssignmentRuleIdentifier(context, aWorkgroup);
+                allRuleIDTable.put(aWorkgroup.getName(), rid);
+            } catch (RatingException e) {
+                log.error(e.getMessage());
+                //continue with next workgroup
+            }
+        }
+
+        // Performance capture
+        long reassignTotalTime = 0;
+        int reassignCount = 0;
 
         try {
-            // Iterate through all active projects in the system, and identify tasks that need to be pushed back to Queue
-            for(WSProject project : activeProjects) {
+            // Iterate through all active projects in the system in given batch, and identify tasks that need to be pushed back to Queue/reassigned
+            for (WSProject project : partialProjects) {
                 // Iterate through all active tasks in the system, for each active projects
                 for (WSTask task : project.getActiveTasks()) {
                     WSAssetTask assetTask = (WSAssetTask) task;
                     String currentStepName = assetTask.getCurrentTaskStep().getWorkflowStep().getName();
 
-                    // Perform the claimant check only for given specified workflow step
-                    if(currentStepName != null && stepFound(currentStepName, allStepNamesParam)) {
-
-                        WSUser assignedUser = ((WSHumanTaskStep)assetTask.getCurrentTaskStep()).getUserAssignees()[0];
-                        if(assignedUser == null) {
-                            // we expect the user to be assigned! Cannot perform auto-unclaim for unassigned tasks!
-                            String errMsg = "Current step must be assigned to a specific user for auto-unclaim to work! [" +
-                                    assetTask.getSourcePath() +
-                                    "]";
-                            log.error(errMsg);
-                            msg.append(errMsg).append("<br>");
-
-                            continue;
-                        }
-
-                        // Found the accepted task step! identify last queue step for given task step
-                        WSTaskStep lastQueueStep = findLastQueueStep(context, assetTask, currentStepName);
-                        if(lastQueueStep == null) {
-                            // Could not find last queue step; unexpected! Log and continue with next task!
-                            String errMsg = "Could not identify last queue step for task: " + assetTask.getSourcePath();
-                            log.error(errMsg);
-                            msg.append(errMsg).append("<br>");
-                            continue;
-                        }
-
-                        // Get the completion of last Queue step, to determine if push-back to Queue will be required
-                        Date lastQueueStepCompletionDate = lastQueueStep.getCompletionDate();
-
-                        // Evaluate if "unclaim" is needed based on most recent Queue completion event
-                        if(evaluateForUnclaim(lastQueueStepCompletionDate,
-                                autoUnclaimDurationHoursParamValue,
-                                autoUnclaimDurationMinutesParamValue)) {
-                            // This has been claimed for longer than the parameter; unclaim and push back to Queue!
-                            assetTask.completeCurrentTaskStep("Return to Queue", "Auto-unclaimed and returned " +
-                                    "to the Queue as it was claimed for longer than the expected duration!");
-
-                            msg.append("Task ").append(assetTask.getSourcePath()).
-                                    append(" at step: ").append(currentStepName).
-                                    append(" was automatically unclaimed from ").append(assignedUser.getUserName()).
-                                    append("!<br>\n");
-                        }
-                    }
                     // Perform the reassign check only for given specified workflow step
                     // [Enhancement March, 2016] This portion handles dynamic reassignment with shared reassignment logic
-                    else if(currentStepName != null && stepFound(currentStepName, allReassignStepNamesParam)) {
+                    if (currentStepName != null && stepFound(currentStepName, allReassignStepNamesParam)) {
+
+                        // performance capture
+                        long reassignStartTime = new Date().getTime();
+
                         StringBuilder returnMsg = new StringBuilder();
                         boolean success = false;
-                        WSHumanTaskStep currentStep = (WSHumanTaskStep)assetTask.getCurrentTaskStep();
-                        if(currentStepName.equals(STEP_TRANSLATION_QUEUE)) {
-                            success = ReassignStep.reassignTranslationQueue(context, assetTask, log, returnMsg, currentStep);
-                        } else if(currentStepName.equals(STEP_QC_QUEUE)) {
-                            success = ReassignStep.reassignQCQueue(context, assetTask, log, returnMsg, this, currentStep);
+                        WSHumanTaskStep currentStep = (WSHumanTaskStep) assetTask.getCurrentTaskStep();
+                        if (currentStepName.equals(STEP_TRANSLATION_QUEUE)) {
+                            success = ReassignStep.reassignTranslationQueue(context, assetTask, log, returnMsg, currentStep, allUsers, allUserRatingParsersTable,
+                                    allLocaleUsers, allRoleUsers, allWorkgroupUsers, allRuleIDTable);
+                        } else if (currentStepName.equals(STEP_QC_QUEUE)) {
+                            success = ReassignStep.reassignQCQueue(context, assetTask, log, returnMsg, this, currentStep, allUsers, allUserRatingParsersTable,
+                                    allLocaleUsers, allRoleUsers, allWorkgroupUsers, allRuleIDTable);
                         }
 
-                        if(success) {
-                            if(!returnMsg.toString().isEmpty()) {
-                                msg.append("Project[").append(project.getId()).append("] reassigned:").append(returnMsg.toString()).append("<br><br>");
+                        // Increment the reassignment counter if the reassignment was a success
+                        if (success) {
+                            if (!returnMsg.toString().isEmpty()) {
+                                reassignCount++;
                             }
                             // otherwise nothing is needed; only output message for actual reassignment
-                        } else {
-                            msg.append("Project[").append(project.getId()).append("] was not reassigned:").append(returnMsg.toString()).append("<br><br>");
                         }
+                        else {
+                            log.info("Project[" + project.getId() + "] was not reassigned:" + returnMsg.toString() + "<br><br>");
+                        }
+
+                        // performance capture
+                        long reassignEndTime = new Date().getTime();
+                        reassignTotalTime = reassignTotalTime + (reassignEndTime - reassignStartTime);
                     }
                     // otherwise the current step does not match the target step to check for claimant or reassign; continue with rest of tasks
                 }
             }
+            if (reassignCount > 0) {
+                log.info(" Reassigned " + reassignCount + " projects successfully.<br>\n");
+            }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            msg.append(e.getMessage());
         }
 
+        long endtime = new Date().getTime();
+        log.info("[" + (endtime - starttime) / 1000.00 + "s]" +
+                "[Reassign:" + reassignTotalTime / 1000.00 + "s].");
 
-        return new WSActionClauseResults("Done. <br>\n" + msg.toString());
+        // set return values
+        resultsCounter[0] = reassignCount;
+
+        return true;
     }
 
     /**
-     * Identify last "Queue" human workflow step for given human step.
-     * Translate step is preceded by Translation Queue.
-     * Perform QC step is preceded by QC Queue.
-     * Update Translation step is preceded by Update Translation Queue.
+     * Identify the step to check for the rule from the step names parameter input
      *
-     * @param context WorldServer context
-     * @param assetTask WorldServer asset-based task that is being reviewed for last queue step
-     * @param currentStepName current human workflow step, either Translate, Perform QC or Update Translation
-     * @return Previous Queue workflow step if found. Null if not found.
-     */
-    private WSTaskStep findLastQueueStep(WSContext context,
-                                         WSAssetTask assetTask,
-                                         String currentStepName) {
-
-        String targetQueueStepName;
-        try {
-            if(currentStepName.equals(Config.getTranslateStepName(context))) {
-                targetQueueStepName = Config.getTranslationQueueStepName(context);
-            } else if(currentStepName.equals(Config.getQCStepName(context))) {
-                targetQueueStepName = Config.getQCQueueStepName(context);
-            } else if(currentStepName.equals(Config.getUpdateTranslationStepName(context))) {
-                targetQueueStepName = Config.getUpdateTranslationQueueStepName(context);
-            } else {
-                // could not identify the queue step
-                return null;
-            }
-        } catch(Exception e) {
-            return null;
-        }
-
-        WSTaskStep[] arrQualifiedSteps = assetTask.getSteps(targetQueueStepName);
-        if(null == arrQualifiedSteps || 0 == arrQualifiedSteps.length) {
-            return null;
-        }
-
-        WSTaskStep lastStep = arrQualifiedSteps[0];
-        for(int i = 1; i < arrQualifiedSteps.length; i++) {
-            if(lastStep.getCompletionDate() != null && arrQualifiedSteps[i].getCompletionDate() != null) {
-                if(lastStep.getCompletionDate().getTime() < arrQualifiedSteps[i].getCompletionDate().getTime()) {
-                    lastStep = arrQualifiedSteps[i];
-                }
-            }
-        }
-
-        if(lastStep == null) {
-            return null;
-        } else {
-            return lastStep;
-        }
-
-    }
-
-    /**
-     * Evaluate for unclaim given current task that is at identified step,
-     * by comparing the last Queue completion timestamp and allowed duration
-     * @param lastQueueStepCompletionDate Last Queue step completion timestamp
-     * @param autoUnclaimDurationHoursParam Allowed Hours duration
-     * @param autoUnclaimDurationMinutesParam Allowed Minutes duration
-     * @return true if current task has been at the step for longer than allowed duration; false otherwise.
-     */
-    private boolean evaluateForUnclaim(Date lastQueueStepCompletionDate,
-                                       Integer autoUnclaimDurationHoursParam,
-                                       Integer autoUnclaimDurationMinutesParam) {
-
-        // calculate the time difference to identify if unclaim is needed.
-        Calendar lscd = Calendar.getInstance();
-        lscd.setTime(lastQueueStepCompletionDate);
-        lscd.add(Calendar.HOUR, autoUnclaimDurationHoursParam);
-        lscd.add(Calendar.MINUTE, autoUnclaimDurationMinutesParam);
-        Calendar now = Calendar.getInstance();
-        return now.after(lscd);
-    }
-
-    /**
-     * Identify the step to check for unclaim rule from the step names parameter input
      * @param currentStepName current workflow step name
-     * @param allStepNamesStr all workflow step names to check for auto-unclaim from parameter
-     * @return true if current step needs to be checked for auto-unclaim; false otherwise.
+     * @param allStepNamesStr all workflow step names to check for the rule from parameter
+     * @return true if current step needs to be checked; false otherwise.
      */
     private boolean stepFound(String currentStepName, String[] allStepNamesStr) {
 
         for (String stepName : allStepNamesStr) {
-            if(stepName.equalsIgnoreCase(currentStepName)) {
+            if (stepName.equalsIgnoreCase(currentStepName)) {
                 return true;
             }
         }
@@ -289,39 +355,6 @@ public class CIBusinessRule extends WSActionClauseComponent {
     }
 
     /**
-     * auto-unclaim duration: Hours parameter
-     */
-    private WSClauseParameterDescriptor autoUnclaimDurationHoursParam =
-            WSClauseParameterDescriptorFactory.createParameterDescriptor
-                    (PARAM_CLAIMED_DURATION_HOURS,
-                            "Auto-Unclaim Time Duration (hours)",
-                            "Provide duration in hours before auto unclaim.",
-                            WSClauseParameterDescriptorFactory.INTEGER
-                    );
-
-    /**
-     * auto-unclaim duration: Minutes parameter
-     */
-    private WSClauseParameterDescriptor autoUnclaimDurationMinutesParam =
-            WSClauseParameterDescriptorFactory.createParameterDescriptor
-                    (PARAM_CLAIMED_DURATION_MINUTES,
-                            "Auto-Unclaim Time Duration (minutes)",
-                            "Provide duration in minutes before auto unclaim.",
-                            WSClauseParameterDescriptorFactory.INTEGER
-                    );
-
-    /**
-     * auto-unclaim step names, separated by comma (if more than one)
-     */
-    private WSClauseParameterDescriptor autoUnclaimStepsParam =
-            WSClauseParameterDescriptorFactory.createParameterDescriptor
-                    (PARAM_CLAIMED_STEPS,
-                            "Auto-Unclaim Workflow Steps",
-                            "Provide comma-separated list of Workflow Step names where tasks will be monitored for auto-unclaim.",
-                            WSClauseParameterDescriptorFactory.STRING
-                    );
-
-    /**
      * reassign step names, separated by comma (if more than one)
      */
     private WSClauseParameterDescriptor autoReassignStepsParam =
@@ -332,15 +365,25 @@ public class CIBusinessRule extends WSActionClauseComponent {
                             WSClauseParameterDescriptorFactory.STRING
                     );
 
+    /**
+     * reassign batch count: input parameter
+     */
+    private WSClauseParameterDescriptor reassignBatchParam =
+            WSClauseParameterDescriptorFactory.createParameterDescriptor
+                    (PARAM_REASSIGN_BATCH,
+                            "Reassign batch count (projects)",
+                            "Provide batch count for project reassignment.",
+                            WSClauseParameterDescriptorFactory.INTEGER
+                    );
+
 
     /**
      * @return Rule parameters
      */
     public WSClauseParameterDescriptor[] getParameters() {
-        return new WSClauseParameterDescriptor[]{autoUnclaimDurationHoursParam,
-                autoUnclaimDurationMinutesParam,
-                autoUnclaimStepsParam,
-                autoReassignStepsParam};
+        return new WSClauseParameterDescriptor[]{
+                autoReassignStepsParam,
+                reassignBatchParam};
     }
 
     /**
@@ -368,9 +411,8 @@ public class CIBusinessRule extends WSActionClauseComponent {
      * @return Rule description with parameter values
      */
     public String getDescription() {
-        return "Automatically unclaim tasks at {2} (Translate and/or QC in CSV format) workflow steps " +
-                "if claimed for longer than {0} hour(s) and {1} minutes. " +
-                "Evaluate and reassign tasks at {3} (Translate and/or QC Queue in CSV format) workflow steps";
+        return "Evaluate and reassign tasks at {0} (Translate and/or QC Queue in CSV format) workflow steps " +
+                "in batch of {1} projects";
 
     }
 
