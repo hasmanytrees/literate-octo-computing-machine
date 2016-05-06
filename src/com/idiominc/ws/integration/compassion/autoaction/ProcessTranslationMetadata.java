@@ -22,6 +22,7 @@ import com.idiominc.wssdk.component.WSParameterFactory;
 import org.apache.log4j.Logger;
 
 //java
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Calendar;
 import java.util.Date;
@@ -78,69 +79,84 @@ public class ProcessTranslationMetadata extends WSCustomProjectAutomaticActionWi
                                         throws MetadataException {
 
         boolean hasAppliedProjectAttributes = false;
-        for(WSAssetTask task : tasks)
-        {
-              WSNode assetNode = task.getSourceAisNode();
-              Document asset = AttributeValueIdentifier.init(assetNode.getFile());
 
-               for(Enumeration_Attributes attribute: Enumeration_Attributes.values())
-               {
+        for(WSAssetTask task : tasks) {
 
-                   if(attribute.getAttributeObject() == ATTRIBUTE_OBJECT.PROJECT
-                      &&
-                      hasAppliedProjectAttributes) {
-                        //skip assignment to the project - we have already done so
-                        continue;
-                   }
+            WSNode assetNode = task.getSourceAisNode();
 
-                   WSAttributable target = (attribute.getAttributeObject() == ATTRIBUTE_OBJECT.PROJECT)
-                                        ?
-                                        task.getProject()
-                                        :
-                                        task;
+            Document asset = AttributeValueIdentifier.init(assetNode.getFile());
 
-                   String value = AttributeValueIdentifier.getValue(asset, attribute.getXPath());
+            CIMetadataConfig metadataConfig = new CIMetadataConfig();
 
-                   if(value == null || 0 == value.length()) {
-                      if(attribute.isMandatory()) {
-                          throw new MetadataException("Value is not found for attribute " + attribute.getAttributeName());
-                      }
-                   }
+            // Need to get the letter direction attribute first
+            String letterDirection = AttributeValueIdentifier.getValue(asset,CIMetadataConfig.getDirectionXpath());
 
-                   AttributeValidator.validateAttribute(wsContext,
-                                                        attribute.getAttributeName(),
-                                                        attribute.getAttributeObject(),
-                                                        attribute.getAttributeType(),
-                                                        target,
-                                                        value);
-                   if(null == value) {
-                      switch(attribute.getAttributeType()) {
-                         case BOOLEAN:
-                           value = "true";
-                           break;
-                         case INTEGER:
-                           value = "0";
-                           break;
-                         case TEXT:
-                           value = "";
-                           break;
-                      }
-                   }
+            HashMap<String, CIMetadataInfo> metadataMap = metadataConfig.getMetadataMap(letterDirection);
 
-                   if(ATTRIBUTE_TYPE.BOOLEAN == attribute.getAttributeType()) {
-                      WSAttributeUtils.setBooleanAttribute(this,
-                                                       target,
-                                                       attribute.getAttributeName(),
-                                                       Boolean.parseBoolean(value.toLowerCase()));
-                   } else {
-                      target.setAttribute(attribute.getAttributeName(), value);
-                   }
+            for(Map.Entry<String,CIMetadataInfo> entry: metadataMap.entrySet()) {
 
-              } //went over all attributes
+                CIMetadataInfo attribute = entry.getValue();
 
-              hasAppliedProjectAttributes = true; //project attribute assignment is done
+                if(attribute.getAttributeObject() == ATTRIBUTE_OBJECT.PROJECT &&
+                  hasAppliedProjectAttributes) {
+                    //skip assignment to the project - we have already done so
+                    continue;
+                }
+
+                WSAttributable target = (attribute.getAttributeObject() == ATTRIBUTE_OBJECT.PROJECT)
+                                    ?
+                                    task.getProject()
+                                    :
+                                    task;
+
+                String value;
+
+                if(attribute.isMultiValue()) {
+                    value = AttributeValueIdentifier.getValues(asset, attribute.getXPath());
+                } else {
+                    value = AttributeValueIdentifier.getValue(asset, attribute.getXPath());
+                }
+
+                if(value == null || 0 == value.length()) {
+                  if(attribute.isMandatory()) {
+                      throw new MetadataException("Value is not found for attribute " + attribute.getAttributeName());
+                  }
+                }
+
+                AttributeValidator.validateAttribute(wsContext,
+                                                    attribute.getAttributeName(),
+                                                    attribute.getAttributeObject(),
+                                                    attribute.getAttributeType(),
+                                                    target,
+                                                    value);
+                if(null == value) {
+                    switch(attribute.getAttributeType()) {
+                        case BOOLEAN:
+                            value = "true";
+                            break;
+                        case INTEGER:
+                            value = "0";
+                            break;
+                        case TEXT:
+                            value = "";
+                            break;
+                    }
+                }
+
+                if(ATTRIBUTE_TYPE.BOOLEAN == attribute.getAttributeType()) {
+                    WSAttributeUtils.setBooleanAttribute(
+                            this,
+                            target,
+                            attribute.getAttributeName(),
+                            Boolean.parseBoolean(value.toLowerCase()));
+                } else {
+                  target.setAttribute(attribute.getAttributeName(), value);
+                }
+
+            } //went over all attributes
+
+            hasAppliedProjectAttributes = true; //project attribute assignment is done
         }
-
     }
 
     /**

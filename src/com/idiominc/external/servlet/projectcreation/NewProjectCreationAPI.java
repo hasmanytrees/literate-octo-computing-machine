@@ -8,11 +8,12 @@ import com.idiominc.external.json.JSONObject;
 import com.idiominc.external.config.Config;
 
 //sdk
-import com.idiominc.wssdk.WSContext;
-import com.idiominc.wssdk.WSContextManager;
-import com.idiominc.wssdk.WSObject;
-import com.idiominc.wssdk.WSRunnable;
+import com.idiominc.wssdk.*;
+import com.idiominc.wssdk.ais.WSAisException;
 import com.idiominc.wssdk.ais.WSNode;
+import com.idiominc.wssdk.ais.WSSystemPropertyKey;
+import com.idiominc.wssdk.asset.WSAssetTask;
+import com.idiominc.wssdk.linguistic.WSFilterGroup;
 import com.idiominc.wssdk.review.WSQualityModel;
 import com.idiominc.wssdk.user.WSLocale;
 import com.idiominc.wssdk.user.WSWorkgroup;
@@ -39,6 +40,8 @@ import javax.servlet.http.HttpServlet;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathException;
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * External component responsible for listening for project creation request and creating projects in WorldServer.
@@ -154,6 +157,9 @@ public class NewProjectCreationAPI extends HttpServlet {
         String returnTextRequirements;
 
         String LanguageExceptionType = "";
+
+        // April 12, 2016: Hotfix to handle ISL translation
+        WSFilterGroup filterGroup = null;
 
         // Same language pair
         if(originalSrcLocale.getName().equals(translationTgtLocale.getName())) {
@@ -322,6 +328,7 @@ public class NewProjectCreationAPI extends HttpServlet {
                      */
                      targetWorkflow = context.getWorkflowManager().getWorkflow("Compassion ISL Translation and Review Workflow-TwoStep - Step 2");
                     directSrcLocale = originalSrcLocale;
+                    filterGroup = context.getLinguisticManager().getFilterGroup("SecondStep");
 
                     /*
                     Original Text - English
@@ -582,7 +589,8 @@ public class NewProjectCreationAPI extends HttpServlet {
                 new WSNode[]{n},
                 targetWorkflow,
                 0,
-                null
+                null,
+                false
         );
 
         if (pg == null || pg.getProjects().length != parsedPayload.getTargetLocales().length) {
@@ -595,23 +603,68 @@ public class NewProjectCreationAPI extends HttpServlet {
             throw new IOException("Failed to create projects!");
         }
 
-        // store the second step project preference
-        for(WSProject p : pg.getProjects()) {
-            p.setAttribute("secondStepProjectRequired", Boolean.toString(secondStepProjectRequired));
-            p.setAttribute("qcNotRequiredOverride", Boolean.toString(qcNotRequiredOverride));
-            p.setAttribute("workflowOverride", workflowOverrideName);
-            p.setAttribute("electronicContent", Boolean.toString(parsedPayload.getProcessRequired().equals(_PROCESS_ISL)));
-            //set the default quality model
-            WSQualityModel qModel = context.getReviewManager().getQualityModel("Default QC Model");
-            if(qModel != null) {
-                p.setQualityModel(qModel);
+        // UPDATED 4/21/2016: Deadlock reducing code change
+        WSContextManager.run(context, new WSRunnable() {
+            @Override
+            public boolean run(WSContext wsContext) {
+                return false;
             }
-            p.setAttribute("returnTextRequirements", returnTextRequirements);
-            p.setAttribute("LanguageExceptionType", LanguageExceptionType);
+        });
+
+        // store the second step project preference
+        configureProjects(context, parsedPayload, workflowOverrideName, secondStepProjectRequired, qcNotRequiredOverride,
+                returnTextRequirements, LanguageExceptionType, filterGroup, pg.getId());
+
+        // Start the tasks only after the project creation is completed
+        WSProject[] projects = pg.getProjects();
+        for (WSProject project : projects) {
+            context.getWorkflowManager().startTasks(project.getTasks());
         }
 
         return pg;
     }
+
+    // 4/21/2016: DB deadlock reducing code change
+    private void configureProjects(WSContext wsContext, final ParsedPayload parsedPayload,
+                                   final String workflowOverrideName, final boolean secondStepProjectRequired,
+                                   final boolean qcNotRequiredOverride, final String returnTextRequirements, final String languageExceptionType,
+                                   final WSFilterGroup filterGroup, final int projectGroupId) throws XPathException, WSAisException {
+        WSContextManager.run(wsContext, new WSRunnable() {
+            @Override
+            public boolean run(WSContext context) {
+                try {
+
+                    WSProjectGroup pg = context.getWorkflowManager().getProjectGroup(projectGroupId);
+                    for (WSProject p : pg.getProjects()) {
+                        // April 12, 2016: Hotfix to handle ISL
+                        // set the default quality model
+                        WSQualityModel qModel = context.getReviewManager().getQualityModel("Default QC Model");
+                        if (qModel != null) {
+                            p.setQualityModel(qModel);
+                        }
+
+                        Map<String, String> attributesValues = new HashMap<>();
+                        attributesValues.put("secondStepProjectRequired", Boolean.toString(secondStepProjectRequired));
+                        attributesValues.put("qcNotRequiredOverride", Boolean.toString(qcNotRequiredOverride));
+                        attributesValues.put("workflowOverride", workflowOverrideName);
+                        attributesValues.put("electronicContent", Boolean.toString(parsedPayload.getProcessRequired().equals(_PROCESS_ISL)));
+                        attributesValues.put("returnTextRequirements", returnTextRequirements);
+                        attributesValues.put("LanguageExceptionType", languageExceptionType);
+                        p.setAttributes(attributesValues);
+                        for (WSTask task : p.getTasks()) {
+                            if (filterGroup != null) {
+                                context.getAisManager().getMetaDataNode(((WSAssetTask) task).getTargetPath()).setProperty(WSSystemPropertyKey.FILTER_GROUP, filterGroup);
+                            }
+                        }
+                    }
+                } catch (XPathException | WSAisException e) {
+                    throw new WSRuntimeException(e);
+                }
+                return true;
+            }
+        });
+    }
+
 
     private String getXMLPayload(HttpServletRequest httpServletRequest) throws IOException {
         return getBody(httpServletRequest);
@@ -707,7 +760,6 @@ public class NewProjectCreationAPI extends HttpServlet {
         public String getProjectName() throws XPathException {
             String commKitTypes = getCommunicationKitTypes();
             return
-                    //Utils.getField(xmlPayload, "//SBCTypes") +
                     commKitTypes +
                     " #" + Utils.getField(xmlPayload, "//CompassionSBCId") +
                     " [" + getProcessRequired() + "]";
@@ -759,12 +811,18 @@ public class NewProjectCreationAPI extends HttpServlet {
         }
 
         public WSLocale getSourceLocale() throws XPathException {
-            return validate(context.getUserManager().getLocale(Utils.getField(xmlPayload, "//OriginalLanguage")));
+            String originalLanguage = Utils.getField(xmlPayload, "//OriginalLanguage");
+            return validate(context.getUserManager().getLocale(originalLanguage),
+                    "[" + Utils.getField(xmlPayload, "//CompassionSBCId") + "]" +
+                    "Original Language:" + originalLanguage);
         }
 
         public WSLocale[] getTargetLocales() throws XPathException {
+            String translationLanguage = Utils.getField(xmlPayload, "//TranslationLanguage");
             return new WSLocale[]{
-                    validate(context.getUserManager().getLocale(Utils.getField(xmlPayload, "//TranslationLanguage"))),
+                    validate(context.getUserManager().getLocale(translationLanguage),
+                            "[" + Utils.getField(xmlPayload, "//CompassionSBCId") + "]" +
+                                    "Translation Language:" + translationLanguage),
             };
         }
 
@@ -799,7 +857,10 @@ public class NewProjectCreationAPI extends HttpServlet {
         }
 
         public WSWorkgroup getWorkgroup() throws XPathException {
-            return validate(context.getUserManager().getWorkgroup(getWorkgroupName()));
+            String workgroupName = getWorkgroupName();
+            return validate(context.getUserManager().getWorkgroup(workgroupName),
+                    "[" + Utils.getField(xmlPayload, "//CompassionSBCId") + "]" +
+                            "Workgroup:" + workgroupName);
         }
 
         public WSWorkflow getWorkflow() throws XPathException, IOException {
@@ -815,13 +876,15 @@ public class NewProjectCreationAPI extends HttpServlet {
                   workflowName = Config.getWorkflowNameTranscription(context);
             else
                    workflowName = Config.getWorkflowNameTranslation(context);
-            return validate(context.getWorkflowManager().getWorkflow(workflowName));
+            return validate(context.getWorkflowManager().getWorkflow(workflowName),
+                    "[" + Utils.getField(xmlPayload, "//CompassionSBCId") + "]" +
+                            "Workflow:" + workflowName);
         }
     }
 
-    private <T extends WSObject> T validate(T wsObject) {
+    private <T extends WSObject> T validate(T wsObject, String objectName) {
         if (wsObject == null)
-            throw new IllegalArgumentException("Invalid payload parameters. Object does not exist.");
+            throw new IllegalArgumentException("Invalid payload parameters. Object does not exist: " + objectName);
         return wsObject;
     }
 

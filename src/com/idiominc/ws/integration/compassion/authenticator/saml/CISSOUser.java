@@ -75,7 +75,7 @@ public class CISSOUser extends SSOUser {
 
             // if it doesn't then set the default value
             context.getAttributeManager().getAttributeDescriptor( WSUser.class,
-                    "UserChanged").setDefaultValue(true);
+                    "UserChanged").setDefaultValue("true");
         }
 
         // todo: Should this be in here or in base SSO class?

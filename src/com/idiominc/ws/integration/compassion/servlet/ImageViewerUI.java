@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author SDL Professional Services
  */
-public class TranscriptionUI extends WSHttpServlet {
+public class ImageViewerUI extends WSHttpServlet {
 
     private static final Logger log = Logger.getLogger(TranscriptionUI.class);
 
@@ -23,7 +23,7 @@ public class TranscriptionUI extends WSHttpServlet {
         WSHtmlContainer container = new WSHtmlContainer(context, request, response);
 
         try {
-            Embed.embed(context, container, "transcription/v2/viewer.html");
+            Embed.embed(context, container, "imageviewer/viewer.html");
             container.printHtml(response.getWriter());
             return true;
         } catch (Exception e) {//todo
@@ -33,11 +33,11 @@ public class TranscriptionUI extends WSHttpServlet {
     }
 
     public String getName() {
-        return "transcription_ui";
+        return "imageviewer_ui";
     }
 
     public String getDescription() {
-        return "The interface to transcribe image content prior to or in place of translation";
+        return "The interface to view embedded image references during translation";
     }
 
     public String getVersion() {

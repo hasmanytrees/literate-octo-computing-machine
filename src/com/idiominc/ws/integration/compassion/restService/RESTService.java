@@ -4,9 +4,11 @@ import com.idiominc.external.config.Config;
 import com.idiominc.ws.integration.profserv.commons.FileUtils;
 import com.idiominc.wssdk.WSContext;
 import com.idiominc.wssdk.asset.WSAssetTask;
+import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.httpclient.methods.EntityEnclosingMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -16,6 +18,8 @@ import org.apache.commons.httpclient.methods.multipart.FilePart;
 import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.methods.multipart.StringPart;
+import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -30,6 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -38,6 +43,8 @@ import java.util.Set;
  * @author SDL Professional Services
  */
 public class RESTService {
+
+    private static final int _MAX_RETRY = 4;
 
     private HttpClient httpClient;
     private static OAuthToken _token = null;
@@ -49,10 +56,15 @@ public class RESTService {
 
     Logger log = Logger.getLogger(RESTService.class);
 
+
     // Get an instance of REST service responsible for making REST call to the ESB server
     public static RESTService getInstance(WSContext context) throws IllegalArgumentException {
 
+        Logger.getLogger(HttpMethodBase.class).setLevel(Level.ERROR);
+
         try {
+
+
             return new RESTService(
                     Config.getRESTApiBaseURL(context),
                     Config.getRESTApiClient(context),
@@ -69,18 +81,25 @@ public class RESTService {
 
         if (httpClient == null) {
             httpClient = new HttpClient();
+            httpClient.getParams().setParameter("http.protocol.single-cookie-header", true);
+            httpClient.getParams().setCookiePolicy(CookiePolicy.BROWSER_COMPATIBILITY);
         }
 
         return httpClient;
 
     }
 
+    private void foo() {
+
+    }
+
     /**
      * REST service object constructor
+     *
      * @param serverURL REST server URL
-     * @param client Client application name; 'worldserver' by default
-     * @param secret Secret string used as part of ESB REST OAuth
-     * @param apiKey API key used as part of ESB REST OAuth
+     * @param client    Client application name; 'worldserver' by default
+     * @param secret    Secret string used as part of ESB REST OAuth
+     * @param apiKey    API key used as part of ESB REST OAuth
      */
     public RESTService(String serverURL, String client, String secret, String apiKey) {
         this.serverURL = serverURL + (serverURL.endsWith("/") ? "" : "/");
@@ -91,11 +110,12 @@ public class RESTService {
 
     /**
      * Build and send out status update message to ESB via REST
+     *
      * @param context WorldServer context
-     * @param task current task
-     * @param kvs Key/Value pair passed in from Set ESB automatic action
+     * @param task    current task
+     * @param kvs     Key/Value pair passed in from Set ESB automatic action
      * @throws RESTException REST exception when making REST call
-     * @throws IOException IO exception when building status update message
+     * @throws IOException   IO exception when building status update message
      */
     public void setESBStatus(WSContext context, WSAssetTask task, KV... kvs) throws RESTException, IOException {
         executeCommand(
@@ -112,12 +132,14 @@ public class RESTService {
 
     /**
      * Build and send out return kit message to ESB via REST
+     *
      * @param context WorldServer context
-     * @param task current task
+     * @param task    current task
      * @throws RESTException REST exception when making REST call
-     * @throws IOException IO exception when building return message
+     * @throws IOException   IO exception when building return message
      */
     public void sendReturnKit(WSContext context, WSAssetTask task) throws RESTException, IOException {
+
         executeCommand(
                 context,
                 getToken(context),
@@ -126,11 +148,11 @@ public class RESTService {
                         Config.getRESTApiESBStatusCommand(context) + "/" + ESBHelper.getId(task),
                 ESBHelper.buildReturnKitXML(task)
         );
-
     }
 
 
-    public InputStream getImage(WSContext context, String dynamicURL, int page, int dpi) throws RESTException, IOException {
+    public InputStream getImage(WSContext context, String dynamicURL, int page, int width, int quality) throws RESTException, IOException {
+//    public InputStream getImage(WSContext context, String dynamicURL, int page, int dpi) throws RESTException, IOException {
 
         return executeCommand(
                 context,
@@ -138,8 +160,10 @@ public class RESTService {
                 new GetMethod(),
                 dynamicURL,
                 new KV("format", "jpg"),
-                new KV("pg", page + 1), // page 0 is ALL pages
-                new KV("dpi", dpi)
+                (page == -1 ? null : new KV("pg", page + 1)), // page 0 is ALL pages
+//                new KV("dpi", dpi)
+                new KV("width", width),
+                new KV("quality", quality)
         );
 
     }
@@ -162,17 +186,17 @@ public class RESTService {
 
     protected InputStream executeCommand(WSContext context, OAuthToken oAuth, HttpMethodBase httpVerb, String path, KV[] queryParameters, KV[] bodyParameters, File fileContents, String payload) throws RESTException, IOException {
         try {
-            return internalExecuteCommand(oAuth, httpVerb, path, queryParameters, bodyParameters, fileContents, payload);
+            return internalExecuteCommand(oAuth, httpVerb, path, queryParameters, bodyParameters, fileContents, payload, 0);
         } catch (RESTException e) {
             if (e.getHttpCode() == 401) {
-                return internalExecuteCommand(getToken(context, true), httpVerb, path, queryParameters, bodyParameters, fileContents, payload);
+                return internalExecuteCommand(getToken(context, true), httpVerb, path, queryParameters, bodyParameters, fileContents, payload, 0);
             }
 
             throw e;
         }
     }
 
-    protected InputStream internalExecuteCommand(OAuthToken oAuth, HttpMethodBase httpVerb, String path, KV[] queryParameters, KV[] bodyParameters, File fileContents, String xmlBody) throws RESTException, IOException {
+    protected InputStream internalExecuteCommand(OAuthToken oAuth, HttpMethodBase httpVerb, String path, KV[] queryParameters, KV[] bodyParameters, File fileContents, String payload, int retry) throws RESTException, IOException {
 
         StringBuilder pathBuilder = new StringBuilder();
         if (!path.startsWith("http")) pathBuilder.append(serverURL);
@@ -180,22 +204,25 @@ public class RESTService {
         if (oAuth != null) pathBuilder.append("?api_key=").append(apiKey);
         if (queryParameters != null) {
             for (KV queryParameter : queryParameters) {
+                if (queryParameter == null)
+                    continue;
+
                 pathBuilder.append("&").append(queryParameter.key()).append("=").append(queryParameter.value());
             }
         }
 
-        System.out.println("pathBuilder.toString()=" + pathBuilder.toString());
         log.debug("--pathBuilder.toString()=" + pathBuilder.toString());
         httpVerb.setPath(pathBuilder.toString());
-        httpVerb.addRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        httpVerb.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
         if (oAuth == null) {
-            httpVerb.addRequestHeader("Authorization", "Basic " + getEncodedCredentials(client, secret));
+            httpVerb.setRequestHeader("Authorization", "Basic " + getEncodedCredentials(client, secret));
         } else {
-            httpVerb.addRequestHeader("Authorization", oAuth.getType() + " " + oAuth.getToken());
+            httpVerb.setRequestHeader("Authorization", oAuth.getType() + " " + oAuth.getToken());
         }
 
-        if (bodyParameters != null || fileContents != null || xmlBody != null) {
+
+        if (bodyParameters != null || fileContents != null || payload != null) {
 
             if (!(httpVerb instanceof EntityEnclosingMethod))
                 throw new IOException("Can only send complex data with POST/PUT!");
@@ -233,23 +260,56 @@ public class RESTService {
                     ((PostMethod) httpVerb).setRequestBody(bodyRequestList.toArray(new NameValuePair[bodyRequestList.size()]));
             }
 
-            if (xmlBody != null) {
+            if (payload != null) {
                 httpVerb.setRequestHeader("Content-Type", "application/xml; charset=UTF-8");
-                complexHttpVerb.setRequestEntity(new StringRequestEntity(xmlBody, "application/xml", "UTF-8"));
+                complexHttpVerb.setRequestEntity(new StringRequestEntity(payload, "application/xml", "UTF-8"));
             }
 
 
         }
 
+
         getClient().executeMethod(httpVerb);
 
-        if (httpVerb.getStatusCode() >= 400) {
-            log.error("--API call failed:" + httpVerb.getStatusCode() + "[" + httpVerb.getResponseBodyAsString() + "]");
-            throw new RESTException("API call failed", httpVerb.getStatusCode(), httpVerb.getResponseBodyAsString(), httpVerb.getResponseContentLength());
+        if (httpVerb.getStatusCode() == 401) {
+            throw new RESTException("API call failed. Path:" + pathBuilder.toString(), httpVerb.getStatusCode(), httpVerb.getResponseBodyAsString(), httpVerb.getResponseContentLength());
+        } else if (httpVerb.getStatusCode() != 200) {
+            if (++retry <= _MAX_RETRY) {
+                log.warn("ESB CALL FAILED! (Retrying " + retry + " of " + _MAX_RETRY + ") [code:" + httpVerb.getStatusCode() + " Path:" + pathBuilder.toString() + "]");
+                sleep(5);
+                return internalExecuteCommand(oAuth, httpVerb, path, queryParameters, bodyParameters, fileContents, payload, retry);
+            } else {
+
+                throw new RESTException("API call failed. Path:" + pathBuilder.toString(), httpVerb.getStatusCode(), httpVerb.getResponseBodyAsString(), httpVerb.getResponseContentLength());
+            }
         }
 
         return httpVerb.getResponseBodyAsStream();
 
+    }
+
+    private static void sleep(int seconds) {
+        try {
+            TimeUnit.SECONDS.sleep(seconds);
+        } catch (InterruptedException e2) {
+        }
+
+    }
+
+    private static String detailErrorString(HttpMethodBase httpRequest, String payload, File fileContents) throws IOException {
+
+        StringBuilder details = new StringBuilder();
+        details.append("\n STATUS: ").append(httpRequest.getStatusCode());
+        details.append("\n RESPONSE BODY: ").append(httpRequest.getResponseBodyAsString());
+        details.append("\n REQUEST PATH: ").append(httpRequest.getPath());
+        if (fileContents != null) details.append("\n FILE PAYLOAD: ").append(FileUtils.loadFileAsString(fileContents));
+        if (payload != null) details.append("\n CONTENT PAYLOAD: ").append(payload);
+
+        for (Header header : httpRequest.getRequestHeaders()) {
+            details.append("\n REQUEST HEADER: ").append(header.getName()).append(" = ").append(header.getValue());
+        }
+
+        return details.toString();
     }
 
     protected OAuthToken login(WSContext context) throws RESTException, IOException {

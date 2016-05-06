@@ -1,0 +1,62 @@
+/*   {border:0; padding:0px; margin:0px;}/* Set everything to "zero" 
+.ui-tabs-vertical {    margin: -2px; padding: 0px !important;}
+.ui-tabs-vertical .ui-tabs-nav li a { display:block; }
+
+*/
+
+
+
+
+#left { 
+float: left;
+	//border: 3px solid orange;
+	width: 100%;
+	min-width: 600px;
+}
+
+#right {	
+	height: 0px;
+	width: 0px;	
+}
+
+#metadata {
+	//float: left;
+	width: 240px;
+	//border: 3px solid red;
+
+}
+
+
+#imageViewer {	
+	height: 90%;    
+	position: relative;	
+	border: 1px solid black;		
+}
+
+#imagePane {	
+	width: 100%;
+	z-index: 1;
+	 
+}
+  
+#imageScroller {		
+	overflow-x: hidden;
+	overflow-y: auto;
+  	width: 100%;
+	height: 100%;	
+	position: absolute;
+	z-index: 0;
+}
+
+.appButton {
+	float: right;	
+}
+
+#imageScroller {		
+	overflow-x: auto;
+	overflow-y: auto;
+  	width: 100%;
+	height: 100%;	
+	position: absolute;
+	z-index: 0;
+}

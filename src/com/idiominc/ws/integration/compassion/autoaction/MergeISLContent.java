@@ -1,5 +1,6 @@
 package com.idiominc.ws.integration.compassion.autoaction;
 
+import com.idiominc.ws.integration.compassion.utilities.MergeUtil;
 import com.idiominc.ws.integration.profserv.commons.FileUtils;
 import com.idiominc.ws.integration.profserv.commons.wssdk.XML;
 import com.idiominc.ws.integration.profserv.commons.wssdk.autoaction.WSCustomTaskAutomaticAction;
@@ -52,6 +53,7 @@ public class MergeISLContent extends WSCustomTaskAutomaticAction {
         } catch (Exception e) {
             throw new com.idiominc.wssdk.WSRuntimeException(e);
         }
+
         return new WSActionResult(_TRANSITION_DONE, "Updated source content with ISL source text");
     }
 

@@ -106,11 +106,13 @@ SDL.shared = (function() {
 			contentType: 'application/json; charset=utf-8',
 			dataType: (additionalParams['contentType'] != null ? additionalParams['contentType'].split('/')[1] : 'json'),
 			success: function(result) {            				
-				if (rFunc != null) rFunc(result);
+				if (rFunc != null) rFunc(true,result);
 			},
 			error: function(jqxhr, status, error) {
 				//if (rFunc != null) rFunc(jqxhr);
-                alert('Critical error during operation: '+ cmd +': '+ error);
+                if (rFunc != null) rFunc(false,error);
+                //alert('Critical error during operation: '+ cmd +': '+ error);
+                errorHandler(cmd,error);
 
                 console.log(jqxhr);
 				console.log(status);
@@ -135,14 +137,15 @@ SDL.shared = (function() {
 			data: data,
 			dataType: 'json',
 			//dataType: (additionalParams['contentType'] != null ? additionalParams['contentType'].split('/')[1] : 'json'),
-			success: function(result) {            				
-				if (rFunc != null) rFunc(result);
+			success: function(result) {
+				if (rFunc != null) rFunc(true,result);
 			},
 			type: 'POST',
 			processData: false,
 			error: function(jqxhr, status, error) {
-                alert('Critical error during'+ cmd +': '+ error);
-				//if (rFunc != null) rFunc(error);
+                if (rFunc != null) rFunc(false,error);
+                //alert('Critical error during '+ cmd +': '+ error);
+                errorHandler(cmd,error);
 				console.log(jqxhr);
 				console.log(status);
 				console.log(error);
@@ -232,6 +235,7 @@ function getString(id) {
 	// --- expose public ---
 	
 	var cachedToken = getToken();
+    var errorHandler = function(cmd,error) {alert('Critical error during operation: '+ cmd +': '+ error);}
 	
 	return {
 		getString: getString,
@@ -243,6 +247,7 @@ function getString(id) {
 		executeWSRequestSendData: executeWSRequestSendData,
 		registerOnload: registerOnload,
 		isIE: isIE,
+        setErrorHandler: function(errorHandlerToSet) {errorHandler = errorHandlerToSet},
 		setRequestURL: function(urlToSet) { requestURL = urlToSet; },
 		setServerURL: function(serverUrlToSet) { serverURL = serverUrlToSet; }
 	};

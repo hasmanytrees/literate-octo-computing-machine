@@ -37,7 +37,7 @@ public class ContentPreprocessing extends WSCustomTaskAutomaticActionWithParamet
     private String questionPunctuationStr;
 
     //version
-    private String version = "1.0";
+    private String version = "1.1";
 
     //output transition
     private static final String DONE_TRANSITION = "Done";
@@ -47,7 +47,6 @@ public class ContentPreprocessing extends WSCustomTaskAutomaticActionWithParamet
 
     //variables with default values
     private String stopwordAttrName = "stopwordAttr";
-    private String questionsFileAttrName = "questionFileAttachment";
     private String questionAttrName = "questionAttr";
 
     /**
@@ -67,7 +66,6 @@ public class ContentPreprocessing extends WSCustomTaskAutomaticActionWithParamet
         //configuration files
         try {
             stopwordAttrName = Config.getStopWordsAttributeName(wsContext);
-            questionsFileAttrName = Config.getQuestionsFileAttributeName(wsContext);
             questionAttrName = Config.getQuestionsAttributeName(wsContext);
         } catch (IOException e) {
             log.error(e.getLocalizedMessage(), e);
@@ -122,15 +120,6 @@ public class ContentPreprocessing extends WSCustomTaskAutomaticActionWithParamet
 
         // if questions were found, create the questions file
         if(questionFound) {
-            // collect the questions and create a temporary file and attach to the project
-            try {
-                File tempQuestionFile = File.createTempFile("compassionLetter", "questions.txt");
-                FileUtils.getStringAsFile(tempQuestionFile, questionBuffer.toString(), "UTF-8");
-                task.getProject().setAttribute(questionsFileAttrName, tempQuestionFile.getAbsolutePath());
-            } catch (IOException e) {
-                log.error("Could not generate file to save Questions!", e);
-                return new WSActionResult(WSActionResult.ERROR, "Could not generate file to output Questions found!");
-            }
 
             // also save the content of the questions to the attribute for storing in the xml payload
             task.setAttribute(questionAttrName, questionBuffer.toString());

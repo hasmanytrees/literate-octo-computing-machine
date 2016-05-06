@@ -21,7 +21,7 @@ public class MergeTranscribedContent extends WSCustomTaskAutomaticAction {
      * @param task - project's task
      */
     public WSActionResult execute(WSContext context, WSAssetTask task) {
-        TranscriptionDataService.mergeTranscription(task, true);
+        TranscriptionDataService.mergeTranscription(context,task, true);
         return new WSActionResult(_TRANSITION_DONE, "Updated source content with transcribed text");
     }
 

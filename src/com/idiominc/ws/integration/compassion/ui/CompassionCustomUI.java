@@ -4,15 +4,15 @@ import com.idiominc.external.config.Config;
 import com.idiominc.ws.integration.compassion.authenticator.saml.CISAMLAuthorization;
 import com.idiominc.ws.integration.compassion.servlet.Deployment;
 import com.idiominc.ws.integration.compassion.servlet.Embed;
+import com.idiominc.ws.integration.compassion.utilities.CILetterType;
+import com.idiominc.ws.integration.profserv.commons.CollectionUtils;
 import com.idiominc.ws.integration.profserv.commons.sso.SSOAuthorization;
 import com.idiominc.ws.integration.profserv.commons.sso.SSOHook;
 import com.idiominc.ws.integration.profserv.commons.sso.SSORequestConsumer;
-import com.idiominc.ws.integration.profserv.commons.wssdk.ui.WSHtmlLink;
-import com.idiominc.ws.integration.profserv.commons.wssdk.ui.WSHtmlTable;
-import com.idiominc.ws.integration.profserv.commons.wssdk.ui.WSHtmlUIHook;
-import com.idiominc.ws.integration.profserv.commons.wssdk.ui.WSPopupLink;
+import com.idiominc.ws.integration.profserv.commons.wssdk.ui.*;
 import com.idiominc.wssdk.WSContext;
 import com.idiominc.wssdk.component.ui.WSUIHooksComponent;
+import com.idiominc.wssdk.workflow.WSProject;
 import com.idiominc.wssdk.workflow.WSTask;
 import org.apache.log4j.Logger;
 
@@ -40,6 +40,7 @@ public class CompassionCustomUI extends WSUIHooksComponent {
 
     /**
      * Generate custom login page snippet to include the SAML SSO login button
+     *
      * @param context WorldServer context
      * @param request HTTP request
      * @return custom HTML snippet
@@ -50,6 +51,7 @@ public class CompassionCustomUI extends WSUIHooksComponent {
 
     /**
      * Generate custom task page snippet to include the button to launch the transcription/scanned letter editor UI
+     *
      * @param context WorldServer context
      * @param request HTTP request
      * @return custom HTML snippet
@@ -57,11 +59,13 @@ public class CompassionCustomUI extends WSUIHooksComponent {
     public String generateTaskListPageSnippet(WSContext context, HttpServletRequest request) {
         try {
 
+            WSProject project = context.getWorkflowManager().getProject(Integer.parseInt(request.getParameter("project")));
             Deployment.getInstance(context).update();
 
-            System.out.println("task-list");
             WSHtmlUIHook hook = new WSHtmlUIHook(context, request);
-            Embed.embedJS(context, hook, "shared/js/ci_task_list.js");
+            if (CILetterType.getLetterType(project).isSupportsSLE()) {
+                Embed.embedJS(context, hook, "shared/js/ci_task_list.js");
+            }
             return hook.getHtml();
 
         } catch (Exception e) {
@@ -74,6 +78,7 @@ public class CompassionCustomUI extends WSUIHooksComponent {
 
     /**
      * Generate custom Browser Workbench snippet to include the stop-word list
+     *
      * @param context WorldServer Context
      * @param request HTTP request
      * @return custom HTML snippet
@@ -83,39 +88,40 @@ public class CompassionCustomUI extends WSUIHooksComponent {
         try {
 
             WSHtmlUIHook hook = new WSHtmlUIHook(context, request);
+            hook.add("<script src='js/jquery/jquery.js'></script>");
             WSHtmlTable twoTables = new WSHtmlTable(context, request, null, 2);
 
             // add stop word data
             //String taskIds = request.getParameter(WSUIHooksComponent.OBJECT_ID_PARAMETER);
             String taskIds = getTaskId(request);
-            if(taskIds == null) {
+            if (taskIds == null) {
                 log.error("UI Error: Could not identify associated task ID!");
                 return "UI Error: Could not identify associated task ID!";
             }
 
             WSTask task = context.getWorkflowManager().getTask(Integer.parseInt(taskIds));
-            if(task == null) {
+            if (task == null) {
                 log.error("UI Error: Could not find task with ID:" + taskIds);
                 return "UI Error: Could not find task with ID:" + taskIds;
             }
 
             String stopWordData = task.getAttribute(Config.getStopWordsAttributeName(context));
             WSHtmlTable stopwordTable = new WSHtmlTable(context, request, null, 3);
-            if(stopWordData != null && !stopWordData.equals("")) {
+            if (stopWordData != null && !stopWordData.equals("")) {
 
                 // create and setup stop-word table
                 stopwordTable.setAttribute("border", "1");
-                stopwordTable.addRow(new String[] {"Segment ID", "Text", "Stop Word"});
+                stopwordTable.addRow(new String[]{"Segment ID", "Text", "Stop Word"});
 
                 // add stop words as it was found and captured in the custom attribute by earlier preprocessing
                 String[] rowDatas = stopWordData.split("\\|\\|");
-                for(String rowData : rowDatas) {
+                for (String rowData : rowDatas) {
                     String[] rowDataStrings = rowData.split("\\|");
                     String segID = rowDataStrings[0];
                     String srcText = rowDataStrings[1];
                     String term = collectAllTerms(rowDataStrings);
 
-                    stopwordTable.addRow(new String[] {segID, srcText, term});
+                    stopwordTable.addRow(new String[]{segID, srcText, term});
                 }
             }
 
@@ -135,14 +141,18 @@ public class CompassionCustomUI extends WSUIHooksComponent {
             hook.add(twoTables);
 
             String saveTaskId = "&task=" + taskIds;
-            hook.saveParam("task",saveTaskId);
+            hook.saveParam("task", saveTaskId);
+
+            if (CILetterType.getLetterType(task).isSupportsImageViewer()) {
+                Embed.embedJS(context, hook, "shared/js/ci_bwb_image_viewer.js");
+            }
 
 
             return hook.getHtml();
 
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("UI Error" , e);
+            log.error("UI Error", e);
             return "UI Error: " + e.getMessage();
         }
     }
@@ -157,7 +167,7 @@ public class CompassionCustomUI extends WSUIHooksComponent {
             tempTaskIdValue = request.getParameter("task");
         }
 
-        if ( (null != tempTaskIdValue) && !("".equals(tempTaskIdValue))) {
+        if ((null != tempTaskIdValue) && !("".equals(tempTaskIdValue))) {
             return tempTaskIdValue;
         } else {
             tempTaskIdValue = request.getParameter("task");
@@ -175,16 +185,17 @@ public class CompassionCustomUI extends WSUIHooksComponent {
     private String collectAllTerms(String[] rowDataStrings) {
         StringBuilder str = new StringBuilder();
 
-        for(int i = 2; i < rowDataStrings.length; i++) {
+        for (int i = 2; i < rowDataStrings.length; i++) {
             str.append(rowDataStrings[i]).append(",");
         }
 
         String retStr = str.toString();
-        return retStr.substring(0, retStr.length()-1);
+        return retStr.substring(0, retStr.length() - 1);
     }
 
     /**
      * Generate custom Segmented asset editor snippet to include the stop-word list
+     *
      * @param context WorldServer context
      * @param request HTTP request
      * @return custom HTML snippet
@@ -197,20 +208,21 @@ public class CompassionCustomUI extends WSUIHooksComponent {
 
             //String taskIds = request.getParameter(WSUIHooksComponent.OBJECT_ID_PARAMETER);
             String taskIds = getTaskId(request);
-            if(taskIds == null) {
-                log.error("UI Error: Could not identify associated task ID!");
+            if (taskIds == null) {
+                // This is a warning since it is acceptable to not have task ID if tasks are being edited in Explorer UI
+                log.warn("UI Error: Could not identify associated task ID!");
                 return "UI Error: Could not identify associated task ID!";
             }
 
             WSTask task = context.getWorkflowManager().getTask(Integer.parseInt(taskIds));
-            if(task == null) {
+            if (task == null) {
                 log.error("UI Error: Could not find task with ID:" + taskIds);
                 return "UI Error: Could not find task with ID:" + taskIds;
             }
 
             String stopWordData = task.getAttribute(Config.getStopWordsAttributeName(context));
             WSHtmlTable stopwordTable = new WSHtmlTable(context, request, null, 3);
-            if(stopWordData != null && !stopWordData.equals("")) {
+            if (stopWordData != null && !stopWordData.equals("")) {
 
                 // create and setup stop-word table
                 stopwordTable.setAttribute("border", "1");
@@ -218,13 +230,13 @@ public class CompassionCustomUI extends WSUIHooksComponent {
 
                 // add stop words as it was found and captured in the custom attribute by earlier preprocessing
                 String[] rowDatas = stopWordData.split("\\|\\|");
-                for(String rowData : rowDatas) {
+                for (String rowData : rowDatas) {
                     String[] rowDataStrings = rowData.split("\\|");
                     String segID = rowDataStrings[0];
                     String srcText = rowDataStrings[1];
                     String term = collectAllTerms(rowDataStrings);
 
-                    stopwordTable.addRow(new String[] {segID, srcText, term});
+                    stopwordTable.addRow(new String[]{segID, srcText, term});
                 }
             }
 
@@ -232,13 +244,13 @@ public class CompassionCustomUI extends WSUIHooksComponent {
             hook.add(twoTables);
 
             String saveTaskId = "&task=" + taskIds;
-            hook.saveParam("task",saveTaskId);
+            hook.saveParam("task", saveTaskId);
 
             return hook.getHtml();
 
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("UI Error" , e);
+            log.error("UI Error", e);
             return "UI Error: " + e.getMessage();
         }
 

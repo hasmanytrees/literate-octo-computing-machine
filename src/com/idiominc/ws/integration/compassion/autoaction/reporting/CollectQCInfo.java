@@ -2,6 +2,7 @@ package com.idiominc.ws.integration.compassion.autoaction.reporting;
 
 import com.idiominc.external.config.Config;
 import com.idiominc.ws.integration.compassion.utilities.AttributeValidationUtils;
+import com.idiominc.ws.integration.compassion.utilities.TaskUtil;
 import com.idiominc.ws.integration.profserv.commons.wssdk.autoaction.WSCustomTaskAutomaticAction;
 import com.idiominc.wssdk.WSContext;
 import com.idiominc.wssdk.asset.WSAssetTask;
@@ -70,7 +71,7 @@ public class CollectQCInfo extends WSCustomTaskAutomaticAction {
         log.info("QCer is " + translator.getFullName());
 
         //test last step completed
-        WSTaskStep previousStep = task.getCurrentTaskStep().getPreviousTaskStep();
+        WSTaskStep previousStep = TaskUtil.getPreviousInWorkflowStep(task);
         String prevStepName = previousStep.getWorkflowStep().getName();
         Date completedDate = previousStep.getCompletionDate();
 

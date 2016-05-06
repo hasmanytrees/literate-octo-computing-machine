@@ -1,10 +1,12 @@
 package com.idiominc.ws.integration.compassion.utilities.metadata;
 
 //dom
+import org.apache.xpath.NodeSet;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 //sax
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 //java
@@ -70,6 +72,49 @@ public class AttributeValueIdentifier {
 
 
     /**
+     * Execute query and obtain value of the tag
+     * @param doc - document
+     * @param query - xpath query
+     * @return - value of the tag
+     * @throws MetadataException - xpath / query exception
+     */
+    public static String getValues(final Document doc,
+                                   final String query)
+            throws MetadataException {
+        try {
+            if(doc == null) {
+                throw new MetadataException("Payload File has not been parsed!");
+            }
+            NodeList results = (NodeList)performXPathQuery(doc, query, XPathConstants.NODESET);
+
+            if(results == null) {
+                return null;
+            } else {
+                String concatResults = "";
+
+                for(int i = 0; i < results.getLength();) {
+
+                    // Add the node to the list of results
+                    concatResults += results.item(i).getTextContent();
+
+                    if(i++ < results.getLength()) {
+                        concatResults += "\n";
+                    }
+                }
+
+                if(0 == concatResults.length())
+                {
+                    return null;
+                }
+
+                return concatResults;
+            }
+        } catch (XPathExpressionException ex) {
+            throw new MetadataException(ex.getLocalizedMessage());
+        }
+    }
+
+    /**
      * Perform XPath Query
      * @param doc - document
      * @param query - query string
@@ -83,6 +128,7 @@ public class AttributeValueIdentifier {
         XPathFactory factory = XPathFactory.newInstance();
         XPath xpath = factory.newXPath();
         XPathExpression expr = xpath.compile(query);
+
         if(qName.equals(XPathConstants.NODE)) {
            return expr.evaluate(doc, XPathConstants.NODE);
         } else {

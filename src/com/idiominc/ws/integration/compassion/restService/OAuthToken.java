@@ -22,7 +22,7 @@ public class OAuthToken {
 
         Calendar expiredCal = Calendar.getInstance();
         expiredCal.setTime(new Date());
-        expiredCal.add(Calendar.SECOND, ttl);
+        expiredCal.add(Calendar.SECOND, (ttl-60));
 
         this.expiredDate = expiredCal.getTime();
 

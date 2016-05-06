@@ -1,9 +1,9 @@
 package com.idiominc.ws.integration.compassion.autoaction;
 
 //internal dependencies
+import com.idiominc.ws.integration.compassion.utilities.metadata.CIMetadataConfig;
 import com.idiominc.ws.integration.compassion.utilities.twostepproject.*;
 import com.idiominc.ws.integration.compassion.utilities.metadata.AttributeValueIdentifier;
-import com.idiominc.ws.integration.compassion.utilities.metadata.Enumeration_Attributes;
 import com.idiominc.ws.integration.compassion.utilities.metadata.MetadataException;
 
 //profserv
@@ -201,13 +201,17 @@ public class CreateTwoStepProject extends WSCustomProjectAutomaticActionWithPara
 
               Document targetAsset = AttributeValueIdentifier.init(targetAssetNode.getFile());
 
+              String letterDirection = t.getProject().getAttribute("Direction");
+
+              log.info("Direction from Attr = " + letterDirection);
+
               //source
-              String sourceLocaleStr = AttributeValueIdentifier.getValue(targetAsset, Enumeration_Attributes.OriginalLanguage.getXPath());
+              String sourceLocaleStr = AttributeValueIdentifier.getValue(targetAsset, CIMetadataConfig.getMetadataItem(letterDirection,"OriginalLanguage").getXPath());
               log.info("sourceLocaleStr => " + sourceLocaleStr);
               WSLocale sourceLocale = context.getUserManager().getLocale(sourceLocaleStr);
 
               //target
-              String desiredTranslationLocaleStr = AttributeValueIdentifier.getValue(targetAsset, Enumeration_Attributes.TranslationLanguage.getXPath());
+              String desiredTranslationLocaleStr = AttributeValueIdentifier.getValue(targetAsset, CIMetadataConfig.getMetadataItem(letterDirection,"TranslationLanguage").getXPath());
               log.info("desiredTranslationLocaleStr => " + desiredTranslationLocaleStr);
 
               String targetDirectLocaleStr = desiredTranslationLocaleStr + "-Direct";
@@ -222,7 +226,7 @@ public class CreateTwoStepProject extends WSCustomProjectAutomaticActionWithPara
                 if(null != intermediaryLocale) {
                  log.info("intermediaryLocale => " + intermediaryLocale.getName());
                 } else {
-                    throw new TwoStepProjectException("Intermediaary locale is not known or configured: " + Config.getIntermediaryLocale(context));
+                    throw new TwoStepProjectException("Intermediary locale is not known or configured: " + Config.getIntermediaryLocale(context));
                 }
 
               } catch (IOException e) {
@@ -233,8 +237,8 @@ public class CreateTwoStepProject extends WSCustomProjectAutomaticActionWithPara
                   throw new TwoStepProjectException("Translation locale is not configured: " + desiredTranslationLocaleStr);
               }
 
-              String optInForLanguageTranslation = AttributeValueIdentifier.getValue(targetAsset, Enumeration_Attributes.GlobalPartnerSetup.getXPath());
-              String direction = AttributeValueIdentifier.getValue(targetAsset, Enumeration_Attributes.Direction.getXPath());
+              String optInForLanguageTranslation = AttributeValueIdentifier.getValue(targetAsset,  CIMetadataConfig.getMetadataItem(letterDirection,"GlobalPartner").getXPath());
+              String direction = AttributeValueIdentifier.getValue(targetAsset,  CIMetadataConfig.getMetadataItem(letterDirection,"Direction").getXPath());
 
               boolean isType1 = !(sourceLocale.getName().equals(desiredLocale.getName()));
               if(isType1) {
@@ -243,8 +247,8 @@ public class CreateTwoStepProject extends WSCustomProjectAutomaticActionWithPara
               log.info("This is " + ((isType1)? "":"not ") + "type 1 project");
 
               //figure out desired workgroup name
-              String foName = AttributeValueIdentifier.getValue(targetAsset, Enumeration_Attributes.FieldOfficeName.getXPath());
-              String gpID = AttributeValueIdentifier.getValue(targetAsset, Enumeration_Attributes.GlobalPartnerId.getXPath());
+              String foName = AttributeValueIdentifier.getValue(targetAsset, CIMetadataConfig.getMetadataItem(letterDirection,"FOName").getXPath());
+              String gpID = AttributeValueIdentifier.getValue(targetAsset, CIMetadataConfig.getMetadataItem(letterDirection,"GlobalPartnerId").getXPath());
 
               if(_BENEFICIARY_TO_SUPPORTER.equalsIgnoreCase(direction)) {
                   desiredWorkgroupName = "GP_" + gpID;

@@ -1,5 +1,6 @@
 package com.idiominc.ws.integration.compassion.autoaction;
 
+import com.idiominc.ws.integration.compassion.utilities.MergeUtil;
 import com.idiominc.ws.integration.profserv.commons.FileUtils;
 import com.idiominc.ws.integration.profserv.commons.wssdk.XML;
 import com.idiominc.ws.integration.profserv.commons.wssdk.autoaction.WSCustomTaskAutomaticAction;
@@ -51,6 +52,7 @@ public class MergeFinalTranslatedTextContentTarget extends WSCustomTaskAutomatic
         } catch (Exception e) {
             throw new com.idiominc.wssdk.WSRuntimeException(e);
         }
+
         return new WSActionResult(_TRANSITION_DONE, "Updated target Translated text with English translated content");
     }
 

@@ -1,7 +1,7 @@
 /**
  * Translator Complete UI
  *
- * Created by cslack on 10/5/2015.
+ * Created by cslack on 3/17/2016.
  */
 
 var SDL = SDL || {};
@@ -14,16 +14,17 @@ SDL.translateComplete = (function() {
      */
     var init = function() {
 
-        //SDL.shared.setRequestURL('translator_ui_ajax_commands');
+        // Get the translation complete option in the DOM
+        var $translationComplete = $("input[value='Translation Completed']");
 
         // Disable the Radio Button
-        $("input[value='Translation Complete']").prop("disabled", true);
+        $translationComplete.prop("disabled", true);
 
         // Deselect all radio buttons
-        $("input[value='Translation Complete']").parent().children("input").prop("checked", false);
+        $translationComplete.parent().children("input").prop("checked", false);
 
         // Display warning message and format label
-        $("input[value='Translation Complete']").siblings("label")
+        $translationComplete.siblings("label")
             .css("font-style", "italic")
             .css("color", "#aaa")
             .after("<p style='color: darkorange;'>" +

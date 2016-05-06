@@ -18,6 +18,8 @@ SDL.tUICommands = (function() {
 
         $translatorSelectBox.empty();
 
+        $translatorSelectBox.append("<option></option>");
+
         SDL.shared.executeWSRequest('getTranslators', function(result) {
 
                 // Loop through translators

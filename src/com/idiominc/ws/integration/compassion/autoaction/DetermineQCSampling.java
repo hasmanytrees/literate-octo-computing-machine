@@ -54,6 +54,7 @@ public class DetermineQCSampling extends WSCustomTaskAutomaticActionWithParamete
     private static final String _TWO_STEP_PROCESS = "TwoStepProcess";
     private static final String _TRANSLATION_PROCESS = "Translation";
     private static final String _ORIGINAL_LANGUAGE_ATTR = "OriginalLanguage";
+    private static final String _DIRECTION_ATTR = "Direction";
 
     //parameters
     private final static String _CHECKSTOPWORDS = "CHECKSTOPWORDS";
@@ -100,6 +101,9 @@ public class DetermineQCSampling extends WSCustomTaskAutomaticActionWithParamete
             return new WSActionResult(SKIP_QC, "QC is not required.");
         }
 
+        // Get the letter direction
+        String letterDirection = project.getAttribute(_DIRECTION_ATTR);
+
         // Get the source locale from the payload/attribute if this is a manual translation process, only for first-step
         String processRequired = project.getAttribute(_SDLPROCESS_REQ);
         String twoStepProcess = project.getAttribute(_TWO_STEP_PROCESS);
@@ -125,7 +129,8 @@ public class DetermineQCSampling extends WSCustomTaskAutomaticActionWithParamete
                                         //with valid outputs: Fail, Pass
         String attrStopWordsList; //stop words list. The name of this attribute is stopwordAttr
                                   //and this attribute is a large text area
-        String attrMandatoryReview = Enumeration_Attributes.MandatoryReview.getAttributeName(); //is review required?
+//        String attrMandatoryReview = Enumeration_Attributes.MandatoryReview.getAttributeName(); //is review required?
+        String attrMandatoryReview = null;
 
         try {
 
@@ -135,37 +140,52 @@ public class DetermineQCSampling extends WSCustomTaskAutomaticActionWithParamete
             attrStopWordsList = Config.getStopWordsAttributeName(wsContext);
 
             //check if attributes were properly configured in the first place
-            AttributeValidator.validateAttribute(wsContext,
-                                                 attrTCount,
-                                                 ATTRIBUTE_OBJECT.USER,
-                                                 ATTRIBUTE_TYPE.INTEGER,
-                                                 translator,
-                                                 "0");
-            AttributeValidator.validateAttribute(wsContext,
-                                                 attrMandatoryReview,
-                                                 Enumeration_Attributes.MandatoryReview.getAttributeObject(),
-                                                 Enumeration_Attributes.MandatoryReview.getAttributeType(),
-                                                 project,
-                                                 "true");
-            AttributeValidator.validateAttribute(wsContext,
-                                                 attrTranslationRejected,
-                                                 ATTRIBUTE_OBJECT.TASK,
-                                                 ATTRIBUTE_TYPE.SELECTOR,
-                                                 task,
-                                                 "");
-            AttributeValidator.validateAttribute(wsContext,
-                                                 attrStopWordsList,
-                                                 ATTRIBUTE_OBJECT.TASK,
-                                                 ATTRIBUTE_TYPE.TEXT,
-                                                 task,
-                                                 "");
+            AttributeValidator.validateAttribute(
+                    wsContext,
+                    attrTCount,
+                    ATTRIBUTE_OBJECT.USER,
+                    ATTRIBUTE_TYPE.INTEGER,
+                    translator,
+                    "0");
+
+            CIMetadataInfo mandatoryReview = CIMetadataConfig.getMetadataItem(letterDirection,"MandatoryReview");
+
+            if(mandatoryReview != null) {
+
+                attrMandatoryReview = mandatoryReview.getAttributeName();
+                AttributeValidator.validateAttribute(
+                        wsContext,
+                        attrMandatoryReview,
+                        mandatoryReview.getAttributeObject(),
+                        mandatoryReview.getAttributeType(),
+                        project,
+                        "true");
+            }
+
+            AttributeValidator.validateAttribute(
+                    wsContext,
+                    attrTranslationRejected,
+                    ATTRIBUTE_OBJECT.TASK,
+                    ATTRIBUTE_TYPE.SELECTOR,
+                    task,
+                    "");
+
+            AttributeValidator.validateAttribute(
+                    wsContext,
+                    attrStopWordsList,
+                    ATTRIBUTE_OBJECT.TASK,
+                    ATTRIBUTE_TYPE.TEXT,
+                    task,
+                    "");
+
         } catch (Exception e) {
             log.error(e.getLocalizedMessage());
             return new WSActionResult(WSActionResult.ERROR,
                     "Attributes Misconfiguration. " + e.getLocalizedMessage());
         }
 
-        //obtain trnalsator's rating
+
+        //obtain translator's rating
         RATING userRating;
         try {
            UserRatingParser parser = new UserRatingParser(translator, null);
@@ -229,12 +249,15 @@ public class DetermineQCSampling extends WSCustomTaskAutomaticActionWithParamete
                                       "QC is required by sampling rule: Translated " +
                                       tasksTranslated + "; sampling rate: " + samplingRate);
         }
-        
-        if(WSAttributeUtils.getBooleanAttribute(this,
-                                                project,
-                                                attrMandatoryReview)) {
-            return new WSActionResult(QC_REQUIRED,
-                                      "QC is required. Mandatory Review Flag is set.");
+
+        // MandatoryReview attribute does not always exist in all letter types
+        if(attrMandatoryReview != null) {
+            if (WSAttributeUtils.getBooleanAttribute(this,
+                    project,
+                    attrMandatoryReview)) {
+                return new WSActionResult(QC_REQUIRED,
+                        "QC is required. Mandatory Review Flag is set.");
+            }
         }
 
         if(checkStopWords) {

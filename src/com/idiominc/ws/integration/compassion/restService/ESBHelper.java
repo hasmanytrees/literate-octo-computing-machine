@@ -86,7 +86,6 @@ public class ESBHelper {
                     addTo(d, "SupporterQuestions", questionsList);
                 }
             }
-
             // set the last translator who did the translation -- Not yet ready
             addTo(d, "TranslatedBy", task.getProject().getAttribute("MostRecentTranslator"));
 
@@ -109,9 +108,11 @@ public class ESBHelper {
         Logger log = Logger.getLogger(ESBHelper.class);
 
         String returnTextRequirementsStr = project.getAttribute("returnTextRequirements");
+
         if(returnTextRequirementsStr != null && !returnTextRequirementsStr.equals("")) {
             // parse the return text requirements
             String[] returnTextRequirementsStrArray = returnTextRequirementsStr.split("\\|");
+
             boolean origTextReqd = true;
             try {
                 origTextReqd = Boolean.parseBoolean(returnTextRequirementsStrArray[0]);
@@ -133,29 +134,42 @@ public class ESBHelper {
 
             if(!origTextReqd) {
                 NodeList nodeList = XML.getNodes(d, "//OriginalText");
-                for(int i = 0; i < nodeList.getLength(); i++) {
-                    nodeList.item(i).setTextContent("");
+
+                if(nodeList != null) {
+                    for (int i = 0; i < nodeList.getLength(); i++) {
+                        nodeList.item(i).setTextContent("");
+                    }
                 }
             }
+
             if(!englishTextReqd) {
+
                 NodeList nodeList = XML.getNodes(d, "//EnglishTranslatedText");
-                for(int i = 0; i < nodeList.getLength(); i++) {
-                    nodeList.item(i).setTextContent("");
+
+                if(nodeList != null) {
+
+                    for (int i = 0; i < nodeList.getLength(); i++) {
+                        nodeList.item(i).setTextContent("");
+                    }
                 }
             }
+
             if(!translatedTextReqd) {
                 NodeList nodeList = XML.getNodes(d, "//TranslatedText");
-                for(int i = 0; i < nodeList.getLength(); i++) {
-                    nodeList.item(i).setTextContent("");
+                if(nodeList != null) {
+                    for (int i = 0; i < nodeList.getLength(); i++) {
+                        nodeList.item(i).setTextContent("");
+                    }
                 }
             }
 
 
         } else {
+
             // return all text by default; nothing to do
         }
 
-        log.warn("build return kit:" + XML.parseToString(d));
+        log.info("build return kit:" + XML.parseToString(d));
 
     }
 
