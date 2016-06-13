@@ -1,0 +1,3 @@
+engines:
+  pmd:
+    enabled: true
